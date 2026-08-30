@@ -1,0 +1,123 @@
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #1d2939;
+}
+.container {
+    width: min(1100px, 92%);
+    margin: 0 auto;
+}
+.site-header {
+    background: #153b66;
+    color: white;
+    padding: 1rem 0;
+}
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+.brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+.main-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.main-nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+.content {
+    padding: 2.5rem 0 4rem;
+}
+.card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+    padding: 1.5rem;
+}
+.hero {
+    text-align: center;
+}
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+.btn {
+    display: inline-block;
+    background: #1d73b8;
+    color: white;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+.btn.secondary {
+    background: #4ea5a4;
+}
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+}
+.data-table th, .data-table td {
+    border-bottom: 1px solid #e6edf5;
+    padding: 0.8rem 0.9rem;
+    text-align: left;
+}
+.data-table th {
+    background: #edf3fb;
+}
+.form-card form {
+    max-width: 640px;
+}
+form p {
+    display: flex;
+    flex-direction: column;
+    margin: 0.75rem 0;
+}
+input, select {
+    padding: 0.7rem;
+    border: 1px solid #d5deeb;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+.badge {
+    display: inline-block;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    font-weight: 700;
+}
+.badge.alta { background: #d8f5e6; color: #1f7a45; }
+.badge.media { background: #fff1cc; color: #9a6700; }
+.badge.baja { background: #ffe0e0; color: #a72626; }
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+.meta-card {
+    background: #f8fafc;
+    border: 1px solid #dde8f5;
+    border-radius: 10px;
+    padding: 1rem;
+}

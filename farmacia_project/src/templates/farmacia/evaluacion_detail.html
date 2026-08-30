@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalle de evaluación{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Detalle de evaluación</h1>
+    <div class="grid-2">
+        <div class="meta-card"><strong>Zona:</strong> {{ zona.nombre_zona }}</div>
+        <div class="meta-card"><strong>Distrito:</strong> {{ zona.distrito }}</div>
+        <div class="meta-card"><strong>Flujo:</strong> {{ zona.flujo_personas }}</div>
+        <div class="meta-card"><strong>Accesibilidad:</strong> {{ zona.accesibilidad }}</div>
+        <div class="meta-card"><strong>Inkafarmas cercanos:</strong> {{ evaluacion.inkafarmas_cercanos }}</div>
+        <div class="meta-card"><strong>Competidores cercanos:</strong> {{ evaluacion.competidores_cercanos }}</div>
+        <div class="meta-card"><strong>Centros de salud cercanos:</strong> {{ evaluacion.centros_salud_cercanos }}</div>
+        <div class="meta-card"><strong>Costo de alquiler:</strong> S/ {{ evaluacion.costo_alquiler }}</div>
+        <div class="meta-card"><strong>Ventas estimadas:</strong> S/ {{ evaluacion.ventas_estimadas }}</div>
+        <div class="meta-card"><strong>Nivel de viabilidad:</strong> <span class="badge {{ evaluacion.nivel_viabilidad|lower }}">{{ evaluacion.nivel_viabilidad }}</span></div>
+    </div>
+    <div class="actions" style="justify-content:flex-start; margin-top:1.5rem;">
+        <a class="btn secondary" href="{% url 'evaluacion_list' %}">Volver a evaluaciones</a>
+    </div>
+</div>
+{% endblock %}

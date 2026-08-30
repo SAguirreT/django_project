@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Zonas{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <h1>Zonas registradas</h1>
+    <a class="btn" href="{% url 'zona_create' %}">Nueva zona</a>
+</div>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Zona</th>
+            <th>Distrito</th>
+            <th>Densidad</th>
+            <th>Flujo</th>
+            <th>Accesibilidad</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for zona in zonas %}
+        <tr>
+            <td>{{ zona.id }}</td>
+            <td>{{ zona.nombre_zona }}</td>
+            <td>{{ zona.distrito }}</td>
+            <td>{{ zona.densidad_poblacional }}</td>
+            <td>{{ zona.flujo_personas }}</td>
+            <td>{{ zona.accesibilidad }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6">No hay zonas registradas.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}FarmaPoint{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="brand">FarmaPoint</div>
+            <nav class="main-nav">
+                <a href="{% url 'inicio' %}">Inicio</a>
+                <a href="{% url 'zona_list' %}">Zonas</a>
+                <a href="{% url 'farmacia_list' %}">Farmacias</a>
+                <a href="{% url 'evaluacion_list' %}">Evaluaciones</a>
+                <a href="{% url 'evaluacion_create' %}">Nueva evaluación</a>
+                <a href="{% url 'comparacion' %}">Comparación</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container content">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

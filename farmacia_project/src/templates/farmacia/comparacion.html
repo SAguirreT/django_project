@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Comparación{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <h1>Comparación de ubicaciones</h1>
+</div>
+
+{% if mejor %}
+<div class="card" style="margin-bottom:1.5rem;">
+    <h2>Mejor ubicación</h2>
+    <p><strong>Zona:</strong> {{ mejor_zona.nombre_zona }} - {{ mejor_zona.distrito }}</p>
+    <p><strong>Viabilidad:</strong> <span class="badge {{ mejor.nivel_viabilidad|lower }}">{{ mejor.nivel_viabilidad }}</span></p>
+</div>
+{% endif %}
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Zona</th>
+            <th>Distrito</th>
+            <th>Flujo</th>
+            <th>Accesibilidad</th>
+            <th>Competencia</th>
+            <th>Inkafarmas</th>
+            <th>Centros salud</th>
+            <th>Alquiler</th>
+            <th>Ventas</th>
+            <th>Viabilidad</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in evaluaciones %}
+        {% with zona=item.zona %}
+        <tr>
+            <td>{{ item.zona }}</td>
+            <td>{{ item.distrito }}</td>
+            <td>{{ item.flujo }}</td>
+            <td>{{ item.accesibilidad }}</td>
+            <td>{{ item.competidores_cercanos }}</td>
+            <td>{{ item.inkafarmas_cercanos }}</td>
+            <td>{{ item.centros_salud_cercanos }}</td>
+            <td>S/ {{ item.costo_alquiler }}</td>
+            <td>S/ {{ item.ventas_estimadas }}</td>
+            <td><span class="badge {{ item.nivel_viabilidad|lower }}">{{ item.nivel_viabilidad }}</span></td>
+        </tr>
+        {% endwith %}
+        {% empty %}
+        <tr><td colspan="10">No hay evaluaciones para comparar.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

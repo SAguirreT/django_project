@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Evaluaciones{% endblock %}
+
+{% block content %}
+<div class="section-header">
+    <h1>Ubicaciones evaluadas</h1>
+    <a class="btn" href="{% url 'evaluacion_create' %}">Nueva evaluación</a>
+</div>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Zona</th>
+            <th>Distrito</th>
+            <th>Flujo</th>
+            <th>Accesibilidad</th>
+            <th>Inkafarmas</th>
+            <th>Competidores</th>
+            <th>Centros salud</th>
+            <th>Alquiler</th>
+            <th>Ventas</th>
+            <th>Viabilidad</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in evaluaciones %}
+        <tr>
+            <td>{{ item.zona }}</td>
+            <td>{{ item.distrito }}</td>
+            <td>{{ item.flujo }}</td>
+            <td>{{ item.accesibilidad }}</td>
+            <td>{{ item.inkafarmas_cercanos }}</td>
+            <td>{{ item.competidores_cercanos }}</td>
+            <td>{{ item.centros_salud_cercanos }}</td>
+            <td>S/ {{ item.costo_alquiler }}</td>
+            <td>S/ {{ item.ventas_estimadas }}</td>
+            <td><span class="badge {{ item.nivel_viabilidad|lower }}">{{ item.nivel_viabilidad }}</span></td>
+            <td><a href="{% url 'evaluacion_detail' item.id %}">Ver detalle</a></td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="11">No hay evaluaciones registradas.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
