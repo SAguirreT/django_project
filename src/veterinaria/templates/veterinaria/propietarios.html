@@ -1,0 +1,172 @@
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Propietarios | VetCare</title>
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Propietarios | VetCare</title>
+
+    <link rel="stylesheet"
+          href="{% static 'veterinaria/css/estilos.css' %}">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        🐾 Vet<span>Care</span>
+    </div>
+
+    <nav class="nav-links">
+        <a href="{% url 'inicio' %}">Inicio</a>
+        <a href="{% url 'listar_propietarios' %}">Propietarios</a>
+        <a href="{% url 'crear_propietario' %}">Registrar</a>
+    </nav>
+
+</header>
+
+
+<main class="container">
+
+    <div class="section-title">
+
+        <h2>👤 Propietarios</h2>
+
+        <p>
+            Personas responsables de las mascotas
+            registradas en VetCare.
+        </p>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <div class="table-header">
+
+            <h2>Lista de propietarios</h2>
+
+            <a href="{% url 'crear_propietario' %}"
+               class="btn">
+                + Nuevo propietario
+            </a>
+
+        </div>
+
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Propietario</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>Acciones</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+            {% for propietario in propietarios %}
+
+                <tr>
+
+                    <td>
+                        #{{ propietario.id }}
+                    </td>
+
+                    <td>
+                        <strong>
+                            {{ propietario.nombre }}
+                            {{ propietario.apellido }}
+                        </strong>
+                    </td>
+
+                    <td>
+                        📱 {{ propietario.telefono }}
+                    </td>
+
+                    <td>
+                        {{ propietario.correo }}
+                    </td>
+
+                    <td>
+
+                        <div class="actions">
+
+                            <a class="btn btn-edit"
+                               href="{% url 'actualizar_propietario' propietario.id %}">
+                                Editar
+                            </a>
+
+                            <a class="btn btn-danger"
+                               href="{% url 'eliminar_propietario' propietario.id %}">
+                                Eliminar
+                            </a>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            {% empty %}
+
+                <tr>
+
+                    <td colspan="5"
+                        style="text-align:center; padding:40px;">
+
+                        🐾
+                        <br><br>
+
+                        Todavía no hay propietarios registrados.
+
+                        <br><br>
+
+                        <a href="{% url 'crear_propietario' %}"
+                           class="btn">
+                            Registrar el primero
+                        </a>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</main>
+
+
+<footer class="footer">
+
+    <h3>🐾 VetCare</h3>
+
+    <p>
+        Sistema de Gestión Veterinaria
+    </p>
+
+</footer>
+
+</body>
+
+</html>

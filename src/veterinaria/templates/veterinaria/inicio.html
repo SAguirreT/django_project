@@ -1,0 +1,187 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>VetCare | Clínica Veterinaria</title>
+
+    <link rel="stylesheet"
+          href="{% static 'veterinaria/css/estilos.css' %}">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        🐾 Vet<span>Care</span>
+    </div>
+
+    <nav class="nav-links">
+        <a href="{% url 'inicio' %}">Inicio</a>
+        <a href="{% url 'listar_propietarios' %}">Propietarios</a>
+        <a href="#">Mascotas</a>
+        <a href="#">Citas</a>
+    </nav>
+
+</header>
+
+
+<main class="container">
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h1>
+                Cuidamos a tus mascotas
+                como parte de la familia 🐶
+            </h1>
+
+            <p>
+                Bienvenido a VetCare, un sistema integral
+                para gestionar propietarios, mascotas,
+                citas y tratamientos veterinarios.
+            </p>
+
+            <a href="{% url 'crear_propietario' %}"
+               class="btn btn-white">
+                + Registrar propietario
+            </a>
+
+        </div>
+
+        <div class="hero-icon">
+            🐕
+        </div>
+
+    </section>
+
+
+    <div class="section-title">
+
+        <h2>Panel de gestión</h2>
+
+        <p>
+            Administra fácilmente la información de la clínica.
+        </p>
+
+    </div>
+
+
+    <section class="cards">
+
+        <div class="card">
+
+            <div class="card-icon">
+                👤
+            </div>
+
+            <h3>Propietarios</h3>
+
+            <p>
+                Registra y administra los datos
+                de los responsables de las mascotas.
+            </p>
+
+            <br>
+
+            <a href="{% url 'listar_propietarios' %}"
+               class="btn">
+                Ver propietarios
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-icon">
+                🐕
+            </div>
+
+            <h3>Mascotas</h3>
+
+            <p>
+                Gestiona la información de las
+                mascotas atendidas en la clínica.
+            </p>
+
+            <br>
+
+            <a href="#" class="btn btn-green">
+                Ver mascotas
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-icon">
+                📅
+            </div>
+
+            <h3>Citas</h3>
+
+            <p>
+                Organiza las citas y registra
+                los motivos de atención.
+            </p>
+
+            <br>
+
+            <a href="#" class="btn">
+                Ver citas
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-icon">
+                💊
+            </div>
+
+            <h3>Tratamientos</h3>
+
+            <p>
+                Consulta los tratamientos y
+                procedimientos disponibles.
+            </p>
+
+            <br>
+
+            <a href="#" class="btn btn-green">
+                Ver tratamientos
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer class="footer">
+
+    <h3>🐾 VetCare</h3>
+
+    <p>
+        Sistema de Gestión Veterinaria
+    </p>
+
+    <p>
+        Cuidando a quienes más quieres ❤️
+    </p>
+
+</footer>
+
+</body>
+
+</html>

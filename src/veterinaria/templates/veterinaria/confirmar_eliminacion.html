@@ -1,0 +1,51 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminar | VetCare</title>
+    <link rel="stylesheet" href="{% static 'veterinaria/css/estilos.css' %}">
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="logo">🐾 VetCare</div>
+</header>
+
+<main class="container">
+
+    <section class="card">
+
+        <h2>⚠️ Confirmar eliminación</h2>
+
+        <p>
+            ¿Deseas eliminar al propietario
+            <strong>
+                {{ propietario.nombre }} {{ propietario.apellido }}
+            </strong>?
+        </p>
+
+        <br>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <button class="btn btn-danger" type="submit">
+                Sí, eliminar
+            </button>
+
+            <a class="btn" href="{% url 'listar_propietarios' %}">
+                Cancelar
+            </a>
+
+        </form>
+
+    </section>
+
+</main>
+
+</body>
+</html>

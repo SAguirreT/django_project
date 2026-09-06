@@ -1,0 +1,161 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% if propietario %}
+            Editar propietario
+        {% else %}
+            Nuevo propietario
+        {% endif %}
+        | VetCare
+    </title>
+
+    <link rel="stylesheet"
+          href="{% static 'veterinaria/css/estilos.css' %}">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        🐾 Vet<span>Care</span>
+    </div>
+
+    <nav class="nav-links">
+        <a href="{% url 'inicio' %}">Inicio</a>
+        <a href="{% url 'listar_propietarios' %}">Propietarios</a>
+    </nav>
+
+</header>
+
+
+<main class="container">
+
+    <div class="form-container">
+
+        {% if propietario %}
+
+            <h2>✏️ Editar propietario</h2>
+
+            <p>
+                Actualiza la información del propietario.
+            </p>
+
+        {% else %}
+
+            <h2>👤 Nuevo propietario</h2>
+
+            <p>
+                Registra los datos del responsable de la mascota.
+            </p>
+
+        {% endif %}
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <p>
+                <label for="nombre">
+                    Nombre
+                </label>
+
+                <input
+                    type="text"
+                    id="nombre"
+                    name="nombre"
+                    value="{{ propietario.nombre|default:'' }}"
+                    placeholder="Ej. María"
+                    required>
+            </p>
+
+
+            <p>
+                <label for="apellido">
+                    Apellido
+                </label>
+
+                <input
+                    type="text"
+                    id="apellido"
+                    name="apellido"
+                    value="{{ propietario.apellido|default:'' }}"
+                    placeholder="Ej. García"
+                    required>
+            </p>
+
+
+            <p>
+                <label for="telefono">
+                    Teléfono
+                </label>
+
+                <input
+                    type="tel"
+                    id="telefono"
+                    name="telefono"
+                    value="{{ propietario.telefono|default:'' }}"
+                    placeholder="Ej. 987654321"
+                    required>
+            </p>
+
+
+            <p>
+                <label for="correo">
+                    Correo electrónico
+                </label>
+
+                <input
+                    type="email"
+                    id="correo"
+                    name="correo"
+                    value="{{ propietario.correo|default:'' }}"
+                    placeholder="Ej. maria@gmail.com"
+                    required>
+            </p>
+
+
+            <button type="submit" class="btn btn-green">
+
+                {% if propietario %}
+                    💾 Guardar cambios
+                {% else %}
+                    🐾 Registrar propietario
+                {% endif %}
+
+            </button>
+
+            <a href="{% url 'listar_propietarios' %}"
+               class="btn">
+                Cancelar
+            </a>
+
+        </form>
+
+    </div>
+
+</main>
+
+
+<footer class="footer">
+
+    <h3>🐾 VetCare</h3>
+
+    <p>
+        Sistema de Gestión Veterinaria
+    </p>
+
+</footer>
+
+</body>
+
+</html>
