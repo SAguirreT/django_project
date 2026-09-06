@@ -10,20 +10,16 @@
 <body>
     <header class="site-header">
         <div class="container header-inner">
-            <div class="brand">FarmaPoint</div>
+            <a class="brand" href="{% url 'inicio' %}">FarmaPoint</a>
             <nav class="main-nav">
-                <a href="{% url 'inicio' %}">Inicio</a>
-                <a href="{% url 'zona_list' %}">Zonas</a>
-                <a href="{% url 'farmacia_list' %}">Farmacias</a>
-                <a href="{% url 'evaluacion_list' %}">Evaluaciones</a>
-                <a href="{% url 'evaluacion_create' %}">Nueva evaluación</a>
-                <a href="{% url 'comparacion' %}">Comparación</a>
+                <a href="{% url 'entidad_list' 'categoria' %}">Categorías</a>
+                <a href="{% url 'entidad_list' 'producto' %}">Productos</a>
+                <a href="{% url 'entidad_list' 'proveedor' %}">Proveedores</a>
+                <a href="{% url 'entidad_list' 'cliente' %}">Clientes</a>
+                <a href="{% url 'entidad_list' 'venta' %}">Ventas</a>
             </nav>
         </div>
     </header>
-
-    <main class="container content">
-        {% block content %}{% endblock %}
-    </main>
+    <main class="container content">{% block content %}{% endblock %}</main>
 </body>
 </html>

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}{{ plural }} | FarmaPoint{% endblock %}
+{% block content %}
+<div class="section-header"><h1>{{ plural }}</h1><a class="btn" href="{% url 'entidad_create' entidad %}">Nuevo {{ singular|lower }}</a></div>
+{% if objetos %}
+<div class="table-wrap"><table class="data-table"><thead><tr>
+    <th>ID</th>
+    {% if entidad == 'categoria' %}<th>Nombre</th><th>Descripción</th>
+    {% elif entidad == 'producto' %}<th>Nombre</th><th>Descripción</th><th>Precio</th><th>Stock</th><th>Categoría</th>
+    {% elif entidad == 'proveedor' %}<th>Nombre</th><th>Teléfono</th><th>Correo</th><th>Dirección</th>
+    {% elif entidad == 'cliente' %}<th>Nombre</th><th>Documento</th><th>Teléfono</th><th>Correo</th>
+    {% else %}<th>Cliente</th><th>Fecha</th><th>Total</th>{% endif %}<th>Acciones</th>
+</tr></thead><tbody>
+{% for objeto in objetos %}<tr><td>{{ objeto.pk }}</td>
+    {% if entidad == 'categoria' %}<td>{{ objeto.nombre }}</td><td>{{ objeto.descripcion|default:'—' }}</td>
+    {% elif entidad == 'producto' %}<td>{{ objeto.nombre }}</td><td>{{ objeto.descripcion|default:'—' }}</td><td>S/ {{ objeto.precio }}</td><td>{{ objeto.stock }}</td><td>{{ objeto.categoria.nombre }}</td>
+    {% elif entidad == 'proveedor' %}<td>{{ objeto.nombre }}</td><td>{{ objeto.telefono }}</td><td>{{ objeto.correo }}</td><td>{{ objeto.direccion|default:'—' }}</td>
+    {% elif entidad == 'cliente' %}<td>{{ objeto.nombre }}</td><td>{{ objeto.documento }}</td><td>{{ objeto.telefono|default:'—' }}</td><td>{{ objeto.correo|default:'—' }}</td>
+    {% else %}<td>{{ objeto.cliente.nombre }}</td><td>{{ objeto.fecha|date:'d/m/Y H:i' }}</td><td>S/ {{ objeto.total }}</td>{% endif %}
+    <td class="row-actions"><a href="{% url 'entidad_update' entidad objeto.pk %}">Editar</a><a class="danger" href="{% url 'entidad_delete' entidad objeto.pk %}">Eliminar</a></td></tr>{% endfor %}
+</tbody></table></div>
+{% else %}<section class="card"><p>Aún no hay {{ plural|lower }} registrados.</p></section>{% endif %}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}{{ accion }} {{ singular }} | FarmaPoint{% endblock %}
+{% block content %}
+<section class="card form-card">
+    <h1>{{ accion }} {{ singular|lower }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="actions"><button class="btn" type="submit">{{ accion }}</button><a class="btn secondary" href="{% url 'entidad_list' entidad %}">Cancelar</a></div>
+    </form>
+</section>
+{% endblock %}
