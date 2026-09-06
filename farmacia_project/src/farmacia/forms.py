@@ -1,43 +1,40 @@
 from django import forms
-
-from .models import Categoria, Cliente, Producto, Proveedor, Venta
-
-
-class BaseModelForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in self.fields.values():
-            field.widget.attrs['class'] = 'form-control'
+from .models import Zona, Farmacia, EvaluacionUbicacion
 
 
-class CategoriaForm(BaseModelForm):
+class ZonaForm(forms.ModelForm):
     class Meta:
-        model = Categoria
-        fields = ['nombre', 'descripcion']
-        widgets = {'descripcion': forms.Textarea(attrs={'rows': 3})}
+        model = Zona
+        fields = [
+            'nombre_zona',
+            'distrito',
+            'densidad_poblacional',
+            'flujo_personas',
+            'accesibilidad',
+        ]
 
 
-class ProductoForm(BaseModelForm):
+class FarmaciaForm(forms.ModelForm):
     class Meta:
-        model = Producto
-        fields = ['nombre', 'descripcion', 'precio', 'stock', 'categoria']
-        widgets = {'descripcion': forms.Textarea(attrs={'rows': 3}), 'precio': forms.NumberInput(attrs={'step': '0.01', 'min': '0'}), 'stock': forms.NumberInput(attrs={'min': '0'})}
+        model = Farmacia
+        fields = [
+            'nombre',
+            'tipo',
+            'zona',
+            'distancia_metros',
+            'estado',
+        ]
 
 
-class ProveedorForm(BaseModelForm):
+class EvaluacionUbicacionForm(forms.ModelForm):
     class Meta:
-        model = Proveedor
-        fields = ['nombre', 'telefono', 'correo', 'direccion']
-
-
-class ClienteForm(BaseModelForm):
-    class Meta:
-        model = Cliente
-        fields = ['nombre', 'documento', 'telefono', 'correo']
-
-
-class VentaForm(BaseModelForm):
-    class Meta:
-        model = Venta
-        fields = ['cliente', 'fecha', 'total']
-        widgets = {'fecha': forms.DateTimeInput(attrs={'type': 'datetime-local'}), 'total': forms.NumberInput(attrs={'step': '0.01', 'min': '0'})}
+        model = EvaluacionUbicacion
+        fields = [
+            'zona',
+            'inkafarmas_cercanos',
+            'competidores_cercanos',
+            'centros_salud_cercanos',
+            'costo_alquiler',
+            'ventas_estimadas',
+            'nivel_viabilidad',
+        ]

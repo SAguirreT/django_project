@@ -1,57 +1,137 @@
-from django.shortcuts import get_object_or_404, redirect, render
-from django.utils import timezone
+from django.http import Http404
+from django.shortcuts import redirect, render
 
-from .forms import CategoriaForm, ClienteForm, ProductoForm, ProveedorForm, VentaForm
-from .models import Categoria, Cliente, Producto, Proveedor, Venta
-
-ENTIDADES = {
-    'categoria': (Categoria, CategoriaForm, 'Categoría', 'Categorías'),
-    'producto': (Producto, ProductoForm, 'Producto', 'Productos'),
-    'proveedor': (Proveedor, ProveedorForm, 'Proveedor', 'Proveedores'),
-    'cliente': (Cliente, ClienteForm, 'Cliente', 'Clientes'),
-    'venta': (Venta, VentaForm, 'Venta', 'Ventas'),
-}
+from .forms import EvaluacionUbicacionForm, FarmaciaForm, ZonaForm
+from .models import Zona, Farmacia, EvaluacionUbicacion
 
 
 def inicio(request):
-    return render(request, 'farmacia/inicio.html', {
-        'categorias': Categoria.objects.count(), 'productos': Producto.objects.count(),
-        'proveedores': Proveedor.objects.count(), 'clientes': Cliente.objects.count(), 'ventas': Venta.objects.count(),
-    })
+    return render(
+        request,
+        'farmacia/inicio.html',
+        {
+            'titulo': 'FarmaPoint',
+            'descripcion': 'Sistema para evaluar ubicaciones de nuevas boticas.',
+            'objetivo': 'Analizar zonas con base en población, competencia, accesibilidad y rentabilidad.',
+        },
+    )
 
 
-def entidad_list(request, entidad):
-    model, _, singular, plural = ENTIDADES[entidad]
-    objetos = model.objects.all()
-    if entidad in ('producto', 'venta'):
-        objetos = objetos.select_related('categoria' if entidad == 'producto' else 'cliente')
-    return render(request, 'farmacia/entidad_list.html', {'objetos': objetos, 'entidad': entidad, 'singular': singular, 'plural': plural})
+def zona_list(request):
+    zonas = Zona.objects.all()
+    return render(request, 'farmacia/zona_list.html', {'zonas': zonas})
 
 
-def entidad_create(request, entidad):
-    _, form_class, singular, _ = ENTIDADES[entidad]
-    initial = {'fecha': timezone.localtime().strftime('%Y-%m-%dT%H:%M')} if entidad == 'venta' and request.method == 'GET' else None
-    form = form_class(request.POST or None, initial=initial)
-    if request.method == 'POST' and form.is_valid():
-        form.save()
-        return redirect('entidad_list', entidad=entidad)
-    return render(request, 'farmacia/entidad_form.html', {'form': form, 'entidad': entidad, 'singular': singular, 'accion': 'Registrar'})
-
-
-def entidad_update(request, entidad, pk):
-    model, form_class, singular, _ = ENTIDADES[entidad]
-    objeto = get_object_or_404(model, pk=pk)
-    form = form_class(request.POST or None, instance=objeto)
-    if request.method == 'POST' and form.is_valid():
-        form.save()
-        return redirect('entidad_list', entidad=entidad)
-    return render(request, 'farmacia/entidad_form.html', {'form': form, 'entidad': entidad, 'singular': singular, 'accion': 'Editar', 'objeto': objeto})
-
-
-def entidad_delete(request, entidad, pk):
-    model, _, singular, _ = ENTIDADES[entidad]
-    objeto = get_object_or_404(model, pk=pk)
+def zona_create(request):
     if request.method == 'POST':
-        objeto.delete()
-        return redirect('entidad_list', entidad=entidad)
-    return render(request, 'farmacia/entidad_confirm_delete.html', {'objeto': objeto, 'entidad': entidad, 'singular': singular})
+        form = ZonaForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('zona_list')
+    else:
+        form = ZonaForm()
+
+    return render(
+        request,
+        'farmacia/zona_form.html',
+        {'form': form, 'titulo': 'Nueva zona'}
+    )
+
+
+def farmacia_list(request):
+    farmacias = Farmacia.objects.all()
+    return render(
+        request,
+        'farmacia/farmacia_list.html',
+        {'farmacias': farmacias}
+    )
+
+
+def farmacia_create(request):
+    if request.method == 'POST':
+        form = FarmaciaForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('farmacia_list')
+    else:
+        form = FarmaciaForm()
+
+    return render(
+        request,
+        'farmacia/farmacia_form.html',
+        {'form': form, 'titulo': 'Nueva farmacia'}
+    )
+
+
+def evaluacion_list(request):
+    evaluaciones = EvaluacionUbicacion.objects.select_related('zona').all()
+
+    return render(
+        request,
+        'farmacia/evaluacion_list.html',
+        {'evaluaciones': evaluaciones}
+    )
+
+
+def evaluacion_create(request):
+    if request.method == 'POST':
+        form = EvaluacionUbicacionForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('evaluacion_list')
+    else:
+        form = EvaluacionUbicacionForm()
+
+    return render(
+        request,
+        'farmacia/evaluacion_form.html',
+        {'form': form, 'titulo': 'Nueva evaluación'}
+    )
+
+
+def evaluacion_detail(request, evaluacion_id):
+    try:
+        evaluacion = EvaluacionUbicacion.objects.select_related('zona').get(
+            id=evaluacion_id
+        )
+    except EvaluacionUbicacion.DoesNotExist:
+        raise Http404('Evaluación no encontrada.')
+
+    return render(
+        request,
+        'farmacia/evaluacion_detail.html',
+        {
+            'evaluacion': evaluacion,
+            'zona': evaluacion.zona,
+        },
+    )
+
+
+def comparacion(request):
+    evaluaciones = EvaluacionUbicacion.objects.select_related('zona').all()
+
+    ordenadas = sorted(
+        evaluaciones,
+        key=lambda item: {
+            'Alta': 3,
+            'Media': 2,
+            'Baja': 1
+        }.get(item.nivel_viabilidad, 0),
+        reverse=True,
+    )
+
+    mejor = ordenadas[0] if ordenadas else None
+    mejor_zona = mejor.zona if mejor else None
+
+    return render(
+        request,
+        'farmacia/comparacion.html',
+        {
+            'evaluaciones': ordenadas,
+            'mejor': mejor,
+            'mejor_zona': mejor_zona,
+        },
+    )
