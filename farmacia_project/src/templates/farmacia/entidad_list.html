@@ -5,18 +5,20 @@
 {% if objetos %}
 <div class="table-wrap"><table class="data-table"><thead><tr>
     <th>ID</th>
-    {% if entidad == 'categoria' %}<th>Nombre</th><th>Descripción</th>
+    {% if entidad == 'categoria' %}<th>Nombre</th><th>Descripción</th><th>Productos asociados</th>
     {% elif entidad == 'producto' %}<th>Nombre</th><th>Descripción</th><th>Precio</th><th>Stock</th><th>Categoría</th>
     {% elif entidad == 'proveedor' %}<th>Nombre</th><th>Teléfono</th><th>Correo</th><th>Dirección</th>
-    {% elif entidad == 'cliente' %}<th>Nombre</th><th>Documento</th><th>Teléfono</th><th>Correo</th>
-    {% else %}<th>Cliente</th><th>Fecha</th><th>Total</th>{% endif %}<th>Acciones</th>
+    {% elif entidad == 'cliente' %}<th>Nombre</th><th>Documento</th><th>Teléfono</th><th>Correo</th><th>Perfil (1:1)</th><th>Ventas (1:N)</th>
+    {% elif entidad == 'perfil' %}<th>Cliente</th><th>Dirección</th><th>Registro</th><th>Observaciones</th>
+    {% else %}<th>Cliente</th><th>Fecha</th><th>Total</th><th>Relación N:M</th>{% endif %}<th>Acciones</th>
 </tr></thead><tbody>
 {% for objeto in objetos %}<tr><td>{{ objeto.pk }}</td>
-    {% if entidad == 'categoria' %}<td>{{ objeto.nombre }}</td><td>{{ objeto.descripcion|default:'—' }}</td>
+    {% if entidad == 'categoria' %}<td>{{ objeto.nombre }}</td><td>{{ objeto.descripcion|default:'—' }}</td><td>{% for producto in objeto.productos.all %}{{ producto.nombre }}{% if not forloop.last %}, {% endif %}{% empty %}—{% endfor %}</td>
     {% elif entidad == 'producto' %}<td>{{ objeto.nombre }}</td><td>{{ objeto.descripcion|default:'—' }}</td><td>S/ {{ objeto.precio }}</td><td>{{ objeto.stock }}</td><td>{{ objeto.categoria.nombre }}</td>
     {% elif entidad == 'proveedor' %}<td>{{ objeto.nombre }}</td><td>{{ objeto.telefono }}</td><td>{{ objeto.correo }}</td><td>{{ objeto.direccion|default:'—' }}</td>
-    {% elif entidad == 'cliente' %}<td>{{ objeto.nombre }}</td><td>{{ objeto.documento }}</td><td>{{ objeto.telefono|default:'—' }}</td><td>{{ objeto.correo|default:'—' }}</td>
-    {% else %}<td>{{ objeto.cliente.nombre }}</td><td>{{ objeto.fecha|date:'d/m/Y H:i' }}</td><td>S/ {{ objeto.total }}</td>{% endif %}
+    {% elif entidad == 'cliente' %}<td>{{ objeto.nombre }}</td><td>{{ objeto.documento }}</td><td>{{ objeto.telefono|default:'—' }}</td><td>{{ objeto.correo|default:'—' }}</td><td>{{ objeto.perfil.direccion|default:'Sin perfil' }}</td><td>{% for venta in objeto.ventas.all %}<a href="{% url 'venta_detail' venta.pk %}">#{{ venta.pk }}</a>{% if not forloop.last %}, {% endif %}{% empty %}—{% endfor %}</td>
+    {% elif entidad == 'perfil' %}<td>{{ objeto.cliente.nombre }}</td><td>{{ objeto.direccion }}</td><td>{{ objeto.fecha_registro|date:'d/m/Y' }}</td><td>{{ objeto.observaciones|default:'—' }}</td>
+    {% else %}<td>{{ objeto.cliente.nombre }}</td><td>{{ objeto.fecha|date:'d/m/Y H:i' }}</td><td>S/ {{ objeto.total }}</td><td><a href="{% url 'venta_detail' objeto.pk %}">Ver productos</a></td>{% endif %}
     <td class="row-actions"><a href="{% url 'entidad_update' entidad objeto.pk %}">Editar</a><a class="danger" href="{% url 'entidad_delete' entidad objeto.pk %}">Eliminar</a></td></tr>{% endfor %}
 </tbody></table></div>
 {% else %}<section class="card"><p>Aún no hay {{ plural|lower }} registrados.</p></section>{% endif %}

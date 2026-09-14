@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Venta #{{ venta.pk }} | FarmaPoint{% endblock %}
+{% block content %}
+<div class="section-header"><h1>Venta #{{ venta.pk }}</h1><a class="btn" href="{% url 'detalleventa_create' %}">Agregar producto</a></div>
+<section class="card"><p><strong>Cliente:</strong> {{ venta.cliente.nombre }}</p><p><strong>Fecha:</strong> {{ venta.fecha|date:'d/m/Y H:i' }}</p><p><strong>Total registrado:</strong> S/ {{ venta.total }}</p></section>
+<div class="table-wrap"><table class="data-table"><thead><tr><th>Producto</th><th>Cantidad</th><th>Precio unitario</th><th>Subtotal</th></tr></thead><tbody>
+{% for detalle in venta.detalles.all %}<tr><td>{{ detalle.producto.nombre }}</td><td>{{ detalle.cantidad }}</td><td>S/ {{ detalle.precio_unitario }}</td><td>S/ {{ detalle.subtotal }}</td></tr>
+{% empty %}<tr><td colspan="4">Esta venta aún no tiene productos.</td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}

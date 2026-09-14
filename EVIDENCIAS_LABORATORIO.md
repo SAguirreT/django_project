@@ -138,3 +138,34 @@ Navegador
 | Consultar | `/productos/` | `Producto.objects.all()` | `SELECT` |
 | Actualizar | `/productos/<id>/editar/` | `form.save()` | `UPDATE` |
 | Eliminar | `/productos/<id>/eliminar/` | `objeto.delete()` | `DELETE` |
+
+## 5. Laboratorio 04 — Relaciones ORM
+
+### 5.1 Migración de relaciones
+
+Ejecuta desde `farmacia_project/src`:
+
+```bash
+py manage.py makemigrations farmacia
+py manage.py migrate
+py manage.py showmigrations farmacia
+```
+
+<!-- Pega las capturas donde se vea la migración 0002 y sus marcas [X]. -->
+
+### 5.2 Relaciones y CRUD de DetalleVenta
+
+Captura las pantallas de clientes (perfil y ventas), categorías (productos),
+detalle de una venta y el CRUD de `/detalles-venta/`.
+
+Flujo documentado para la relación N:M:
+
+```text
+Request → URL /ventas/<id>/ → venta_detail →
+Venta.objects.select_related('cliente').prefetch_related('detalles__producto') →
+SQLite (SELECT y JOIN conceptual) → contexto venta → venta_detail.html → Response
+```
+
+`DetalleVenta.save()` representa un `INSERT` o `UPDATE`; `delete()` representa
+un `DELETE`. La tabla intermedia almacena las claves foráneas de venta y
+producto, además de cantidad y precio unitario.

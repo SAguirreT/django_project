@@ -4,7 +4,7 @@ from decimal import Decimal
 from django.test import TestCase
 from django.utils import timezone
 
-from .models import Categoria, Cliente, Producto, Proveedor, Venta
+from .models import Categoria, Cliente, DetalleVenta, PerfilCliente, Producto, Proveedor, Venta
 
 
 class FarmaciaCrudTests(TestCase):
@@ -31,3 +31,27 @@ class FarmaciaCrudTests(TestCase):
         self.assertContains(confirmacion, 'Confirmar eliminación')
         self.client.post(f'/productos/{producto.pk}/eliminar/')
         self.assertFalse(Producto.objects.filter(pk=producto.pk).exists())
+
+    def test_relaciones_nuevas_y_crud_detalle_venta(self):
+        categoria = Categoria.objects.create(nombre='Antigripales')
+        producto = Producto.objects.create(nombre='Jarabe', precio=Decimal('18.00'), stock=8, categoria=categoria)
+        cliente = Cliente.objects.create(nombre='Luis Ramos', documento='87654321')
+        perfil = PerfilCliente.objects.create(cliente=cliente, direccion='Av. Lima 123')
+        venta = Venta.objects.create(cliente=cliente, fecha=timezone.now(), total=Decimal('36.00'))
+
+        self.assertEqual(cliente.perfil, perfil)
+        detalle = DetalleVenta.objects.create(venta=venta, producto=producto, cantidad=2, precio_unitario=Decimal('18.00'))
+        self.assertEqual(list(venta.productos.all()), [producto])
+        self.assertEqual(detalle.subtotal, Decimal('36.00'))
+
+        respuesta = self.client.get(f'/ventas/{venta.pk}/')
+        self.assertContains(respuesta, 'Jarabe')
+        self.assertEqual(self.client.get('/detalles-venta/').status_code, 200)
+
+        self.client.post(
+            f'/detalles-venta/{detalle.pk}/editar/',
+            {'venta': venta.pk, 'producto': producto.pk, 'cantidad': 3, 'precio_unitario': '18.00'},
+        )
+        self.assertEqual(DetalleVenta.objects.get(pk=detalle.pk).cantidad, 3)
+        self.client.post(f'/detalles-venta/{detalle.pk}/eliminar/')
+        self.assertFalse(DetalleVenta.objects.filter(pk=detalle.pk).exists())

@@ -1,0 +1,5 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar detalle de venta | FarmaPoint{% endblock %}
+{% block content %}
+<section class="card form-card"><h1>Confirmar eliminación</h1><p>¿Seguro que deseas eliminar el detalle de <strong>{{ detalle.producto.nombre }}</strong> de la venta #{{ detalle.venta.pk }}?</p><form method="post">{% csrf_token %}<div class="actions"><button class="btn danger-btn" type="submit">Sí, eliminar</button><a class="btn secondary" href="{% url 'detalleventa_list' %}">Cancelar</a></div></form></section>
+{% endblock %}
