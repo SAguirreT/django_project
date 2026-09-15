@@ -1,18 +1,10 @@
-{% extends 'base.html' %}
-{% block title %}FarmaPoint | Gestión de farmacia{% endblock %}
-{% block content %}
-<section class="card hero">
-    <h1>Sistema de gestión de farmacia</h1>
-    <p>Administra información persistente de productos, categorías, proveedores, clientes y ventas.</p>
-    <div class="actions"><a class="btn" href="{% url 'entidad_list' 'producto' %}">Gestionar productos</a><a class="btn secondary" href="{% url 'entidad_create' 'venta' %}">Registrar venta</a><a class="btn secondary" href="{% url 'detalleventa_create' %}">Agregar detalle</a></div>
-</section>
-<section class="grid-2 metrics">
-    <article class="meta-card"><strong>{{ categorias }}</strong><span>Categorías</span></article>
-    <article class="meta-card"><strong>{{ productos }}</strong><span>Productos</span></article>
-    <article class="meta-card"><strong>{{ proveedores }}</strong><span>Proveedores</span></article>
-    <article class="meta-card"><strong>{{ clientes }}</strong><span>Clientes</span></article>
-    <article class="meta-card"><strong>{{ ventas }}</strong><span>Ventas</span></article>
-    <article class="meta-card"><strong>{{ perfiles }}</strong><span>Perfiles</span></article>
-    <article class="meta-card"><strong>{{ detalles }}</strong><span>Detalles de venta</span></article>
-</section>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Farmacia</title>
+</head>
+<body>
+    <h1>Proyecto Farmacia funcionando</h1>
+</body>
+</html>
