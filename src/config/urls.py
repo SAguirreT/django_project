@@ -1,7 +1,7 @@
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+from . import views  # El punto significa "importa views de esta misma carpeta"
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('veterinaria/', include('veterinaria.urls')),
+    # Cuando entren a la ruta principal, ejecuta la vista 'inicio_farmacia'
+    path('', views.inicio_farmacia, name='inicio'),
 ]

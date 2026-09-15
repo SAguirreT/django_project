@@ -1,3 +1,5 @@
-from django.test import TestCase
+from django.shortcuts import render
+from django.http import HttpResponse
 
-# Create your tests here.
+def inicio_farmacia(request):
+    return HttpResponse("<h1>¡Felicidades! Tu sistema de Farmacia está funcionando.</h1>")

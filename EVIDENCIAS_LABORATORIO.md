@@ -12,7 +12,7 @@ Comando:
 py manage.py makemigrations farmacia
 ```
 
-<!-- Pega aquí la captura de la salida de makemigrations. -->
+![alt text](image.png)
 
 La migración inicial creó las tablas para Categoria, Producto, Proveedor, Cliente y Venta.
 
@@ -24,7 +24,7 @@ Comando:
 py manage.py migrate
 ```
 
-<!-- Pega aquí la captura de la salida de migrate. -->
+![alt text](image-1.png)
 
 Las migraciones pendientes se aplicaron en la base de datos SQLite.
 
@@ -36,7 +36,7 @@ Comando:
 py manage.py showmigrations farmacia
 ```
 
-<!-- Pega aquí la captura donde se vea [X] 0001_initial. -->
+![alt text](image-2.png)
 
 La marca `[X]` confirma que la migración de la aplicación fue aplicada correctamente.
 
@@ -54,7 +54,7 @@ py manage.py runserver
 2. Registra un producto y selecciona esa categoría.
 3. Abre `http://127.0.0.1:8000/productos/`.
 
-<!-- Pega aquí la captura del listado de productos mostrando su categoría. -->
+![alt text](image-3.png)
 
 La relación `Producto.categoria` es una clave foránea: una categoría puede tener varios productos.
 
@@ -64,7 +64,7 @@ La relación `Producto.categoria` es una clave foránea: una categoría puede te
 2. Registra una venta y selecciona ese cliente.
 3. Abre `http://127.0.0.1:8000/ventas/`.
 
-<!-- Pega aquí la captura del listado de ventas mostrando el cliente asociado. -->
+![alt text](image-4.png)
 
 La relación `Venta.cliente` es una clave foránea: un cliente puede tener varias ventas.
 
@@ -74,9 +74,9 @@ La relación `Venta.cliente` es una clave foránea: un cliente puede tener varia
 
 Abre `http://127.0.0.1:8000/productos/nuevo/`, completa el formulario y registra el producto.
 
-<!-- Pega aquí la captura del formulario antes de registrar. -->
+![alt text](image-5.png)
 
-<!-- Pega aquí la captura del listado después del registro. -->
+![alt text](image-6.png)
 
 El formulario usa `ProductoForm.save()`, que Django ORM traduce conceptualmente a `INSERT` en SQLite.
 
@@ -84,7 +84,7 @@ El formulario usa `ProductoForm.save()`, que Django ORM traduce conceptualmente 
 
 Abre `http://127.0.0.1:8000/productos/`.
 
-<!-- Pega aquí la captura del listado de productos. -->
+![alt text](image-7.png)
 
 La vista consulta los datos con `Producto.objects.all()`, equivalente conceptualmente a una operación `SELECT`.
 
@@ -92,9 +92,8 @@ La vista consulta los datos con `Producto.objects.all()`, equivalente conceptual
 
 Desde el listado, selecciona **Editar**, modifica el registro y guarda.
 
-<!-- Pega aquí la captura del formulario de edición. -->
-
-<!-- Pega aquí la captura del listado con el producto actualizado. -->
+![alt text](image-8.png)
+![alt text](image-9.png)
 
 El guardado de un objeto existente ejecuta una actualización (`UPDATE`) mediante Django ORM.
 
@@ -102,11 +101,11 @@ El guardado de un objeto existente ejecuta una actualización (`UPDATE`) mediant
 
 Desde el listado, selecciona **Eliminar**.
 
-<!-- Pega aquí la captura de la pantalla de confirmación. -->
+![alt text](image-10.png)->
 
 Confirma la eliminación y captura el listado actualizado.
 
-<!-- Pega aquí la captura del listado después de eliminar. -->
+![alt text](image-11.png)
 
 La eliminación solo ocurre mediante una petición POST y utiliza `delete()` a través de Django ORM.
 
