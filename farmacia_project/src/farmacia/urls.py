@@ -1,4 +1,35 @@
 from django.urls import path
 
+from . import views
+
 urlpatterns = [
+    path('', views.inicio, name='inicio'),
+    path('zonas/', views.zona_list, name='zona_list'),
+    path('zonas/nueva/', views.zona_create, name='zona_create'),
+    path('farmacias/', views.farmacia_list, name='farmacia_list'),
+    path('farmacias/nueva/', views.farmacia_create, name='farmacia_create'),
+    path('evaluaciones/', views.evaluacion_list, name='evaluacion_list'),
+    path('evaluaciones/nueva/', views.evaluacion_create, name='evaluacion_create'),
+    path('evaluaciones/<int:evaluacion_id>/', views.evaluacion_detail, name='evaluacion_detail'),
+    path('comparacion/', views.comparacion, name='comparacion'),
+    path('categorias/', views.entidad_list, {'entidad': 'categoria'}, name='categoria_list'),
+    path('categorias/nuevo/', views.entidad_create, {'entidad': 'categoria'}, name='categoria_create'),
+    path('productos/', views.entidad_list, {'entidad': 'producto'}, name='producto_list'),
+    path('productos/nuevo/', views.entidad_create, {'entidad': 'producto'}, name='producto_create'),
+    path('productos/<int:pk>/editar/', views.entidad_update, {'entidad': 'producto'}, name='producto_update'),
+    path('productos/<int:pk>/eliminar/', views.entidad_delete, {'entidad': 'producto'}, name='producto_delete'),
+    path('proveedores/', views.entidad_list, {'entidad': 'proveedor'}, name='proveedor_list'),
+    path('clientes/', views.entidad_list, {'entidad': 'cliente'}, name='cliente_list'),
+    path('ventas/', views.entidad_list, {'entidad': 'venta'}, name='venta_list'),
+    path('ventas/<int:pk>/', views.venta_detail, name='venta_detail'),
+    path('perfiles/', views.entidad_list, {'entidad': 'perfil'}, name='perfil_list'),
+    path('perfiles/nuevo/', views.entidad_create, {'entidad': 'perfil'}, name='perfil_create'),
+    path('detalles-venta/', views.detalleventa_list, name='detalleventa_list'),
+    path('detalles-venta/nuevo/', views.detalleventa_create, name='detalleventa_create'),
+    path('detalles-venta/<int:pk>/editar/', views.detalleventa_update, name='detalleventa_update'),
+    path('detalles-venta/<int:pk>/eliminar/', views.detalleventa_delete, name='detalleventa_delete'),
+    path('<str:entidad>/', views.entidad_list, name='entidad_list'),
+    path('<str:entidad>/nuevo/', views.entidad_create, name='entidad_create'),
+    path('<str:entidad>/<int:pk>/editar/', views.entidad_update, name='entidad_update'),
+    path('<str:entidad>/<int:pk>/eliminar/', views.entidad_delete, name='entidad_delete'),
 ]
