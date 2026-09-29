@@ -24,6 +24,24 @@
             </nav>
         </div>
     </header>
+
+    {% if messages %}
+        <div class="container">
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
     <main class="container content">{% block content %}{% endblock %}</main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>FarmaPoint · Gestión de farmacia y ubicaciones.</p>
+        </div>
+    </footer>
+    {# Bloques disponibles para las plantillas hijas: title, content. #}
 </body>
 </html>
