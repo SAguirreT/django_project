@@ -1,0 +1,11 @@
+<form method="post">
+    {% csrf_token %}
+    <div class="actions">
+        <button class="btn danger-btn" type="submit">Sí, eliminar</button>
+        {% if volver == 'entidad_list' %}
+            <a class="btn secondary" href="{% url volver entidad=entidad %}">Cancelar</a>
+        {% else %}
+            <a class="btn secondary" href="{% url volver %}">Cancelar</a>
+        {% endif %}
+    </div>
+</form>

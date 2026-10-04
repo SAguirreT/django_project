@@ -107,3 +107,60 @@ de administración es: usuario autorizado → URL /admin/ → ModelAdmin → ORM
 SQLite → plantilla del Admin → respuesta.
 
 Las capturas requeridas y su secuencia se describen en `LAB05_EVIDENCIAS.md`.
+
+## Laboratorio 06 — Motor de plantillas
+
+Se refactorizaron las pantallas de lista y detalle de la app de farmacia para reutilizar una estructura base y mantener el mismo flujo URL → View → ORM → SQLite → Template.
+
+### Templates involucrados
+
+- `farmacia_project/src/templates/base.html` con cabecera, menú, mensajes y pie.
+- `farmacia_project/src/templates/farmacia/entidad_list.html` para listados genéricos de `Categoria`, `Producto`, `Cliente`, `Venta` y `PerfilCliente`.
+- `farmacia_project/src/templates/farmacia/venta_detail.html` para la vista detalle de una venta con productos.
+- `farmacia_project/src/templates/farmacia/entidad_confirm_delete.html` y `detalleventa_confirm_delete.html` para confirmación de eliminación.
+
+### Estructura de herencia
+
+- `base.html` → plantillas de página directas (`entidad_list.html`, `venta_detail.html`)
+- formularios adaptados con `extends 'base.html'` sin cambiar URLs ni lógica de vistas
+- parcial reutilizable para confirmación y tabla del detalle de venta
+
+### Filtros aplicados
+
+| Template | Campo | Filtro |
+| --- | --- | --- |
+| `entidad_list.html` | `objeto.perfil.direccion` | `default:"-"` |
+| `entidad_list.html` | `objeto.fecha_registro` | `date:"d/m/Y"` |
+| `entidad_list.html` | `objeto.precio` | `floatformat:2` |
+| `entidad_list.html` | `objeto.productos.all` | `length` |
+| `venta_detail.html` | `venta.total` | `floatformat:2` |
+| `venta_detail.html` | `detalle.precio_unitario` | `floatformat:2` |
+
+### Parciales `include`
+
+- `templates/farmacia/partials/_confirm_delete.html`: usado en las pantallas de confirmación de eliminación.
+- `templates/farmacia/partials/_venta_detalles.html`: reutilizado en `venta_detail.html` y `detalleventa_list.html`.
+
+### Verificación del auto-escape
+
+Se comprobó que el contenido HTML es escapado automáticamente por Django, y no se usa `|safe` ni `{% autoescape off %}`. La prueba de XSS comprobó que `<script>` sale renderizado como `&lt;script&gt;` en el HTML final.
+
+### Comandos para probar
+
+```powershell
+cd .\farmacia_project\src
+python manage.py check
+python manage.py test farmacia
+python manage.py runserver
+```
+
+Luego abrir en el navegador:
+
+- `http://127.0.0.1:8000/clientes/`
+- `http://127.0.0.1:8000/categorias/`
+- `http://127.0.0.1:8000/ventas/1/`
+- `http://127.0.0.1:8000/detalles-venta/`
+
+### Evidencias
+
+La guía completa del laboratorio y el respaldo del estado original se encuentran en `lab06/GUIA_EVIDENCIAS_LAB06.md` y `docs/lab06/01_auditoria.md`.

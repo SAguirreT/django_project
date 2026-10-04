@@ -1,0 +1,41 @@
+<div class="table-wrap">
+    <table class="data-table">
+        <thead>
+            <tr>
+                {% if show_actions %}
+                    <th>Venta</th>
+                    <th>Cliente</th>
+                {% endif %}
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio unitario</th>
+                <th>Subtotal</th>
+                {% if show_actions %}<th>Acciones</th>{% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for detalle in detalles %}
+                <tr>
+                    {% if show_actions %}
+                        <td><a href="{% url 'venta_detail' detalle.venta.pk %}">#{{ detalle.venta.pk }}</a></td>
+                        <td>{{ detalle.venta.cliente.nombre }}</td>
+                    {% endif %}
+                    <td>{{ detalle.producto.nombre }}</td>
+                    <td>{{ detalle.cantidad }}</td>
+                    <td>S/ {{ detalle.precio_unitario|floatformat:2 }}</td>
+                    <td>S/ {{ detalle.subtotal|floatformat:2 }}</td>
+                    {% if show_actions %}
+                        <td class="row-actions">
+                            <a href="{% url 'detalleventa_update' detalle.pk %}">Editar</a>
+                            <a class="danger" href="{% url 'detalleventa_delete' detalle.pk %}">Eliminar</a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="{% if show_actions %}7{% else %}4{% endif %}">Esta venta aún no tiene productos.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

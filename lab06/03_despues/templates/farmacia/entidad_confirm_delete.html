@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar {{ singular }} | FarmaPoint{% endblock %}
+{% block content %}
+<section class="card form-card">
+    <h1>Confirmar eliminación</h1>
+    <p>¿Seguro que deseas eliminar {{ singular|lower }} <strong>{{ objeto }}</strong>? Esta acción no se puede deshacer.</p>
+    {% include 'farmacia/partials/_confirm_delete.html' with objeto=objeto volver='entidad_list' entidad=entidad %}
+</section>
+{% endblock %}
