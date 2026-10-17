@@ -164,3 +164,9 @@ Luego abrir en el navegador:
 ### Evidencias
 
 La guía completa del laboratorio y el respaldo del estado original se encuentran en `lab06/GUIA_EVIDENCIAS_LAB06.md` y `docs/lab06/01_auditoria.md`.
+
+## Laboratorio 08 — Django REST Framework
+
+La API del laboratorio se implementa sobre `farmacia_project/src`, reutilizando la app ORM `farmacia` y preservando sus pantallas HTML, URLs, templates y Admin. Las rutas API quedan bajo `/api/v1/`; la guía completa por ejercicio, con comandos y capturas, está en `farmacia_project/LAB08_EVIDENCIAS.md`.
+
+El repositorio no contenía el QuerySet personalizado atribuido a Semana 7. Se añadió y documentó la adaptación `ProductoQuerySet.con_stock()`, que filtra el campo existente `stock`.

@@ -1,6 +1,13 @@
 from django.db import models
 
 
+class ProductoQuerySet(models.QuerySet):
+    """Consultas reutilizables para disponibilidad de productos."""
+
+    def con_stock(self):
+        return self.filter(stock__gt=0)
+
+
 class Zona(models.Model):
     nombre_zona = models.CharField(max_length=100)
     distrito = models.CharField(max_length=100)
@@ -50,6 +57,7 @@ class Producto(models.Model):
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField()
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name='productos')
+    objects = ProductoQuerySet.as_manager()
     class Meta: ordering = ['nombre']
     def __str__(self): return self.nombre
 
