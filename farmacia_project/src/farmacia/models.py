@@ -8,6 +8,13 @@ class ProductoQuerySet(models.QuerySet):
         return self.filter(stock__gt=0)
 
 
+class FarmaciaQuerySet(models.QuerySet):
+    """Consulta reutilizable de farmacias activas."""
+
+    def activas(self):
+        return self.filter(estado__iexact='Activa')
+
+
 class Zona(models.Model):
     nombre_zona = models.CharField(max_length=100)
     distrito = models.CharField(max_length=100)
@@ -19,6 +26,7 @@ class Zona(models.Model):
 
 
 class Farmacia(models.Model):
+    objects = FarmaciaQuerySet.as_manager()
     nombre = models.CharField(max_length=100)
     tipo = models.CharField(max_length=50)
     zona = models.ForeignKey(Zona, on_delete=models.CASCADE, related_name='farmacias')

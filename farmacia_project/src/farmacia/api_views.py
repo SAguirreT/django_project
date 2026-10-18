@@ -2,9 +2,10 @@ from rest_framework import filters, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from .models import Categoria, Farmacia, Producto, Venta
+from .models import Categoria, EvaluacionUbicacion, Farmacia, Producto, Venta, Zona
 from .serializers import (
     CategoriaSerializer, FarmaciaSerializer, ProductoSerializer, VentaReadSerializer,
+    EvaluacionUbicacionSerializer, ZonaSerializer,
 )
 
 
@@ -55,8 +56,31 @@ class FarmaciaViewSet(viewsets.ModelViewSet):
         return queryset
 
 
+    @action(detail=False, methods=['get'])
+    def activas(self, request):
+        # Reutiliza el QuerySet y conserva búsqueda, ordenamiento y paginación.
+        queryset = self.filter_queryset(self.get_queryset().activas())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            return self.get_paginated_response(self.get_serializer(page, many=True).data)
+        return Response(self.get_serializer(queryset, many=True).data)
+
+
 class VentaReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = VentaReadSerializer
     queryset = Venta.objects.select_related('cliente').prefetch_related(
         'detalles__producto__categoria'
     )
+
+
+class ZonaViewSet(viewsets.ModelViewSet):
+    queryset = Zona.objects.order_by('nombre_zona', 'pk')
+    serializer_class = ZonaSerializer
+
+
+class EvaluacionUbicacionReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = EvaluacionUbicacionSerializer
+
+    def get_queryset(self):
+        # Carga evaluación y zona juntas para evitar una consulta por fila.
+        return EvaluacionUbicacion.objects.select_related('zona').order_by('pk')

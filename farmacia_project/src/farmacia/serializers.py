@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Categoria, Cliente, DetalleVenta, Farmacia, Producto, Venta
+from .models import Categoria, Cliente, DetalleVenta, EvaluacionUbicacion, Farmacia, Producto, Venta, Zona
 
 
 class CategoriaSerializer(serializers.ModelSerializer):
@@ -34,6 +34,29 @@ class FarmaciaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Farmacia
         fields = ['id', 'nombre', 'tipo', 'zona', 'zona_nombre', 'distancia_metros', 'estado']
+
+
+    def validate_distancia_metros(self, value):
+        if value <= 0:
+            raise serializers.ValidationError('La distancia debe ser mayor que cero.')
+        return value
+
+
+class ZonaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Zona
+        fields = ['id', 'nombre_zona', 'distrito', 'densidad_poblacional', 'flujo_personas', 'accesibilidad']
+
+
+class EvaluacionUbicacionSerializer(serializers.ModelSerializer):
+    # La zona se muestra anidada; este recurso se publica solo para lectura.
+    zona = ZonaSerializer(read_only=True)
+
+    class Meta:
+        model = EvaluacionUbicacion
+        fields = ['id', 'zona', 'inkafarmas_cercanos', 'competidores_cercanos',
+                  'centros_salud_cercanos', 'costo_alquiler', 'ventas_estimadas',
+                  'nivel_viabilidad', 'fecha_creacion']
 
 
 class DetalleVentaReadSerializer(serializers.ModelSerializer):
