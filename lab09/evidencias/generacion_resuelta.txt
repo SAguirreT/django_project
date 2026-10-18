@@ -1,0 +1,5 @@
+Generador oficial create-vite 9.2.1
+Tras error EBADF del lanzador npm en este entorno, se ejecuto directamente el index.js descargado por npm.
+Argumentos: frontend --template react --no-interactive
+Resultado observado: Scaffolding project ... Done. Now run: cd frontend; npm install; npm run dev.
+Codigo de salida: 0

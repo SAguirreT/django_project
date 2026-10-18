@@ -1,0 +1,3 @@
+import './App.css'
+const nombre = 'FarmaPoint'
+export default function App() { return <main><h1>{nombre}</h1><p>Productos de ejemplo: {2 + 3}</p></main> }

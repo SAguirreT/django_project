@@ -1,0 +1,15 @@
+COMANDO: npm create --yes vite@latest frontend -- --template react --no-interactive
+
+> npx
+> create-vite frontend --template react --no-interactive
+
+│
+◇  Scaffolding project in C:\Users\Usuario 1\Documents\ChatGPT\CONSTRUCCION DE SOFTWARE\publicacion_lab08\frontend...
+Error: EBADF: bad file descriptor, write
+    at Object.writeFileSync (node:fs:2414:20)
+    at T (file:///C:/Users/Usuario%201/Documents/ChatGPT/CONSTRUCCION%20DE%20SOFTWARE/publicacion_lab08/lab09/.npm-cache/_npx/1415fee72ff6294b/node_modules/create-vite/dist/index.js:74:2493)
+    at bt (file:///C:/Users/Usuario%201/Documents/ChatGPT/CONSTRUCCION%20DE%20SOFTWARE/publicacion_lab08/lab09/.npm-cache/_npx/1415fee72ff6294b/node_modules/create-vite/dist/index.js:74:2600) {
+  errno: -4083,
+  code: 'EBADF',
+  syscall: 'write'
+}

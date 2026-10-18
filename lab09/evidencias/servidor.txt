@@ -1,0 +1,20 @@
+
+> frontend@0.0.0 dev
+> vite --host 127.0.0.1 --port 5173 --strictPort
+
+failed to load config from C:\Users\Usuario 1\Documents\ChatGPT\CONSTRUCCION DE SOFTWARE\publicacion_lab08\frontend\vite.config.js
+error when starting dev server:
+Error: ENOENT: no such file or directory, open 'C:\Users\Usuario 1\Documents\ChatGPT\CONSTRUCCION DE SOFTWARE\publicacion_lab08\frontend\node_modules\.vite-temp\vite.config.js.timestamp-1792286827729-e369d0e74048a8.mjs'
+    at async open (node:internal/fs/promises:640:25)
+    at async Object.writeFile (node:internal/fs/promises:1257:14)
+    at async loadConfigFromBundledFile (file:///C:/Users/Usuario%201/Documents/ChatGPT/CONSTRUCCION%20DE%20SOFTWARE/publicacion_lab08/frontend/node_modules/vite/dist/node/chunks/node.js:38130:3)
+    at async bundleAndLoadConfigFile (file:///C:/Users/Usuario%201/Documents/ChatGPT/CONSTRUCCION%20DE%20SOFTWARE/publicacion_lab08/frontend/node_modules/vite/dist/node/chunks/node.js:37978:21)
+    at async loadConfigFromFile (file:///C:/Users/Usuario%201/Documents/ChatGPT/CONSTRUCCION%20DE%20SOFTWARE/publicacion_lab08/frontend/node_modules/vite/dist/node/chunks/node.js:37938:42)
+    at async resolveConfig (file:///C:/Users/Usuario%201/Documents/ChatGPT/CONSTRUCCION%20DE%20SOFTWARE/publicacion_lab08/frontend/node_modules/vite/dist/node/chunks/node.js:37540:22)
+    at async _createServer (file:///C:/Users/Usuario%201/Documents/ChatGPT/CONSTRUCCION%20DE%20SOFTWARE/publicacion_lab08/frontend/node_modules/vite/dist/node/chunks/node.js:24830:65)
+    at async CAC.<anonymous> (file:///C:/Users/Usuario%201/Documents/ChatGPT/CONSTRUCCION%20DE%20SOFTWARE/publicacion_lab08/frontend/node_modules/vite/dist/node/cli.js:712:18) {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\Usuario 1\\Documents\\ChatGPT\\CONSTRUCCION DE SOFTWARE\\publicacion_lab08\\frontend\\node_modules\\.vite-temp\\vite.config.js.timestamp-1792286827729-e369d0e74048a8.mjs'
+}

@@ -1,0 +1,5 @@
+.npm-cache/
+qa/
+*.pid
+*.log
+npm_probe.txt

@@ -1,0 +1,2 @@
+COMANDO: npm -v
+11.12.1

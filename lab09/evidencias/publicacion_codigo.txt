@@ -1,0 +1,48 @@
+$ git fetch origin
+
+$ git add .gitignore README.md frontend
+warning: in the working copy of 'frontend/.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'frontend/.oxlintrc.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'frontend/package-lock.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'frontend/src/main.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'frontend/vite.config.js', LF will be replaced by CRLF the next time Git touches it
+
+$ git diff --cached --stat
+ .gitignore                 |    6 +-
+ README.md                  |   18 +
+ frontend/.gitignore        |   24 +
+ frontend/.oxlintrc.json    |    8 +
+ frontend/README.md         |   42 ++
+ frontend/index.html        |   13 +
+ frontend/package-lock.json | 1316 ++++++++++++++++++++++++++++++++++++++++++++
+ frontend/package.json      |   23 +
+ frontend/src/App.css       |  382 +++++++++++++
+ frontend/src/App.jsx       |  193 +++++++
+ frontend/src/index.css     |    1 +
+ frontend/src/main.jsx      |   10 +
+ frontend/vite.config.js    |    7 +
+ 13 files changed, 2042 insertions(+), 1 deletion(-)
+
+$ git commit -m feat(lab09): add React inventory and nested sales interface
+[main 6a3a665] feat(lab09): add React inventory and nested sales interface
+ 13 files changed, 2042 insertions(+), 1 deletion(-)
+ create mode 100644 frontend/.gitignore
+ create mode 100644 frontend/.oxlintrc.json
+ create mode 100644 frontend/README.md
+ create mode 100644 frontend/index.html
+ create mode 100644 frontend/package-lock.json
+ create mode 100644 frontend/package.json
+ create mode 100644 frontend/src/App.css
+ create mode 100644 frontend/src/App.jsx
+ create mode 100644 frontend/src/index.css
+ create mode 100644 frontend/src/main.jsx
+ create mode 100644 frontend/vite.config.js
+
+$ git push origin main
+To https://github.com/SAguirreT/django_project.git
+   6c482cc..6a3a665  main -> main
+
+$ git rev-parse HEAD
+6a3a66512b4a56ed9eda498ce7af54b3e3598742
+
+$ git ls-files frontend/node_modules frontend/dist

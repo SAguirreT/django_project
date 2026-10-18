@@ -1,0 +1,19 @@
+
+  VITE v8.3.4  ready in 329 ms
+
+  ➜  Local:   http://127.0.0.1:5173/
+8:27:32 p. m. [vite] (client) hmr update /src/App.jsx
+8:27:32 p. m. [vite] (client) hmr update /src/App.css
+8:27:32 p. m. [vite] (client) hmr update /src/index.css
+8:30:05 p. m. [vite] (client) hmr update /src/App.jsx
+8:30:05 p. m. [vite] (client) hmr update /src/index.css
+8:30:05 p. m. [vite] (client) hmr update /src/App.css
+8:30:05 p. m. [vite] (client) page reload index.html
+8:30:20 p. m. [vite] (client) hmr update /src/App.jsx
+8:30:21 p. m. [vite] (client) hmr update /src/App.jsx
+8:30:51 p. m. [vite] (client) hmr update /src/App.jsx
+8:31:20 p. m. [vite] (client) hmr update /src/App.jsx
+8:31:20 p. m. [vite] (client) hmr update /src/App.jsx
+8:31:21 p. m. [vite] (client) hmr update /src/App.jsx
+8:31:21 p. m. [vite] (client) hmr update /src/App.jsx
+8:33:29 p. m. [vite] (client) hmr update /src/App.css

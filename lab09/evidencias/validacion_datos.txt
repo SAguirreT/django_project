@@ -1,0 +1,6 @@
+Campos contrastados con serializers.py del Lab 08.
+Producto: 5 registros, campos exactos, precio como texto.
+Categoria: 3 registros, campos exactos.
+Venta: 2 registros, cliente y detalles/producto anidados.
+Totales coinciden con cantidad por precio unitario.
+Resultado: correcto.
