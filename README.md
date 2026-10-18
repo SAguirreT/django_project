@@ -216,3 +216,21 @@ python manage.py runserver 127.0.0.1:8008
 El cargador identifica todos los datos con LAB08 y conserva registros existentes. Sus ventas son datos de muestra, sin descontar existencias. El informe y los resultados reproducibles están en `lab08/` en la raíz del repositorio. La base SQLite no se publica.
 
 La API usa los permisos predeterminados de DRF (AllowAny): en este laboratorio las escrituras son públicas. No constituye un despliegue protegido para producción. Ventas y evaluaciones solo admiten lectura por sus ViewSets. Los JSON y las capturas contienen únicamente los datos ficticios de la base de demostración.
+
+
+## Laboratorio 09 — React y Vite
+
+Integrantes: Dario Maza, Sheila Aguirre y Jose Contreras.
+
+Interfaz local con productos, categorías, búsqueda, stock y ventas con detalles anidados. Datos escritos a mano con la estructura JSON del Lab 08; todavía no consume la API.
+
+```powershell
+cd frontend
+npm install
+npm run dev
+# Abrir http://localhost:5173/
+npm run lint
+npm run build
+```
+
+Consulta [las instrucciones del frontend](frontend/README.md) y [el informe del Lab 09](lab09/Informe_Lab09_FarmaPoint.pdf). `node_modules/` y `dist/` están excluidos de Git.

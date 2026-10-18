@@ -5,5 +5,9 @@ __pycache__/
 
 db.sqlite3
 
-# Bases locales de demostración y pruebas.
+# Bases locales de demostraciÃ³n y pruebas.
 *.sqlite3
+
+# Frontend React del Lab 09.
+node_modules/
+dist/
