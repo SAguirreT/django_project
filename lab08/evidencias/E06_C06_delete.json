@@ -1,0 +1,7 @@
+{
+  "metodo": "DELETE",
+  "url": "http://127.0.0.1:8008/api/v1/productos/4/",
+  "cuerpo_enviado": null,
+  "estado_http": 204,
+  "respuesta": null
+}

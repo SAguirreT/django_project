@@ -1,0 +1,21 @@
+{
+  "metodo": "POST",
+  "url": "http://127.0.0.1:8008/api/v1/productos/",
+  "cuerpo_enviado": {
+    "nombre": "Temporal validacion LAB08",
+    "descripcion": "",
+    "precio": "2.50",
+    "stock": 1,
+    "categoria": 1
+  },
+  "estado_http": 201,
+  "respuesta": {
+    "id": 4,
+    "nombre": "Temporal validacion LAB08",
+    "descripcion": "",
+    "precio": "2.50",
+    "stock": 1,
+    "categoria": 1,
+    "categoria_nombre": "Salud [LAB08]"
+  }
+}

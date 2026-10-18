@@ -1,0 +1,35 @@
+{
+  "metodo": "GET",
+  "url": "http://127.0.0.1:8008/api/v1/farmacias/",
+  "cuerpo_enviado": null,
+  "estado_http": 200,
+  "respuesta": [
+    {
+      "id": 1,
+      "nombre": "Botica 1 [LAB08]",
+      "tipo": "Independiente",
+      "zona": 1,
+      "zona_nombre": "Zona 1 [LAB08]",
+      "distancia_metros": 150,
+      "estado": "Activa"
+    },
+    {
+      "id": 2,
+      "nombre": "Botica 2 [LAB08]",
+      "tipo": "Independiente",
+      "zona": 2,
+      "zona_nombre": "Zona 2 [LAB08]",
+      "distancia_metros": 300,
+      "estado": "Inactiva"
+    },
+    {
+      "id": 3,
+      "nombre": "Botica 3 [LAB08]",
+      "tipo": "Independiente",
+      "zona": 3,
+      "zona_nombre": "Zona 3 [LAB08]",
+      "distancia_metros": 450,
+      "estado": "ACTIVA"
+    }
+  ]
+}

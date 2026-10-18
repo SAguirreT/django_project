@@ -1,0 +1,12 @@
+{
+  "expresion": "ProductoSerializer(producto).data",
+  "resultado": {
+    "id": 1,
+    "nombre": "Analgesico A [LAB08]",
+    "descripcion": "Producto ficticio de laboratorio.",
+    "precio": "5.50",
+    "stock": 10,
+    "categoria": 1,
+    "categoria_nombre": "Salud [LAB08]"
+  }
+}

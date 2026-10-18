@@ -1,0 +1,13 @@
+{
+  "is_valid": true,
+  "validated_data": {
+    "nombre": "Temporal validacion LAB08",
+    "descripcion": "",
+    "precio": "2.50",
+    "stock": 1,
+    "categoria": "Salud [LAB08]"
+  },
+  "save_id": 4,
+  "persistido": true,
+  "limpieza": "rollback al finalizar la prueba"
+}

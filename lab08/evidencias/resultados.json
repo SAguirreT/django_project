@@ -1,0 +1,832 @@
+{
+  "E02_C02_objeto": {
+    "expresion": "ProductoSerializer(producto).data",
+    "resultado": {
+      "id": 1,
+      "nombre": "Analgesico A [LAB08]",
+      "descripcion": "Producto ficticio de laboratorio.",
+      "precio": "5.50",
+      "stock": 10,
+      "categoria": 1,
+      "categoria_nombre": "Salud [LAB08]"
+    }
+  },
+  "E02_C03_queryset": {
+    "expresion": "ProductoSerializer(Producto.objects.select_related(\"categoria\"), many=True).data",
+    "resultado": [
+      {
+        "id": 1,
+        "nombre": "Analgesico A [LAB08]",
+        "descripcion": "Producto ficticio de laboratorio.",
+        "precio": "5.50",
+        "stock": 10,
+        "categoria": 1,
+        "categoria_nombre": "Salud [LAB08]"
+      },
+      {
+        "id": 2,
+        "nombre": "Analgesico B [LAB08]",
+        "descripcion": "Producto ficticio de laboratorio.",
+        "precio": "12.00",
+        "stock": 6,
+        "categoria": 1,
+        "categoria_nombre": "Salud [LAB08]"
+      },
+      {
+        "id": 3,
+        "nombre": "Vitamina C [LAB08]",
+        "descripcion": "Producto ficticio de laboratorio.",
+        "precio": "8.90",
+        "stock": 0,
+        "categoria": 1,
+        "categoria_nombre": "Salud [LAB08]"
+      }
+    ]
+  },
+  "E03_C02_valido": {
+    "is_valid": true,
+    "validated_data": {
+      "nombre": "Temporal validacion LAB08",
+      "descripcion": "",
+      "precio": "2.50",
+      "stock": 1,
+      "categoria": "Salud [LAB08]"
+    },
+    "save_id": 4,
+    "persistido": true,
+    "limpieza": "rollback al finalizar la prueba"
+  },
+  "E03_C03_invalido": {
+    "is_valid": false,
+    "errors": {
+      "precio": [
+        "El precio debe ser mayor que cero."
+      ]
+    }
+  },
+  "E04_C03_lista": {
+    "metodo": "GET",
+    "url": "http://127.0.0.1:8008/api/v1/basico/productos/",
+    "cuerpo_enviado": null,
+    "estado_http": 200,
+    "respuesta": [
+      {
+        "id": 1,
+        "nombre": "Analgesico A [LAB08]",
+        "descripcion": "Producto ficticio de laboratorio.",
+        "precio": "5.50",
+        "stock": 10,
+        "categoria": 1,
+        "categoria_nombre": "Salud [LAB08]"
+      },
+      {
+        "id": 2,
+        "nombre": "Analgesico B [LAB08]",
+        "descripcion": "Producto ficticio de laboratorio.",
+        "precio": "12.00",
+        "stock": 6,
+        "categoria": 1,
+        "categoria_nombre": "Salud [LAB08]"
+      },
+      {
+        "id": 3,
+        "nombre": "Vitamina C [LAB08]",
+        "descripcion": "Producto ficticio de laboratorio.",
+        "precio": "8.90",
+        "stock": 0,
+        "categoria": 1,
+        "categoria_nombre": "Salud [LAB08]"
+      }
+    ]
+  },
+  "E04_C04_detalle": {
+    "metodo": "GET",
+    "url": "http://127.0.0.1:8008/api/v1/basico/productos/1/",
+    "cuerpo_enviado": null,
+    "estado_http": 200,
+    "respuesta": {
+      "id": 1,
+      "nombre": "Analgesico A [LAB08]",
+      "descripcion": "Producto ficticio de laboratorio.",
+      "precio": "5.50",
+      "stock": 10,
+      "categoria": 1,
+      "categoria_nombre": "Salud [LAB08]"
+    }
+  },
+  "E05_C03_api_root": {
+    "metodo": "GET",
+    "url": "http://127.0.0.1:8008/api/v1/",
+    "cuerpo_enviado": null,
+    "estado_http": 200,
+    "respuesta": {
+      "categorias": "http://127.0.0.1:8008/api/v1/categorias/",
+      "productos": "http://127.0.0.1:8008/api/v1/productos/",
+      "farmacias": "http://127.0.0.1:8008/api/v1/farmacias/",
+      "ventas": "http://127.0.0.1:8008/api/v1/ventas/",
+      "zonas": "http://127.0.0.1:8008/api/v1/zonas/",
+      "evaluaciones": "http://127.0.0.1:8008/api/v1/evaluaciones/"
+    }
+  },
+  "E06_C01_get_lista": {
+    "metodo": "GET",
+    "url": "http://127.0.0.1:8008/api/v1/productos/",
+    "cuerpo_enviado": null,
+    "estado_http": 200,
+    "respuesta": [
+      {
+        "id": 1,
+        "nombre": "Analgesico A [LAB08]",
+        "descripcion": "Producto ficticio de laboratorio.",
+        "precio": "5.50",
+        "stock": 10,
+        "categoria": 1,
+        "categoria_nombre": "Salud [LAB08]"
+      },
+      {
+        "id": 2,
+        "nombre": "Analgesico B [LAB08]",
+        "descripcion": "Producto ficticio de laboratorio.",
+        "precio": "12.00",
+        "stock": 6,
+        "categoria": 1,
+        "categoria_nombre": "Salud [LAB08]"
+      },
+      {
+        "id": 3,
+        "nombre": "Vitamina C [LAB08]",
+        "descripcion": "Producto ficticio de laboratorio.",
+        "precio": "8.90",
+        "stock": 0,
+        "categoria": 1,
+        "categoria_nombre": "Salud [LAB08]"
+      }
+    ]
+  },
+  "E06_C02_get_detalle": {
+    "metodo": "GET",
+    "url": "http://127.0.0.1:8008/api/v1/productos/1/",
+    "cuerpo_enviado": null,
+    "estado_http": 200,
+    "respuesta": {
+      "id": 1,
+      "nombre": "Analgesico A [LAB08]",
+      "descripcion": "Producto ficticio de laboratorio.",
+      "precio": "5.50",
+      "stock": 10,
+      "categoria": 1,
+      "categoria_nombre": "Salud [LAB08]"
+    }
+  },
+  "E06_C03_post_valido": {
+    "metodo": "POST",
+    "url": "http://127.0.0.1:8008/api/v1/productos/",
+    "cuerpo_enviado": {
+      "nombre": "Temporal validacion LAB08",
+      "descripcion": "",
+      "precio": "2.50",
+      "stock": 1,
+      "categoria": 1
+    },
+    "estado_http": 201,
+    "respuesta": {
+      "id": 4,
+      "nombre": "Temporal validacion LAB08",
+      "descripcion": "",
+      "precio": "2.50",
+      "stock": 1,
+      "categoria": 1,
+      "categoria_nombre": "Salud [LAB08]"
+    }
+  },
+  "E06_C04_post_invalido": {
+    "metodo": "POST",
+    "url": "http://127.0.0.1:8008/api/v1/productos/",
+    "cuerpo_enviado": {
+      "nombre": "Temporal validacion LAB08",
+      "descripcion": "",
+      "precio": "0",
+      "stock": 1,
+      "categoria": 1
+    },
+    "estado_http": 400,
+    "respuesta": {
+      "precio": [
+        "El precio debe ser mayor que cero."
+      ]
+    }
+  },
+  "E06_C05_patch": {
+    "metodo": "PATCH",
+    "url": "http://127.0.0.1:8008/api/v1/productos/4/",
+    "cuerpo_enviado": {
+      "stock": 3
+    },
+    "estado_http": 200,
+    "respuesta": {
+      "id": 4,
+      "nombre": "Temporal validacion LAB08",
+      "descripcion": "",
+      "precio": "2.50",
+      "stock": 3,
+      "categoria": 1,
+      "categoria_nombre": "Salud [LAB08]"
+    }
+  },
+  "E06_C06_delete": {
+    "metodo": "DELETE",
+    "url": "http://127.0.0.1:8008/api/v1/productos/4/",
+    "cuerpo_enviado": null,
+    "estado_http": 204,
+    "respuesta": null
+  },
+  "E06_C07_no_encontrado": {
+    "metodo": "GET",
+    "url": "http://127.0.0.1:8008/api/v1/productos/4/",
+    "cuerpo_enviado": null,
+    "estado_http": 404,
+    "respuesta": {
+      "detail": "No Producto matches the given query."
+    }
+  },
+  "E07_C03_consultas_antes": {
+    "registros": 3,
+    "consultas": 19,
+    "serializacion_completa": true,
+    "respuestas_iguales": true,
+    "sql": [
+      "SELECT \"farmacia_venta\".\"id\", \"farmacia_venta\".\"estado\", \"farmacia_venta\".\"cliente_id\", \"farmacia_venta\".\"fecha\", \"farmacia_venta\".\"total\" FROM \"farmacia_venta\" ORDER BY \"farmacia_venta\".\"id\" ASC",
+      "SELECT \"farmacia_cliente\".\"id\", \"farmacia_cliente\".\"nombre\", \"farmacia_cliente\".\"documento\", \"farmacia_cliente\".\"telefono\", \"farmacia_cliente\".\"correo\" FROM \"farmacia_cliente\" WHERE \"farmacia_cliente\".\"id\" = 1 LIMIT 21",
+      "SELECT \"farmacia_detalleventa\".\"id\", \"farmacia_detalleventa\".\"venta_id\", \"farmacia_detalleventa\".\"producto_id\", \"farmacia_detalleventa\".\"cantidad\", \"farmacia_detalleventa\".\"precio_unitario\" FROM \"farmacia_detalleventa\" INNER JOIN \"farmacia_venta\" ON (\"farmacia_detalleventa\".\"venta_id\" = \"farmacia_venta\".\"id\") WHERE \"farmacia_detalleventa\".\"venta_id\" = 1 ORDER BY \"farmacia_venta\".\"fecha\" DESC, \"farmacia_detalleventa\".\"id\" ASC",
+      "SELECT \"farmacia_producto\".\"id\", \"farmacia_producto\".\"nombre\", \"farmacia_producto\".\"descripcion\", \"farmacia_producto\".\"precio\", \"farmacia_producto\".\"stock\", \"farmacia_producto\".\"categoria_id\" FROM \"farmacia_producto\" WHERE \"farmacia_producto\".\"id\" = 1 LIMIT 21",
+      "SELECT \"farmacia_categoria\".\"id\", \"farmacia_categoria\".\"nombre\", \"farmacia_categoria\".\"descripcion\" FROM \"farmacia_categoria\" WHERE \"farmacia_categoria\".\"id\" = 1 LIMIT 21",
+      "SELECT \"farmacia_producto\".\"id\", \"farmacia_producto\".\"nombre\", \"farmacia_producto\".\"descripcion\", \"farmacia_producto\".\"precio\", \"farmacia_producto\".\"stock\", \"farmacia_producto\".\"categoria_id\" FROM \"farmacia_producto\" WHERE \"farmacia_producto\".\"id\" = 2 LIMIT 21",
+      "SELECT \"farmacia_categoria\".\"id\", \"farmacia_categoria\".\"nombre\", \"farmacia_categoria\".\"descripcion\" FROM \"farmacia_categoria\" WHERE \"farmacia_categoria\".\"id\" = 1 LIMIT 21",
+      "SELECT \"farmacia_cliente\".\"id\", \"farmacia_cliente\".\"nombre\", \"farmacia_cliente\".\"documento\", \"farmacia_cliente\".\"telefono\", \"farmacia_cliente\".\"correo\" FROM \"farmacia_cliente\" WHERE \"farmacia_cliente\".\"id\" = 2 LIMIT 21",
+      "SELECT \"farmacia_detalleventa\".\"id\", \"farmacia_detalleventa\".\"venta_id\", \"farmacia_detalleventa\".\"producto_id\", \"farmacia_detalleventa\".\"cantidad\", \"farmacia_detalleventa\".\"precio_unitario\" FROM \"farmacia_detalleventa\" INNER JOIN \"farmacia_venta\" ON (\"farmacia_detalleventa\".\"venta_id\" = \"farmacia_venta\".\"id\") WHERE \"farmacia_detalleventa\".\"venta_id\" = 2 ORDER BY \"farmacia_venta\".\"fecha\" DESC, \"farmacia_detalleventa\".\"id\" ASC",
+      "SELECT \"farmacia_producto\".\"id\", \"farmacia_producto\".\"nombre\", \"farmacia_producto\".\"descripcion\", \"farmacia_producto\".\"precio\", \"farmacia_producto\".\"stock\", \"farmacia_producto\".\"categoria_id\" FROM \"farmacia_producto\" WHERE \"farmacia_producto\".\"id\" = 1 LIMIT 21",
+      "SELECT \"farmacia_categoria\".\"id\", \"farmacia_categoria\".\"nombre\", \"farmacia_categoria\".\"descripcion\" FROM \"farmacia_categoria\" WHERE \"farmacia_categoria\".\"id\" = 1 LIMIT 21",
+      "SELECT \"farmacia_producto\".\"id\", \"farmacia_producto\".\"nombre\", \"farmacia_producto\".\"descripcion\", \"farmacia_producto\".\"precio\", \"farmacia_producto\".\"stock\", \"farmacia_producto\".\"categoria_id\" FROM \"farmacia_producto\" WHERE \"farmacia_producto\".\"id\" = 2 LIMIT 21",
+      "SELECT \"farmacia_categoria\".\"id\", \"farmacia_categoria\".\"nombre\", \"farmacia_categoria\".\"descripcion\" FROM \"farmacia_categoria\" WHERE \"farmacia_categoria\".\"id\" = 1 LIMIT 21",
+      "SELECT \"farmacia_cliente\".\"id\", \"farmacia_cliente\".\"nombre\", \"farmacia_cliente\".\"documento\", \"farmacia_cliente\".\"telefono\", \"farmacia_cliente\".\"correo\" FROM \"farmacia_cliente\" WHERE \"farmacia_cliente\".\"id\" = 3 LIMIT 21",
+      "SELECT \"farmacia_detalleventa\".\"id\", \"farmacia_detalleventa\".\"venta_id\", \"farmacia_detalleventa\".\"producto_id\", \"farmacia_detalleventa\".\"cantidad\", \"farmacia_detalleventa\".\"precio_unitario\" FROM \"farmacia_detalleventa\" INNER JOIN \"farmacia_venta\" ON (\"farmacia_detalleventa\".\"venta_id\" = \"farmacia_venta\".\"id\") WHERE \"farmacia_detalleventa\".\"venta_id\" = 3 ORDER BY \"farmacia_venta\".\"fecha\" DESC, \"farmacia_detalleventa\".\"id\" ASC",
+      "SELECT \"farmacia_producto\".\"id\", \"farmacia_producto\".\"nombre\", \"farmacia_producto\".\"descripcion\", \"farmacia_producto\".\"precio\", \"farmacia_producto\".\"stock\", \"farmacia_producto\".\"categoria_id\" FROM \"farmacia_producto\" WHERE \"farmacia_producto\".\"id\" = 1 LIMIT 21",
+      "SELECT \"farmacia_categoria\".\"id\", \"farmacia_categoria\".\"nombre\", \"farmacia_categoria\".\"descripcion\" FROM \"farmacia_categoria\" WHERE \"farmacia_categoria\".\"id\" = 1 LIMIT 21",
+      "SELECT \"farmacia_producto\".\"id\", \"farmacia_producto\".\"nombre\", \"farmacia_producto\".\"descripcion\", \"farmacia_producto\".\"precio\", \"farmacia_producto\".\"stock\", \"farmacia_producto\".\"categoria_id\" FROM \"farmacia_producto\" WHERE \"farmacia_producto\".\"id\" = 2 LIMIT 21",
+      "SELECT \"farmacia_categoria\".\"id\", \"farmacia_categoria\".\"nombre\", \"farmacia_categoria\".\"descripcion\" FROM \"farmacia_categoria\" WHERE \"farmacia_categoria\".\"id\" = 1 LIMIT 21"
+    ]
+  },
+  "E07_C04_consultas_despues": {
+    "registros": 3,
+    "consultas": 4,
+    "serializacion_completa": true,
+    "respuestas_iguales": true,
+    "sql": [
+      "SELECT \"farmacia_venta\".\"id\", \"farmacia_venta\".\"estado\", \"farmacia_venta\".\"cliente_id\", \"farmacia_venta\".\"fecha\", \"farmacia_venta\".\"total\", \"farmacia_cliente\".\"id\", \"farmacia_cliente\".\"nombre\", \"farmacia_cliente\".\"documento\", \"farmacia_cliente\".\"telefono\", \"farmacia_cliente\".\"correo\" FROM \"farmacia_venta\" INNER JOIN \"farmacia_cliente\" ON (\"farmacia_venta\".\"cliente_id\" = \"farmacia_cliente\".\"id\") ORDER BY \"farmacia_venta\".\"id\" ASC",
+      "SELECT \"farmacia_detalleventa\".\"id\", \"farmacia_detalleventa\".\"venta_id\", \"farmacia_detalleventa\".\"producto_id\", \"farmacia_detalleventa\".\"cantidad\", \"farmacia_detalleventa\".\"precio_unitario\" FROM \"farmacia_detalleventa\" INNER JOIN \"farmacia_venta\" ON (\"farmacia_detalleventa\".\"venta_id\" = \"farmacia_venta\".\"id\") WHERE \"farmacia_detalleventa\".\"venta_id\" IN (1, 2, 3) ORDER BY \"farmacia_venta\".\"fecha\" DESC, \"farmacia_detalleventa\".\"id\" ASC",
+      "SELECT \"farmacia_producto\".\"id\", \"farmacia_producto\".\"nombre\", \"farmacia_producto\".\"descripcion\", \"farmacia_producto\".\"precio\", \"farmacia_producto\".\"stock\", \"farmacia_producto\".\"categoria_id\" FROM \"farmacia_producto\" WHERE (\"farmacia_producto\".\"id\" = 1 OR \"farmacia_producto\".\"id\" = 2)",
+      "SELECT \"farmacia_categoria\".\"id\", \"farmacia_categoria\".\"nombre\", \"farmacia_categoria\".\"descripcion\" FROM \"farmacia_categoria\" WHERE \"farmacia_categoria\".\"id\" = 1"
+    ]
+  },
+  "E12_C03_antes": {
+    "registros": 3,
+    "consultas": 4,
+    "serializacion_completa": true,
+    "respuestas_iguales": true,
+    "sql": [
+      "SELECT \"farmacia_evaluacionubicacion\".\"id\", \"farmacia_evaluacionubicacion\".\"zona_id\", \"farmacia_evaluacionubicacion\".\"inkafarmas_cercanos\", \"farmacia_evaluacionubicacion\".\"competidores_cercanos\", \"farmacia_evaluacionubicacion\".\"centros_salud_cercanos\", \"farmacia_evaluacionubicacion\".\"costo_alquiler\", \"farmacia_evaluacionubicacion\".\"ventas_estimadas\", \"farmacia_evaluacionubicacion\".\"nivel_viabilidad\", \"farmacia_evaluacionubicacion\".\"fecha_creacion\" FROM \"farmacia_evaluacionubicacion\" ORDER BY \"farmacia_evaluacionubicacion\".\"id\" ASC",
+      "SELECT \"farmacia_zona\".\"id\", \"farmacia_zona\".\"nombre_zona\", \"farmacia_zona\".\"distrito\", \"farmacia_zona\".\"densidad_poblacional\", \"farmacia_zona\".\"flujo_personas\", \"farmacia_zona\".\"accesibilidad\" FROM \"farmacia_zona\" WHERE \"farmacia_zona\".\"id\" = 1 LIMIT 21",
+      "SELECT \"farmacia_zona\".\"id\", \"farmacia_zona\".\"nombre_zona\", \"farmacia_zona\".\"distrito\", \"farmacia_zona\".\"densidad_poblacional\", \"farmacia_zona\".\"flujo_personas\", \"farmacia_zona\".\"accesibilidad\" FROM \"farmacia_zona\" WHERE \"farmacia_zona\".\"id\" = 2 LIMIT 21",
+      "SELECT \"farmacia_zona\".\"id\", \"farmacia_zona\".\"nombre_zona\", \"farmacia_zona\".\"distrito\", \"farmacia_zona\".\"densidad_poblacional\", \"farmacia_zona\".\"flujo_personas\", \"farmacia_zona\".\"accesibilidad\" FROM \"farmacia_zona\" WHERE \"farmacia_zona\".\"id\" = 3 LIMIT 21"
+    ]
+  },
+  "E12_C04_despues": {
+    "registros": 3,
+    "consultas": 1,
+    "serializacion_completa": true,
+    "respuestas_iguales": true,
+    "sql": [
+      "SELECT \"farmacia_evaluacionubicacion\".\"id\", \"farmacia_evaluacionubicacion\".\"zona_id\", \"farmacia_evaluacionubicacion\".\"inkafarmas_cercanos\", \"farmacia_evaluacionubicacion\".\"competidores_cercanos\", \"farmacia_evaluacionubicacion\".\"centros_salud_cercanos\", \"farmacia_evaluacionubicacion\".\"costo_alquiler\", \"farmacia_evaluacionubicacion\".\"ventas_estimadas\", \"farmacia_evaluacionubicacion\".\"nivel_viabilidad\", \"farmacia_evaluacionubicacion\".\"fecha_creacion\", \"farmacia_zona\".\"id\", \"farmacia_zona\".\"nombre_zona\", \"farmacia_zona\".\"distrito\", \"farmacia_zona\".\"densidad_poblacional\", \"farmacia_zona\".\"flujo_personas\", \"farmacia_zona\".\"accesibilidad\" FROM \"farmacia_evaluacionubicacion\" INNER JOIN \"farmacia_zona\" ON (\"farmacia_evaluacionubicacion\".\"zona_id\" = \"farmacia_zona\".\"id\") ORDER BY \"farmacia_evaluacionubicacion\".\"id\" ASC"
+    ]
+  },
+  "E07_C05_respuesta_api": {
+    "metodo": "GET",
+    "url": "http://127.0.0.1:8008/api/v1/ventas/1/",
+    "cuerpo_enviado": null,
+    "estado_http": 200,
+    "respuesta": {
+      "id": 1,
+      "cliente": {
+        "id": 1,
+        "nombre": "Cliente ficticio 1 [LAB08]",
+        "documento": "LAB08-1",
+        "telefono": "",
+        "correo": ""
+      },
+      "fecha": "2026-10-17T20:00:35.750726-05:00",
+      "total": "17.50",
+      "detalles": [
+        {
+          "id": 1,
+          "producto": {
+            "id": 1,
+            "nombre": "Analgesico A [LAB08]",
+            "descripcion": "Producto ficticio de laboratorio.",
+            "precio": "5.50",
+            "stock": 10,
+            "categoria": 1,
+            "categoria_nombre": "Salud [LAB08]"
+          },
+          "cantidad": 1,
+          "precio_unitario": "5.50",
+          "subtotal": 5.5
+        },
+        {
+          "id": 2,
+          "producto": {
+            "id": 2,
+            "nombre": "Analgesico B [LAB08]",
+            "descripcion": "Producto ficticio de laboratorio.",
+            "precio": "12.00",
+            "stock": 6,
+            "categoria": 1,
+            "categoria_nombre": "Salud [LAB08]"
+          },
+          "cantidad": 1,
+          "precio_unitario": "12.00",
+          "subtotal": 12.0
+        }
+      ]
+    }
+  },
+  "E07_solo_lectura": {
+    "metodo": "POST",
+    "url": "http://127.0.0.1:8008/api/v1/ventas/",
+    "cuerpo_enviado": {},
+    "estado_http": 405,
+    "respuesta": {
+      "detail": "Método \"POST\" no permitido."
+    }
+  },
+  "E08_C04_search": {
+    "metodo": "GET",
+    "url": "http://127.0.0.1:8008/api/v1/productos/?search=Analgesico",
+    "cuerpo_enviado": null,
+    "estado_http": 200,
+    "respuesta": [
+      {
+        "id": 1,
+        "nombre": "Analgesico A [LAB08]",
+        "descripcion": "Producto ficticio de laboratorio.",
+        "precio": "5.50",
+        "stock": 10,
+        "categoria": 1,
+        "categoria_nombre": "Salud [LAB08]"
+      },
+      {
+        "id": 2,
+        "nombre": "Analgesico B [LAB08]",
+        "descripcion": "Producto ficticio de laboratorio.",
+        "precio": "12.00",
+        "stock": 6,
+        "categoria": 1,
+        "categoria_nombre": "Salud [LAB08]"
+      }
+    ]
+  },
+  "E08_C05_ordering": {
+    "metodo": "GET",
+    "url": "http://127.0.0.1:8008/api/v1/productos/?ordering=precio",
+    "cuerpo_enviado": null,
+    "estado_http": 200,
+    "respuesta": [
+      {
+        "id": 1,
+        "nombre": "Analgesico A [LAB08]",
+        "descripcion": "Producto ficticio de laboratorio.",
+        "precio": "5.50",
+        "stock": 10,
+        "categoria": 1,
+        "categoria_nombre": "Salud [LAB08]"
+      },
+      {
+        "id": 3,
+        "nombre": "Vitamina C [LAB08]",
+        "descripcion": "Producto ficticio de laboratorio.",
+        "precio": "8.90",
+        "stock": 0,
+        "categoria": 1,
+        "categoria_nombre": "Salud [LAB08]"
+      },
+      {
+        "id": 2,
+        "nombre": "Analgesico B [LAB08]",
+        "descripcion": "Producto ficticio de laboratorio.",
+        "precio": "12.00",
+        "stock": 6,
+        "categoria": 1,
+        "categoria_nombre": "Salud [LAB08]"
+      }
+    ]
+  },
+  "E08_C06_combinacion": {
+    "metodo": "GET",
+    "url": "http://127.0.0.1:8008/api/v1/productos/?search=Analgesico&ordering=precio&disponible=true",
+    "cuerpo_enviado": null,
+    "estado_http": 200,
+    "respuesta": [
+      {
+        "id": 1,
+        "nombre": "Analgesico A [LAB08]",
+        "descripcion": "Producto ficticio de laboratorio.",
+        "precio": "5.50",
+        "stock": 10,
+        "categoria": 1,
+        "categoria_nombre": "Salud [LAB08]"
+      },
+      {
+        "id": 2,
+        "nombre": "Analgesico B [LAB08]",
+        "descripcion": "Producto ficticio de laboratorio.",
+        "precio": "12.00",
+        "stock": 6,
+        "categoria": 1,
+        "categoria_nombre": "Salud [LAB08]"
+      }
+    ]
+  },
+  "E08_C07_action_resultado": {
+    "metodo": "GET",
+    "url": "http://127.0.0.1:8008/api/v1/productos/con-stock/",
+    "cuerpo_enviado": null,
+    "estado_http": 200,
+    "respuesta": [
+      {
+        "id": 1,
+        "nombre": "Analgesico A [LAB08]",
+        "descripcion": "Producto ficticio de laboratorio.",
+        "precio": "5.50",
+        "stock": 10,
+        "categoria": 1,
+        "categoria_nombre": "Salud [LAB08]"
+      },
+      {
+        "id": 2,
+        "nombre": "Analgesico B [LAB08]",
+        "descripcion": "Producto ficticio de laboratorio.",
+        "precio": "12.00",
+        "stock": 6,
+        "categoria": 1,
+        "categoria_nombre": "Salud [LAB08]"
+      }
+    ]
+  },
+  "E09_C03_tabla_equivalencias": {
+    "simple": "Producto; precio > 0",
+    "relacionado": "Venta -> DetalleVenta -> Producto",
+    "investigacion": [
+      "Zona",
+      "Farmacia",
+      "EvaluacionUbicacion"
+    ],
+    "estado": "Farmacia.estado",
+    "relaciones": [
+      "Zona 1:N Farmacia",
+      "Zona 1:N EvaluacionUbicacion"
+    ],
+    "querysets": [
+      "ProductoQuerySet.con_stock()",
+      "FarmaciaQuerySet.activas()"
+    ],
+    "cantidades": {
+      "zonas": 3,
+      "farmacias": 3,
+      "evaluaciones": 3
+    },
+    "estados_demo": [
+      "Activa",
+      "Inactiva",
+      "ACTIVA"
+    ],
+    "nota": "Antes de sembrar, no había farmacias locales. Los estados son datos ficticios explícitos."
+  },
+  "E10_C02_validacion_valida": {
+    "datos": {
+      "nombre": "Botica temporal [LAB08]",
+      "tipo": "Independiente",
+      "zona": 1,
+      "distancia_metros": 100,
+      "estado": "Activa"
+    },
+    "is_valid": true,
+    "validated_data": {
+      "nombre": "Botica temporal [LAB08]",
+      "tipo": "Independiente",
+      "zona": "Zona 1 [LAB08]",
+      "distancia_metros": 100,
+      "estado": "Activa"
+    },
+    "errors": {}
+  },
+  "E10_C03_validacion_invalida": {
+    "datos": {
+      "nombre": "Botica temporal [LAB08]",
+      "tipo": "Independiente",
+      "zona": 1,
+      "distancia_metros": 0,
+      "estado": "Activa"
+    },
+    "is_valid": false,
+    "validated_data": {},
+    "errors": {
+      "distancia_metros": [
+        "La distancia debe ser mayor que cero."
+      ]
+    }
+  },
+  "E11_C03_http_200": {
+    "metodo": "GET",
+    "url": "http://127.0.0.1:8008/api/v1/farmacias/",
+    "cuerpo_enviado": null,
+    "estado_http": 200,
+    "respuesta": [
+      {
+        "id": 1,
+        "nombre": "Botica 1 [LAB08]",
+        "tipo": "Independiente",
+        "zona": 1,
+        "zona_nombre": "Zona 1 [LAB08]",
+        "distancia_metros": 150,
+        "estado": "Activa"
+      },
+      {
+        "id": 2,
+        "nombre": "Botica 2 [LAB08]",
+        "tipo": "Independiente",
+        "zona": 2,
+        "zona_nombre": "Zona 2 [LAB08]",
+        "distancia_metros": 300,
+        "estado": "Inactiva"
+      },
+      {
+        "id": 3,
+        "nombre": "Botica 3 [LAB08]",
+        "tipo": "Independiente",
+        "zona": 3,
+        "zona_nombre": "Zona 3 [LAB08]",
+        "distancia_metros": 450,
+        "estado": "ACTIVA"
+      }
+    ]
+  },
+  "E11_C04_http_201": {
+    "metodo": "POST",
+    "url": "http://127.0.0.1:8008/api/v1/farmacias/",
+    "cuerpo_enviado": {
+      "nombre": "Botica temporal [LAB08]",
+      "tipo": "Independiente",
+      "zona": 1,
+      "distancia_metros": 100,
+      "estado": "Activa"
+    },
+    "estado_http": 201,
+    "respuesta": {
+      "id": 4,
+      "nombre": "Botica temporal [LAB08]",
+      "tipo": "Independiente",
+      "zona": 1,
+      "zona_nombre": "Zona 1 [LAB08]",
+      "distancia_metros": 100,
+      "estado": "Activa"
+    }
+  },
+  "E11_C05_http_400": {
+    "metodo": "POST",
+    "url": "http://127.0.0.1:8008/api/v1/farmacias/",
+    "cuerpo_enviado": {
+      "nombre": "Botica temporal [LAB08]",
+      "tipo": "Independiente",
+      "zona": 1,
+      "distancia_metros": 0,
+      "estado": "Activa"
+    },
+    "estado_http": 400,
+    "respuesta": {
+      "distancia_metros": [
+        "La distancia debe ser mayor que cero."
+      ]
+    }
+  },
+  "E11_C07_http_204": {
+    "metodo": "DELETE",
+    "url": "http://127.0.0.1:8008/api/v1/farmacias/4/",
+    "cuerpo_enviado": null,
+    "estado_http": 204,
+    "respuesta": null
+  },
+  "E11_C06_http_404": {
+    "metodo": "GET",
+    "url": "http://127.0.0.1:8008/api/v1/farmacias/4/",
+    "cuerpo_enviado": null,
+    "estado_http": 404,
+    "respuesta": {
+      "detail": "No Farmacia matches the given query."
+    }
+  },
+  "E11_zonas": {
+    "metodo": "GET",
+    "url": "http://127.0.0.1:8008/api/v1/zonas/",
+    "cuerpo_enviado": null,
+    "estado_http": 200,
+    "respuesta": [
+      {
+        "id": 1,
+        "nombre_zona": "Zona 1 [LAB08]",
+        "distrito": "Lima",
+        "densidad_poblacional": 1000,
+        "flujo_personas": "Alto",
+        "accesibilidad": "Buena"
+      },
+      {
+        "id": 2,
+        "nombre_zona": "Zona 2 [LAB08]",
+        "distrito": "Lima",
+        "densidad_poblacional": 2000,
+        "flujo_personas": "Alto",
+        "accesibilidad": "Buena"
+      },
+      {
+        "id": 3,
+        "nombre_zona": "Zona 3 [LAB08]",
+        "distrito": "Lima",
+        "densidad_poblacional": 3000,
+        "flujo_personas": "Alto",
+        "accesibilidad": "Buena"
+      }
+    ]
+  },
+  "E12_C05_respuesta": {
+    "metodo": "GET",
+    "url": "http://127.0.0.1:8008/api/v1/evaluaciones/1/",
+    "cuerpo_enviado": null,
+    "estado_http": 200,
+    "respuesta": {
+      "id": 1,
+      "zona": {
+        "id": 1,
+        "nombre_zona": "Zona 1 [LAB08]",
+        "distrito": "Lima",
+        "densidad_poblacional": 1000,
+        "flujo_personas": "Alto",
+        "accesibilidad": "Buena"
+      },
+      "inkafarmas_cercanos": 1,
+      "competidores_cercanos": 2,
+      "centros_salud_cercanos": 2,
+      "costo_alquiler": "1500.00",
+      "ventas_estimadas": "6500.00",
+      "nivel_viabilidad": "Alta",
+      "fecha_creacion": "2026-10-17T20:00:35.748717-05:00"
+    }
+  },
+  "E12_solo_lectura": {
+    "metodo": "POST",
+    "url": "http://127.0.0.1:8008/api/v1/evaluaciones/",
+    "cuerpo_enviado": {},
+    "estado_http": 405,
+    "respuesta": {
+      "detail": "Método \"POST\" no permitido."
+    }
+  },
+  "E13_C04_search": {
+    "metodo": "GET",
+    "url": "http://127.0.0.1:8008/api/v1/farmacias/?search=Botica",
+    "cuerpo_enviado": null,
+    "estado_http": 200,
+    "respuesta": [
+      {
+        "id": 1,
+        "nombre": "Botica 1 [LAB08]",
+        "tipo": "Independiente",
+        "zona": 1,
+        "zona_nombre": "Zona 1 [LAB08]",
+        "distancia_metros": 150,
+        "estado": "Activa"
+      },
+      {
+        "id": 2,
+        "nombre": "Botica 2 [LAB08]",
+        "tipo": "Independiente",
+        "zona": 2,
+        "zona_nombre": "Zona 2 [LAB08]",
+        "distancia_metros": 300,
+        "estado": "Inactiva"
+      },
+      {
+        "id": 3,
+        "nombre": "Botica 3 [LAB08]",
+        "tipo": "Independiente",
+        "zona": 3,
+        "zona_nombre": "Zona 3 [LAB08]",
+        "distancia_metros": 450,
+        "estado": "ACTIVA"
+      }
+    ]
+  },
+  "E13_C05_ordering": {
+    "metodo": "GET",
+    "url": "http://127.0.0.1:8008/api/v1/farmacias/?ordering=distancia_metros",
+    "cuerpo_enviado": null,
+    "estado_http": 200,
+    "respuesta": [
+      {
+        "id": 1,
+        "nombre": "Botica 1 [LAB08]",
+        "tipo": "Independiente",
+        "zona": 1,
+        "zona_nombre": "Zona 1 [LAB08]",
+        "distancia_metros": 150,
+        "estado": "Activa"
+      },
+      {
+        "id": 2,
+        "nombre": "Botica 2 [LAB08]",
+        "tipo": "Independiente",
+        "zona": 2,
+        "zona_nombre": "Zona 2 [LAB08]",
+        "distancia_metros": 300,
+        "estado": "Inactiva"
+      },
+      {
+        "id": 3,
+        "nombre": "Botica 3 [LAB08]",
+        "tipo": "Independiente",
+        "zona": 3,
+        "zona_nombre": "Zona 3 [LAB08]",
+        "distancia_metros": 450,
+        "estado": "ACTIVA"
+      }
+    ]
+  },
+  "E13_C06_filtro_parametro": {
+    "metodo": "GET",
+    "url": "http://127.0.0.1:8008/api/v1/farmacias/?estado=activa",
+    "cuerpo_enviado": null,
+    "estado_http": 200,
+    "respuesta": [
+      {
+        "id": 1,
+        "nombre": "Botica 1 [LAB08]",
+        "tipo": "Independiente",
+        "zona": 1,
+        "zona_nombre": "Zona 1 [LAB08]",
+        "distancia_metros": 150,
+        "estado": "Activa"
+      },
+      {
+        "id": 3,
+        "nombre": "Botica 3 [LAB08]",
+        "tipo": "Independiente",
+        "zona": 3,
+        "zona_nombre": "Zona 3 [LAB08]",
+        "distancia_metros": 450,
+        "estado": "ACTIVA"
+      }
+    ]
+  },
+  "E13_C07_action_resultado": {
+    "metodo": "GET",
+    "url": "http://127.0.0.1:8008/api/v1/farmacias/activas/?search=Botica&ordering=distancia_metros",
+    "cuerpo_enviado": null,
+    "estado_http": 200,
+    "respuesta": [
+      {
+        "id": 1,
+        "nombre": "Botica 1 [LAB08]",
+        "tipo": "Independiente",
+        "zona": 1,
+        "zona_nombre": "Zona 1 [LAB08]",
+        "distancia_metros": 150,
+        "estado": "Activa"
+      },
+      {
+        "id": 3,
+        "nombre": "Botica 3 [LAB08]",
+        "tipo": "Independiente",
+        "zona": 3,
+        "zona_nombre": "Zona 3 [LAB08]",
+        "distancia_metros": 450,
+        "estado": "ACTIVA"
+      }
+    ]
+  },
+  "regresion_html": {
+    "rutas": [
+      "/",
+      "/productos/",
+      "/ventas/1/",
+      "/detalles-venta/"
+    ],
+    "estado": 200
+  }
+}

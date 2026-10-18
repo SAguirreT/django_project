@@ -1,0 +1,9 @@
+demo.sqlite3
+*.sqlite3
+server.pid
+entorno.json
+github_actual.zip
+referencia_github/
+respaldo_previo/
+qa/
+*.log

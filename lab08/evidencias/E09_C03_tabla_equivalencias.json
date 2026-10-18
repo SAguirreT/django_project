@@ -1,0 +1,29 @@
+{
+  "simple": "Producto; precio > 0",
+  "relacionado": "Venta -> DetalleVenta -> Producto",
+  "investigacion": [
+    "Zona",
+    "Farmacia",
+    "EvaluacionUbicacion"
+  ],
+  "estado": "Farmacia.estado",
+  "relaciones": [
+    "Zona 1:N Farmacia",
+    "Zona 1:N EvaluacionUbicacion"
+  ],
+  "querysets": [
+    "ProductoQuerySet.con_stock()",
+    "FarmaciaQuerySet.activas()"
+  ],
+  "cantidades": {
+    "zonas": 3,
+    "farmacias": 3,
+    "evaluaciones": 3
+  },
+  "estados_demo": [
+    "Activa",
+    "Inactiva",
+    "ACTIVA"
+  ],
+  "nota": "Antes de sembrar, no había farmacias locales. Los estados son datos ficticios explícitos."
+}

@@ -1,0 +1,9 @@
+{
+  "metodo": "GET",
+  "url": "http://127.0.0.1:8008/api/v1/farmacias/4/",
+  "cuerpo_enviado": null,
+  "estado_http": 404,
+  "respuesta": {
+    "detail": "No Farmacia matches the given query."
+  }
+}

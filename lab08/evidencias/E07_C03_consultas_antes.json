@@ -1,0 +1,27 @@
+{
+  "registros": 3,
+  "consultas": 19,
+  "serializacion_completa": true,
+  "respuestas_iguales": true,
+  "sql": [
+    "SELECT \"farmacia_venta\".\"id\", \"farmacia_venta\".\"estado\", \"farmacia_venta\".\"cliente_id\", \"farmacia_venta\".\"fecha\", \"farmacia_venta\".\"total\" FROM \"farmacia_venta\" ORDER BY \"farmacia_venta\".\"id\" ASC",
+    "SELECT \"farmacia_cliente\".\"id\", \"farmacia_cliente\".\"nombre\", \"farmacia_cliente\".\"documento\", \"farmacia_cliente\".\"telefono\", \"farmacia_cliente\".\"correo\" FROM \"farmacia_cliente\" WHERE \"farmacia_cliente\".\"id\" = 1 LIMIT 21",
+    "SELECT \"farmacia_detalleventa\".\"id\", \"farmacia_detalleventa\".\"venta_id\", \"farmacia_detalleventa\".\"producto_id\", \"farmacia_detalleventa\".\"cantidad\", \"farmacia_detalleventa\".\"precio_unitario\" FROM \"farmacia_detalleventa\" INNER JOIN \"farmacia_venta\" ON (\"farmacia_detalleventa\".\"venta_id\" = \"farmacia_venta\".\"id\") WHERE \"farmacia_detalleventa\".\"venta_id\" = 1 ORDER BY \"farmacia_venta\".\"fecha\" DESC, \"farmacia_detalleventa\".\"id\" ASC",
+    "SELECT \"farmacia_producto\".\"id\", \"farmacia_producto\".\"nombre\", \"farmacia_producto\".\"descripcion\", \"farmacia_producto\".\"precio\", \"farmacia_producto\".\"stock\", \"farmacia_producto\".\"categoria_id\" FROM \"farmacia_producto\" WHERE \"farmacia_producto\".\"id\" = 1 LIMIT 21",
+    "SELECT \"farmacia_categoria\".\"id\", \"farmacia_categoria\".\"nombre\", \"farmacia_categoria\".\"descripcion\" FROM \"farmacia_categoria\" WHERE \"farmacia_categoria\".\"id\" = 1 LIMIT 21",
+    "SELECT \"farmacia_producto\".\"id\", \"farmacia_producto\".\"nombre\", \"farmacia_producto\".\"descripcion\", \"farmacia_producto\".\"precio\", \"farmacia_producto\".\"stock\", \"farmacia_producto\".\"categoria_id\" FROM \"farmacia_producto\" WHERE \"farmacia_producto\".\"id\" = 2 LIMIT 21",
+    "SELECT \"farmacia_categoria\".\"id\", \"farmacia_categoria\".\"nombre\", \"farmacia_categoria\".\"descripcion\" FROM \"farmacia_categoria\" WHERE \"farmacia_categoria\".\"id\" = 1 LIMIT 21",
+    "SELECT \"farmacia_cliente\".\"id\", \"farmacia_cliente\".\"nombre\", \"farmacia_cliente\".\"documento\", \"farmacia_cliente\".\"telefono\", \"farmacia_cliente\".\"correo\" FROM \"farmacia_cliente\" WHERE \"farmacia_cliente\".\"id\" = 2 LIMIT 21",
+    "SELECT \"farmacia_detalleventa\".\"id\", \"farmacia_detalleventa\".\"venta_id\", \"farmacia_detalleventa\".\"producto_id\", \"farmacia_detalleventa\".\"cantidad\", \"farmacia_detalleventa\".\"precio_unitario\" FROM \"farmacia_detalleventa\" INNER JOIN \"farmacia_venta\" ON (\"farmacia_detalleventa\".\"venta_id\" = \"farmacia_venta\".\"id\") WHERE \"farmacia_detalleventa\".\"venta_id\" = 2 ORDER BY \"farmacia_venta\".\"fecha\" DESC, \"farmacia_detalleventa\".\"id\" ASC",
+    "SELECT \"farmacia_producto\".\"id\", \"farmacia_producto\".\"nombre\", \"farmacia_producto\".\"descripcion\", \"farmacia_producto\".\"precio\", \"farmacia_producto\".\"stock\", \"farmacia_producto\".\"categoria_id\" FROM \"farmacia_producto\" WHERE \"farmacia_producto\".\"id\" = 1 LIMIT 21",
+    "SELECT \"farmacia_categoria\".\"id\", \"farmacia_categoria\".\"nombre\", \"farmacia_categoria\".\"descripcion\" FROM \"farmacia_categoria\" WHERE \"farmacia_categoria\".\"id\" = 1 LIMIT 21",
+    "SELECT \"farmacia_producto\".\"id\", \"farmacia_producto\".\"nombre\", \"farmacia_producto\".\"descripcion\", \"farmacia_producto\".\"precio\", \"farmacia_producto\".\"stock\", \"farmacia_producto\".\"categoria_id\" FROM \"farmacia_producto\" WHERE \"farmacia_producto\".\"id\" = 2 LIMIT 21",
+    "SELECT \"farmacia_categoria\".\"id\", \"farmacia_categoria\".\"nombre\", \"farmacia_categoria\".\"descripcion\" FROM \"farmacia_categoria\" WHERE \"farmacia_categoria\".\"id\" = 1 LIMIT 21",
+    "SELECT \"farmacia_cliente\".\"id\", \"farmacia_cliente\".\"nombre\", \"farmacia_cliente\".\"documento\", \"farmacia_cliente\".\"telefono\", \"farmacia_cliente\".\"correo\" FROM \"farmacia_cliente\" WHERE \"farmacia_cliente\".\"id\" = 3 LIMIT 21",
+    "SELECT \"farmacia_detalleventa\".\"id\", \"farmacia_detalleventa\".\"venta_id\", \"farmacia_detalleventa\".\"producto_id\", \"farmacia_detalleventa\".\"cantidad\", \"farmacia_detalleventa\".\"precio_unitario\" FROM \"farmacia_detalleventa\" INNER JOIN \"farmacia_venta\" ON (\"farmacia_detalleventa\".\"venta_id\" = \"farmacia_venta\".\"id\") WHERE \"farmacia_detalleventa\".\"venta_id\" = 3 ORDER BY \"farmacia_venta\".\"fecha\" DESC, \"farmacia_detalleventa\".\"id\" ASC",
+    "SELECT \"farmacia_producto\".\"id\", \"farmacia_producto\".\"nombre\", \"farmacia_producto\".\"descripcion\", \"farmacia_producto\".\"precio\", \"farmacia_producto\".\"stock\", \"farmacia_producto\".\"categoria_id\" FROM \"farmacia_producto\" WHERE \"farmacia_producto\".\"id\" = 1 LIMIT 21",
+    "SELECT \"farmacia_categoria\".\"id\", \"farmacia_categoria\".\"nombre\", \"farmacia_categoria\".\"descripcion\" FROM \"farmacia_categoria\" WHERE \"farmacia_categoria\".\"id\" = 1 LIMIT 21",
+    "SELECT \"farmacia_producto\".\"id\", \"farmacia_producto\".\"nombre\", \"farmacia_producto\".\"descripcion\", \"farmacia_producto\".\"precio\", \"farmacia_producto\".\"stock\", \"farmacia_producto\".\"categoria_id\" FROM \"farmacia_producto\" WHERE \"farmacia_producto\".\"id\" = 2 LIMIT 21",
+    "SELECT \"farmacia_categoria\".\"id\", \"farmacia_categoria\".\"nombre\", \"farmacia_categoria\".\"descripcion\" FROM \"farmacia_categoria\" WHERE \"farmacia_categoria\".\"id\" = 1 LIMIT 21"
+  ]
+}

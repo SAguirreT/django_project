@@ -1,0 +1,26 @@
+{
+  "metodo": "GET",
+  "url": "http://127.0.0.1:8008/api/v1/productos/con-stock/",
+  "cuerpo_enviado": null,
+  "estado_http": 200,
+  "respuesta": [
+    {
+      "id": 1,
+      "nombre": "Analgesico A [LAB08]",
+      "descripcion": "Producto ficticio de laboratorio.",
+      "precio": "5.50",
+      "stock": 10,
+      "categoria": 1,
+      "categoria_nombre": "Salud [LAB08]"
+    },
+    {
+      "id": 2,
+      "nombre": "Analgesico B [LAB08]",
+      "descripcion": "Producto ficticio de laboratorio.",
+      "precio": "12.00",
+      "stock": 6,
+      "categoria": 1,
+      "categoria_nombre": "Salud [LAB08]"
+    }
+  ]
+}

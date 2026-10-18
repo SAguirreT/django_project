@@ -1,0 +1,21 @@
+{
+  "metodo": "POST",
+  "url": "http://127.0.0.1:8008/api/v1/farmacias/",
+  "cuerpo_enviado": {
+    "nombre": "Botica temporal [LAB08]",
+    "tipo": "Independiente",
+    "zona": 1,
+    "distancia_metros": 100,
+    "estado": "Activa"
+  },
+  "estado_http": 201,
+  "respuesta": {
+    "id": 4,
+    "nombre": "Botica temporal [LAB08]",
+    "tipo": "Independiente",
+    "zona": 1,
+    "zona_nombre": "Zona 1 [LAB08]",
+    "distancia_metros": 100,
+    "estado": "Activa"
+  }
+}

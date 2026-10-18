@@ -1,0 +1,12 @@
+{
+  "registros": 3,
+  "consultas": 4,
+  "serializacion_completa": true,
+  "respuestas_iguales": true,
+  "sql": [
+    "SELECT \"farmacia_evaluacionubicacion\".\"id\", \"farmacia_evaluacionubicacion\".\"zona_id\", \"farmacia_evaluacionubicacion\".\"inkafarmas_cercanos\", \"farmacia_evaluacionubicacion\".\"competidores_cercanos\", \"farmacia_evaluacionubicacion\".\"centros_salud_cercanos\", \"farmacia_evaluacionubicacion\".\"costo_alquiler\", \"farmacia_evaluacionubicacion\".\"ventas_estimadas\", \"farmacia_evaluacionubicacion\".\"nivel_viabilidad\", \"farmacia_evaluacionubicacion\".\"fecha_creacion\" FROM \"farmacia_evaluacionubicacion\" ORDER BY \"farmacia_evaluacionubicacion\".\"id\" ASC",
+    "SELECT \"farmacia_zona\".\"id\", \"farmacia_zona\".\"nombre_zona\", \"farmacia_zona\".\"distrito\", \"farmacia_zona\".\"densidad_poblacional\", \"farmacia_zona\".\"flujo_personas\", \"farmacia_zona\".\"accesibilidad\" FROM \"farmacia_zona\" WHERE \"farmacia_zona\".\"id\" = 1 LIMIT 21",
+    "SELECT \"farmacia_zona\".\"id\", \"farmacia_zona\".\"nombre_zona\", \"farmacia_zona\".\"distrito\", \"farmacia_zona\".\"densidad_poblacional\", \"farmacia_zona\".\"flujo_personas\", \"farmacia_zona\".\"accesibilidad\" FROM \"farmacia_zona\" WHERE \"farmacia_zona\".\"id\" = 2 LIMIT 21",
+    "SELECT \"farmacia_zona\".\"id\", \"farmacia_zona\".\"nombre_zona\", \"farmacia_zona\".\"distrito\", \"farmacia_zona\".\"densidad_poblacional\", \"farmacia_zona\".\"flujo_personas\", \"farmacia_zona\".\"accesibilidad\" FROM \"farmacia_zona\" WHERE \"farmacia_zona\".\"id\" = 3 LIMIT 21"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "registros": 3,
+  "consultas": 1,
+  "serializacion_completa": true,
+  "respuestas_iguales": true,
+  "sql": [
+    "SELECT \"farmacia_evaluacionubicacion\".\"id\", \"farmacia_evaluacionubicacion\".\"zona_id\", \"farmacia_evaluacionubicacion\".\"inkafarmas_cercanos\", \"farmacia_evaluacionubicacion\".\"competidores_cercanos\", \"farmacia_evaluacionubicacion\".\"centros_salud_cercanos\", \"farmacia_evaluacionubicacion\".\"costo_alquiler\", \"farmacia_evaluacionubicacion\".\"ventas_estimadas\", \"farmacia_evaluacionubicacion\".\"nivel_viabilidad\", \"farmacia_evaluacionubicacion\".\"fecha_creacion\", \"farmacia_zona\".\"id\", \"farmacia_zona\".\"nombre_zona\", \"farmacia_zona\".\"distrito\", \"farmacia_zona\".\"densidad_poblacional\", \"farmacia_zona\".\"flujo_personas\", \"farmacia_zona\".\"accesibilidad\" FROM \"farmacia_evaluacionubicacion\" INNER JOIN \"farmacia_zona\" ON (\"farmacia_evaluacionubicacion\".\"zona_id\" = \"farmacia_zona\".\"id\") ORDER BY \"farmacia_evaluacionubicacion\".\"id\" ASC"
+  ]
+}

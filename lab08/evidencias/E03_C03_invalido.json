@@ -1,0 +1,8 @@
+{
+  "is_valid": false,
+  "errors": {
+    "precio": [
+      "El precio debe ser mayor que cero."
+    ]
+  }
+}

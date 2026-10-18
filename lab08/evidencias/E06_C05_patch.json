@@ -1,0 +1,17 @@
+{
+  "metodo": "PATCH",
+  "url": "http://127.0.0.1:8008/api/v1/productos/4/",
+  "cuerpo_enviado": {
+    "stock": 3
+  },
+  "estado_http": 200,
+  "respuesta": {
+    "id": 4,
+    "nombre": "Temporal validacion LAB08",
+    "descripcion": "",
+    "precio": "2.50",
+    "stock": 3,
+    "categoria": 1,
+    "categoria_nombre": "Salud [LAB08]"
+  }
+}

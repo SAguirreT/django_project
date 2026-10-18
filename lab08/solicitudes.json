@@ -1,0 +1,258 @@
+[
+  [
+    "E01_C01_modelos.png",
+    "models.py mostrando Producto, Venta, DetalleVenta, Zona y Farmacia. "
+  ],
+  [
+    "E01_C02_settings.png",
+    "settings.py mostrando rest_framework en INSTALLED_APPS. "
+  ],
+  [
+    "E01_C03_requirements.png",
+    "requirements.txt con djangorestframework. "
+  ],
+  [
+    "E02_C01_serializer.png",
+    "Código de ProductoSerializer en serializers.py. "
+  ],
+  [
+    "E02_C02_objeto.png",
+    "Shell mostrando la serialización de un producto. "
+  ],
+  [
+    "E02_C03_queryset.png",
+    "Shell mostrando la serialización de varios productos. "
+  ],
+  [
+    "E03_C01_validacion.png",
+    "validate_precio dentro de ProductoSerializer. "
+  ],
+  [
+    "E03_C02_valido.png",
+    "Shell mostrando is_valid() igual a True y validated_data. "
+  ],
+  [
+    "E03_C03_invalido.png",
+    "Shell mostrando is_valid() igual a False y errors. "
+  ],
+  [
+    "E04_C01_vistas.png",
+    "Código de las dos vistas genéricas. GLAB-S08 — Django REST Framework | Página  "
+  ],
+  [
+    "E04_C02_urls.png",
+    "Rutas de la API. "
+  ],
+  [
+    "E04_C03_lista.png",
+    "Navegador mostrando la lista JSON de productos. "
+  ],
+  [
+    "E04_C04_detalle.png",
+    "Navegador mostrando un producto específico. "
+  ],
+  [
+    "E05_C01_viewset.png",
+    "Código de ProductoViewSet. GLAB-S08 — Django REST Framework | Página  "
+  ],
+  [
+    "E05_C02_router.png",
+    "Registro de DefaultRouter y su inclusión bajo /api/. "
+  ],
+  [
+    "E05_C03_api_root.png",
+    "Índice real de la API en /api/. "
+  ],
+  [
+    "E06_C01_get_lista.png",
+    "GET listado y respuesta. "
+  ],
+  [
+    "E06_C02_get_detalle.png",
+    "GET detalle existente. "
+  ],
+  [
+    "E06_C03_post_valido.png",
+    "POST válido y registro creado. "
+  ],
+  [
+    "E06_C04_post_invalido.png",
+    "POST inválido y errores de validación. "
+  ],
+  [
+    "E06_C05_patch.png",
+    "PATCH/PUT y respuesta. "
+  ],
+  [
+    "E06_C06_delete.png",
+    "DELETE y estado obtenido. "
+  ],
+  [
+    "E06_C07_no_encontrado.png",
+    "GET de ID inexistente y respuesta. "
+  ],
+  [
+    "E07_C01_serializer_anidado.png",
+    "Serializers de Venta y DetalleVenta. "
+  ],
+  [
+    "E07_C02_queryset_optimizado.png",
+    "get_queryset con select_related y prefetch_related. "
+  ],
+  [
+    "E07_C03_consultas_antes.png",
+    "Medición sin optimización. "
+  ],
+  [
+    "E07_C04_consultas_despues.png",
+    "Medición con optimización. "
+  ],
+  [
+    "E07_C05_respuesta_api.png",
+    "Respuesta JSON anidada. "
+  ],
+  [
+    "E08_C01_filtros.png",
+    "Configuración de SearchFilter y OrderingFilter. "
+  ],
+  [
+    "E08_C02_filtro_estado.png",
+    "Filtro por estado en get_queryset. "
+  ],
+  [
+    "E08_C03_action.png",
+    "Método con @action(detail=False). "
+  ],
+  [
+    "E08_C04_search.png",
+    "Respuesta de búsqueda. "
+  ],
+  [
+    "E08_C05_ordering.png",
+    "Respuesta ordenada. GLAB-S08 — Django REST Framework | Página  "
+  ],
+  [
+    "E08_C06_combinacion.png",
+    "URL con varios parámetros separados por &. "
+  ],
+  [
+    "E08_C07_action_resultado.png",
+    "Respuesta real de la acción. "
+  ],
+  [
+    "E09_C01_modelos.png",
+    "Modelos Zona, Farmacia y EvaluacionUbicacion. "
+  ],
+  [
+    "E09_C02_relaciones.png",
+    "ForeignKey entre los modelos. "
+  ],
+  [
+    "E09_C03_tabla_equivalencias.png",
+    "Tabla de equivalencias completada. "
+  ],
+  [
+    "E10_C01_serializers.png",
+    "Los tres serializers. "
+  ],
+  [
+    "E10_C02_validacion_valida.png",
+    "Prueba válida. "
+  ],
+  [
+    "E10_C03_validacion_invalida.png",
+    "Prueba inválida. GLAB-S08 — Django REST Framework | Página  "
+  ],
+  [
+    "E11_C01_viewsets.png",
+    "Código de los ViewSets. "
+  ],
+  [
+    "E11_C02_router.png",
+    "Registro de Zona y Farmacia. "
+  ],
+  [
+    "E11_C03_http_200.png",
+    "GET exitoso. "
+  ],
+  [
+    "E11_C04_http_201.png",
+    "POST creado. "
+  ],
+  [
+    "E11_C05_http_400.png",
+    "POST inválido. "
+  ],
+  [
+    "E11_C06_http_404.png",
+    "Recurso inexistente. "
+  ],
+  [
+    "E11_C07_http_204.png",
+    "DELETE exitoso. "
+  ],
+  [
+    "E12_C01_serializer.png",
+    "Serializer anidado. "
+  ],
+  [
+    "E12_C02_queryset.png",
+    "get_queryset optimizado. "
+  ],
+  [
+    "E12_C03_antes.png",
+    "Medición antes. "
+  ],
+  [
+    "E12_C04_despues.png",
+    "Medición después. "
+  ],
+  [
+    "E12_C05_respuesta.png",
+    "JSON con datos de Zona. "
+  ],
+  [
+    "E13_C01_filtros.png",
+    "Configuración de filtros. "
+  ],
+  [
+    "E13_C02_queryset.png",
+    "Filtro por parámetro. "
+  ],
+  [
+    "E13_C03_action.png",
+    "Acción personalizada. "
+  ],
+  [
+    "E13_C04_search.png",
+    "Búsqueda real. "
+  ],
+  [
+    "E13_C05_ordering.png",
+    "Ordenamiento real. "
+  ],
+  [
+    "E13_C06_filtro_parametro.png",
+    "Filtro estado. "
+  ],
+  [
+    "E13_C07_action_resultado.png",
+    "Resultado de la acción. "
+  ],
+  [
+    "E14_C01_requirements.png",
+    "Dependencias finales. "
+  ],
+  [
+    "E14_C02_readme.png",
+    "README actualizado. "
+  ],
+  [
+    "E14_C03_git_status.png",
+    "Cambios listos para revisión. "
+  ],
+  [
+    "E14_C04_commit_push.png",
+    "Evidencia de commit y push después de realizarlos. "
+  ]
+]

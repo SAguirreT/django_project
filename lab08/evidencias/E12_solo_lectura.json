@@ -1,0 +1,9 @@
+{
+  "metodo": "POST",
+  "url": "http://127.0.0.1:8008/api/v1/evaluaciones/",
+  "cuerpo_enviado": {},
+  "estado_http": 405,
+  "respuesta": {
+    "detail": "Método \"POST\" no permitido."
+  }
+}

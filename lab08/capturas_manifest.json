@@ -1,0 +1,392 @@
+[
+  {
+    "key": "E01_C01_modelos",
+    "title": "farmacia/models.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": " 28  class Zona(models.Model):\n 29      nombre_zona = models.CharField(max_length=100)\n 30      distrito = models.CharField(max_length=100)\n 31      densidad_poblacional = models.PositiveIntegerField()\n 32      flujo_personas = models.CharField(max_length=20)\n 33      accesibilidad = models.CharField(max_length=20)\n 34  \n 35      def __str__(self): return self.nombre_zona\n 72  class Producto(models.Model):\n 73      objects = ProductoQuerySet.as_manager()\n 74      nombre = models.CharField(max_length=120)\n 75      descripcion = models.TextField(blank=True)\n 76      precio = models.DecimalField(max_digits=10, decimal_places=2)\n 77      stock = models.PositiveIntegerField()\n 78      categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name='productos')\n 79      class Meta: ordering = ['nombre']\n 80      def __str__(self): return self.nombre\n109  class Venta(models.Model):\n110      objects = VentaQuerySet.as_manager()  # Expone los métodos personalizados mediante objects.\n111      estado = models.CharField(max_length=10, choices=[('PENDIENTE', 'Pendiente'), ('PAGADO', 'Pagado')], default='PENDIENTE')  # Diferencia ventas pendientes y confirmadas.\n112      cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name='ventas')\n113      productos = models.ManyToManyField(Producto, through='DetalleVenta', related_name='ventas')\n114      fecha = models.DateTimeField()\n115      total = models.DecimalField(max_digits=10, decimal_places=2)\n116      class Meta: ordering = ['-fecha']\n117      def __str__(self): return f'Venta #{self.pk} - {self.cliente}'\n120  class DetalleVenta(models.Model):\n121      venta = models.ForeignKey(Venta, on_delete=models.CASCADE, related_name='detalles')\n122      producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name='detalles_venta')\n123      cantidad = models.PositiveIntegerField()\n124      precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)\n125      class Meta:\n126          ordering = ['venta', 'pk']\n127          constraints = [models.UniqueConstraint(fields=['venta', 'producto'], name='detalle_venta_producto_unico')]\n128      @property\n129      def subtotal(self): return self.cantidad * self.precio_unitario\n130      def __str__(self): return f'{self.venta} - {self.producto}'"
+  },
+  {
+    "key": "E01_C02_settings",
+    "title": "config/settings.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": "  1  import os\n  2  from pathlib import Path\n  3  \n  4  BASE_DIR = Path(__file__).resolve().parent.parent\n  5  \n  6  SECRET_KEY = 'django-insecure-farmapoint-local-development'\n  7  DEBUG = True\n  8  ALLOWED_HOSTS = ['*']\n  9  \n 10  INSTALLED_APPS = [\n 11      'django.contrib.admin',\n 12      'django.contrib.auth',\n 13      'django.contrib.contenttypes',\n 14      'django.contrib.sessions',\n 15      'django.contrib.messages',\n 16      'django.contrib.staticfiles',\n 17      'rest_framework',\n 18      'farmacia',\n 19  ]\n 20  "
+  },
+  {
+    "key": "E01_C03_requirements",
+    "title": "Dependencias instaladas",
+    "kind": "Archivo real y versiones verificadas",
+    "text": "Django==5.2.17\ndjangorestframework==3.18.3\n\nPython del proyecto: venv/Scripts/python.exe\nDjango 5.2.17\nDjango REST Framework 3.18.3"
+  },
+  {
+    "key": "E02_C01_serializer",
+    "title": "farmacia/serializers.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": " 12  class ProductoSerializer(serializers.ModelSerializer):\n 13      categoria_nombre = serializers.CharField(source='categoria.nombre', read_only=True)\n 14  \n 15      class Meta:\n 16          model = Producto\n 17          fields = ['id', 'nombre', 'descripcion', 'precio', 'stock', 'categoria', 'categoria_nombre']\n 18  \n 19      def validate_precio(self, value):\n 20          if value <= 0:\n 21              raise serializers.ValidationError('El precio debe ser mayor que cero.')\n 22          return value"
+  },
+  {
+    "key": "E02_C02_objeto",
+    "title": "E02_C02_objeto",
+    "kind": "Resultado real ejecutado · Python con Django inicializado",
+    "text": "{\n  \"expresion\": \"ProductoSerializer(producto).data\",\n  \"resultado\": {\n    \"id\": 1,\n    \"nombre\": \"Analgesico A [LAB08]\",\n    \"descripcion\": \"Producto ficticio de laboratorio.\",\n    \"precio\": \"5.50\",\n    \"stock\": 10,\n    \"categoria\": 1,\n    \"categoria_nombre\": \"Salud [LAB08]\"\n  }\n}"
+  },
+  {
+    "key": "E02_C03_queryset",
+    "title": "E02_C03_queryset",
+    "kind": "Resultado real ejecutado · Python con Django inicializado",
+    "text": "{\n  \"expresion\": \"ProductoSerializer(Producto.objects.select_related(\\\"categoria\\\"), many=True).data\",\n  \"resultado\": [\n    {\"id\": 1, \"nombre\": \"Analgesico A [LAB08]\", \"descripcion\": \"Producto ficticio de laboratorio.\", \"precio\": \"5.50\", \"stock\": 10, \"categoria\": 1, \"categoria_nombre\": \"Salud [LAB08]\"},\n    {\"id\": 2, \"nombre\": \"Analgesico B [LAB08]\", \"descripcion\": \"Producto ficticio de laboratorio.\", \"precio\": \"12.00\", \"stock\": 6, \"categoria\": 1, \"categoria_nombre\": \"Salud [LAB08]\"},\n    {\"id\": 3, \"nombre\": \"Vitamina C [LAB08]\", \"descripcion\": \"Producto ficticio de laboratorio.\", \"precio\": \"8.90\", \"stock\": 0, \"categoria\": 1, \"categoria_nombre\": \"Salud [LAB08]\"}\n  ]\n}"
+  },
+  {
+    "key": "E03_C01_validacion",
+    "title": "farmacia/serializers.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": " 12  class ProductoSerializer(serializers.ModelSerializer):\n 13      categoria_nombre = serializers.CharField(source='categoria.nombre', read_only=True)\n 14  \n 15      class Meta:\n 16          model = Producto\n 17          fields = ['id', 'nombre', 'descripcion', 'precio', 'stock', 'categoria', 'categoria_nombre']\n 18  \n 19      def validate_precio(self, value):\n 20          if value <= 0:\n 21              raise serializers.ValidationError('El precio debe ser mayor que cero.')\n 22          return value"
+  },
+  {
+    "key": "E03_C02_valido",
+    "title": "E03_C02_valido",
+    "kind": "Resultado real ejecutado · Python con Django inicializado",
+    "text": "{\n  \"is_valid\": true,\n  \"validated_data\": {\n    \"nombre\": \"Temporal validacion LAB08\",\n    \"descripcion\": \"\",\n    \"precio\": \"2.50\",\n    \"stock\": 1,\n    \"categoria\": \"Salud [LAB08]\"\n  },\n  \"save_id\": 4,\n  \"persistido\": true,\n  \"limpieza\": \"rollback al finalizar la prueba\"\n}"
+  },
+  {
+    "key": "E03_C03_invalido",
+    "title": "E03_C03_invalido",
+    "kind": "Resultado real ejecutado · Python con Django inicializado",
+    "text": "{\n  \"is_valid\": false,\n  \"errors\": {\n    \"precio\": [\n      \"El precio debe ser mayor que cero.\"\n    ]\n  }\n}"
+  },
+  {
+    "key": "E04_C01_vistas",
+    "title": "farmacia/api_generic_views.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": "  1  from rest_framework import generics\n  2  \n  3  from .models import Producto\n  4  from .serializers import ProductoSerializer\n  5  \n  6  \n  7  class ProductoListCreateAPIView(generics.ListCreateAPIView):\n  8      queryset = Producto.objects.select_related('categoria').all()\n  9      serializer_class = ProductoSerializer\n 10  \n 11  \n 12  class ProductoRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):\n 13      queryset = Producto.objects.select_related('categoria').all()\n 14      serializer_class = ProductoSerializer"
+  },
+  {
+    "key": "E04_C02_urls",
+    "title": "farmacia/api_generic_urls.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": "  1  from django.urls import path\n  2  \n  3  from .api_generic_views import ProductoListCreateAPIView, ProductoRetrieveUpdateDestroyAPIView\n  4  \n  5  urlpatterns = [\n  6      path('', ProductoListCreateAPIView.as_view(), name='api-producto-list-create'),\n  7      path('<int:pk>/', ProductoRetrieveUpdateDestroyAPIView.as_view(), name='api-producto-detail'),\n  8  ]"
+  },
+  {
+    "key": "E04_C03_lista",
+    "title": "E04_C03_lista",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"GET\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/basico/productos/\",\n  \"cuerpo_enviado\": null,\n  \"estado_http\": 200,\n  \"respuesta\": [\n    {\"id\": 1, \"nombre\": \"Analgesico A [LAB08]\", \"descripcion\": \"Producto ficticio de laboratorio.\", \"precio\": \"5.50\", \"stock\": 10, \"categoria\": 1, \"categoria_nombre\": \"Salud [LAB08]\"},\n    {\"id\": 2, \"nombre\": \"Analgesico B [LAB08]\", \"descripcion\": \"Producto ficticio de laboratorio.\", \"precio\": \"12.00\", \"stock\": 6, \"categoria\": 1, \"categoria_nombre\": \"Salud [LAB08]\"},\n    {\"id\": 3, \"nombre\": \"Vitamina C [LAB08]\", \"descripcion\": \"Producto ficticio de laboratorio.\", \"precio\": \"8.90\", \"stock\": 0, \"categoria\": 1, \"categoria_nombre\": \"Salud [LAB08]\"}\n  ]\n}"
+  },
+  {
+    "key": "E04_C04_detalle",
+    "title": "E04_C04_detalle",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"GET\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/basico/productos/1/\",\n  \"cuerpo_enviado\": null,\n  \"estado_http\": 200,\n  \"respuesta\": {\n    \"id\": 1,\n    \"nombre\": \"Analgesico A [LAB08]\",\n    \"descripcion\": \"Producto ficticio de laboratorio.\",\n    \"precio\": \"5.50\",\n    \"stock\": 10,\n    \"categoria\": 1,\n    \"categoria_nombre\": \"Salud [LAB08]\"\n  }\n}"
+  },
+  {
+    "key": "E05_C01_viewset",
+    "title": "farmacia/api_views.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": " 17  class ProductoViewSet(viewsets.ModelViewSet):\n 18      serializer_class = ProductoSerializer\n 19      filter_backends = [filters.SearchFilter, filters.OrderingFilter]\n 20      search_fields = ['nombre', 'descripcion', 'categoria__nombre']\n 21      ordering_fields = ['nombre', 'precio', 'stock']\n 22      ordering = ['nombre']\n 23  \n 24      def get_queryset(self):\n 25          queryset = Producto.objects.select_related('categoria')\n 26          disponible = self.request.query_params.get('disponible')\n 27          if disponible and disponible.lower() in {'true', '1', 'si', 'sí'}:\n 28              queryset = queryset.con_stock()\n 29          elif disponible and disponible.lower() in {'false', '0', 'no'}:\n 30              queryset = queryset.filter(stock=0)\n 31          return queryset\n 32  \n 33      @action(detail=False, methods=['get'], url_path='con-stock')\n 34      def con_stock(self, request):\n 35          productos = self.filter_queryset(self.get_queryset().con_stock())\n 36          page = self.paginate_queryset(productos)\n 37          if page is not None:\n 38              serializer = self.get_serializer(page, many=True)\n 39              return self.get_paginated_response(serializer.data)\n 40          return Response(self.get_serializer(productos, many=True).data)"
+  },
+  {
+    "key": "E05_C02_router",
+    "title": "farmacia/api_urls.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": "  1  from rest_framework.routers import DefaultRouter\n  2  \n  3  from .api_views import (CategoriaViewSet, FarmaciaViewSet, ProductoViewSet, VentaReadOnlyViewSet,\n  4                          ZonaViewSet, EvaluacionUbicacionReadOnlyViewSet)\n  5  \n  6  router = DefaultRouter()\n  7  router.register('categorias', CategoriaViewSet, basename='api-categoria')\n  8  router.register('productos', ProductoViewSet, basename='api-producto')\n  9  router.register('farmacias', FarmaciaViewSet, basename='api-farmacia')\n 10  router.register('ventas', VentaReadOnlyViewSet, basename='api-venta')\n 11  \n 12  router.register('zonas', ZonaViewSet, basename='api-zona')\n 13  router.register('evaluaciones', EvaluacionUbicacionReadOnlyViewSet, basename='api-evaluacion')\n 14  \n 15  urlpatterns = router.urls\n\nconfig/urls.py\n  1  from django.contrib import admin\n  2  from django.urls import path, include\n  3  \n  4  urlpatterns = [\n  5      path('admin/', admin.site.urls),\n  6      path('api/v1/basico/productos/', include('farmacia.api_generic_urls')),\n  7      path('api/v1/', include('farmacia.api_urls')),\n  8      path('', include('farmacia.urls')),\n  9  ]"
+  },
+  {
+    "key": "E05_C03_api_root",
+    "title": "E05_C03_api_root",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"GET\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/\",\n  \"cuerpo_enviado\": null,\n  \"estado_http\": 200,\n  \"respuesta\": {\n    \"categorias\": \"http://127.0.0.1:8008/api/v1/categorias/\",\n    \"productos\": \"http://127.0.0.1:8008/api/v1/productos/\",\n    \"farmacias\": \"http://127.0.0.1:8008/api/v1/farmacias/\",\n    \"ventas\": \"http://127.0.0.1:8008/api/v1/ventas/\",\n    \"zonas\": \"http://127.0.0.1:8008/api/v1/zonas/\",\n    \"evaluaciones\": \"http://127.0.0.1:8008/api/v1/evaluaciones/\"\n  }\n}"
+  },
+  {
+    "key": "E06_C01_get_lista",
+    "title": "E06_C01_get_lista",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"GET\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/productos/\",\n  \"cuerpo_enviado\": null,\n  \"estado_http\": 200,\n  \"respuesta\": [\n    {\"id\": 1, \"nombre\": \"Analgesico A [LAB08]\", \"descripcion\": \"Producto ficticio de laboratorio.\", \"precio\": \"5.50\", \"stock\": 10, \"categoria\": 1, \"categoria_nombre\": \"Salud [LAB08]\"},\n    {\"id\": 2, \"nombre\": \"Analgesico B [LAB08]\", \"descripcion\": \"Producto ficticio de laboratorio.\", \"precio\": \"12.00\", \"stock\": 6, \"categoria\": 1, \"categoria_nombre\": \"Salud [LAB08]\"},\n    {\"id\": 3, \"nombre\": \"Vitamina C [LAB08]\", \"descripcion\": \"Producto ficticio de laboratorio.\", \"precio\": \"8.90\", \"stock\": 0, \"categoria\": 1, \"categoria_nombre\": \"Salud [LAB08]\"}\n  ]\n}"
+  },
+  {
+    "key": "E06_C02_get_detalle",
+    "title": "E06_C02_get_detalle",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"GET\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/productos/1/\",\n  \"cuerpo_enviado\": null,\n  \"estado_http\": 200,\n  \"respuesta\": {\n    \"id\": 1,\n    \"nombre\": \"Analgesico A [LAB08]\",\n    \"descripcion\": \"Producto ficticio de laboratorio.\",\n    \"precio\": \"5.50\",\n    \"stock\": 10,\n    \"categoria\": 1,\n    \"categoria_nombre\": \"Salud [LAB08]\"\n  }\n}"
+  },
+  {
+    "key": "E06_C03_post_valido",
+    "title": "E06_C03_post_valido",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"POST\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/productos/\",\n  \"cuerpo_enviado\": {\n    \"nombre\": \"Temporal validacion LAB08\",\n    \"descripcion\": \"\",\n    \"precio\": \"2.50\",\n    \"stock\": 1,\n    \"categoria\": 1\n  },\n  \"estado_http\": 201,\n  \"respuesta\": {\n    \"id\": 4,\n    \"nombre\": \"Temporal validacion LAB08\",\n    \"descripcion\": \"\",\n    \"precio\": \"2.50\",\n    \"stock\": 1,\n    \"categoria\": 1,\n    \"categoria_nombre\": \"Salud [LAB08]\"\n  }\n}"
+  },
+  {
+    "key": "E06_C04_post_invalido",
+    "title": "E06_C04_post_invalido",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"POST\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/productos/\",\n  \"cuerpo_enviado\": {\n    \"nombre\": \"Temporal validacion LAB08\",\n    \"descripcion\": \"\",\n    \"precio\": \"0\",\n    \"stock\": 1,\n    \"categoria\": 1\n  },\n  \"estado_http\": 400,\n  \"respuesta\": {\n    \"precio\": [\n      \"El precio debe ser mayor que cero.\"\n    ]\n  }\n}"
+  },
+  {
+    "key": "E06_C05_patch",
+    "title": "E06_C05_patch",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"PATCH\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/productos/4/\",\n  \"cuerpo_enviado\": {\n    \"stock\": 3\n  },\n  \"estado_http\": 200,\n  \"respuesta\": {\n    \"id\": 4,\n    \"nombre\": \"Temporal validacion LAB08\",\n    \"descripcion\": \"\",\n    \"precio\": \"2.50\",\n    \"stock\": 3,\n    \"categoria\": 1,\n    \"categoria_nombre\": \"Salud [LAB08]\"\n  }\n}"
+  },
+  {
+    "key": "E06_C06_delete",
+    "title": "E06_C06_delete",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"DELETE\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/productos/4/\",\n  \"cuerpo_enviado\": null,\n  \"estado_http\": 204,\n  \"respuesta\": null\n}"
+  },
+  {
+    "key": "E06_C07_no_encontrado",
+    "title": "E06_C07_no_encontrado",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"GET\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/productos/4/\",\n  \"cuerpo_enviado\": null,\n  \"estado_http\": 404,\n  \"respuesta\": {\n    \"detail\": \"No Producto matches the given query.\"\n  }\n}"
+  },
+  {
+    "key": "E07_C01_serializer_anidado",
+    "title": "farmacia/serializers.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": " 25  class ClienteSerializer(serializers.ModelSerializer):\n 26      class Meta:\n 27          model = Cliente\n 28          fields = ['id', 'nombre', 'documento', 'telefono', 'correo']\n 62  class DetalleVentaReadSerializer(serializers.ModelSerializer):\n 63      producto = ProductoSerializer(read_only=True)\n 64  \n 65      class Meta:\n 66          model = DetalleVenta\n 67          fields = ['id', 'producto', 'cantidad', 'precio_unitario', 'subtotal']\n 70  class VentaReadSerializer(serializers.ModelSerializer):\n 71      cliente = ClienteSerializer(read_only=True)\n 72      detalles = DetalleVentaReadSerializer(many=True, read_only=True)\n 73  \n 74      class Meta:\n 75          model = Venta\n 76          fields = ['id', 'cliente', 'fecha', 'total', 'detalles']"
+  },
+  {
+    "key": "E07_C02_queryset_optimizado",
+    "title": "farmacia/api_views.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": " 69  class VentaReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):\n 70      serializer_class = VentaReadSerializer\n 71      queryset = Venta.objects.select_related('cliente').prefetch_related(\n 72          'detalles__producto__categoria'\n 73      )"
+  },
+  {
+    "key": "E07_C03_consultas_antes",
+    "title": "E07_C03_consultas_antes",
+    "kind": "Resultado real ejecutado · Python con Django inicializado",
+    "text": "{\n  \"registros\": 3,\n  \"consultas\": 19,\n  \"serializacion_completa\": true,\n  \"respuestas_iguales\": true,\n  \"sql\": [\n    \"SELECT \\\"farmacia_venta\\\".\\\"id\\\", \\\"farmacia_venta\\\".\\\"estado\\\", \\\"farmacia_venta\\\".\\\"cliente_id\\\", \\\"farmacia_venta\\\".\\\"fecha\\\", \\\"farmacia_venta\\\".\\\"total\\\" FROM \\\"farmacia_venta\\\" ORDER BY \\\"farmacia_venta\\\".\\\"id\\\" ASC\"\n  ],\n  \"nota_sql\": \"Se muestra la primera consulta. Todas están en el JSON adjunto.\"\n}"
+  },
+  {
+    "key": "E07_C04_consultas_despues",
+    "title": "E07_C04_consultas_despues",
+    "kind": "Resultado real ejecutado · Python con Django inicializado",
+    "text": "{\n  \"registros\": 3,\n  \"consultas\": 4,\n  \"serializacion_completa\": true,\n  \"respuestas_iguales\": true,\n  \"sql\": [\n    \"SELECT \\\"farmacia_venta\\\".\\\"id\\\", \\\"farmacia_venta\\\".\\\"estado\\\", \\\"farmacia_venta\\\".\\\"cliente_id\\\", \\\"farmacia_venta\\\".\\\"fecha\\\", \\\"farmacia_venta\\\".\\\"total\\\", \\\"farmacia_cliente\\\".\\\"id\\\", \\\"farmacia_cliente\\\".\\\"nombre\\\", \\\"farmacia_cliente\\\".\\\"documento\\\", \\\"farmacia_cliente\\\".\\\"telefono\\\", \\\"farmacia_cliente\\\".\\\"correo\\\" FROM \\\"farmacia_venta\\\" INNER JOIN \\\"farmacia_cliente\\\" ON (\\\"farmacia_venta\\\".\\\"cliente_id\\\" = \\\"farmacia_cliente\\\".\\\"id\\\") ORDER BY \\\"farmacia_venta\\\".\\\"id\\\" ASC\"\n  ],\n  \"nota_sql\": \"Se muestra la primera consulta. Todas están en el JSON adjunto.\"\n}"
+  },
+  {
+    "key": "E07_C05_respuesta_api",
+    "title": "E07_C05_respuesta_api",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"GET\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/ventas/1/\",\n  \"cuerpo_enviado\": null,\n  \"estado_http\": 200,\n  \"respuesta\": {\n    \"id\": 1,\n    \"cliente\": {\n      \"id\": 1,\n      \"nombre\": \"Cliente ficticio 1 [LAB08]\",\n      \"documento\": \"LAB08-1\",\n      \"telefono\": \"\",\n      \"correo\": \"\"\n    },\n    \"fecha\": \"2026-10-17T20:00:35.750726-05:00\",\n    \"total\": \"17.50\",\n    \"detalles\": [\n      {\"id\": 1, \"producto\": {\"id\": 1, \"nombre\": \"Analgesico A [LAB08]\", \"descripcion\": \"Producto ficticio de laboratorio.\", \"precio\": \"5.50\", \"stock\": 10, \"categoria\": 1, \"categoria_nombre\": \"Salud [LAB08]\"}, \"cantidad\": 1, \"precio_unitario\": \"5.50\", \"subtotal\": 5.5},\n      {\"id\": 2, \"producto\": {\"id\": 2, \"nombre\": \"Analgesico B [LAB08]\", \"descripcion\": \"Producto ficticio de laboratorio.\", \"precio\": \"12.00\", \"stock\": 6, \"categoria\": 1, \"categoria_nombre\": \"Salud [LAB08]\"}, \"cantidad\": 1, \"precio_unitario\": \"12.00\", \"subtotal\": 12.0}\n    ]\n  }\n}"
+  },
+  {
+    "key": "E08_C01_filtros",
+    "title": "farmacia/api_views.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": " 17  class ProductoViewSet(viewsets.ModelViewSet):\n 18      serializer_class = ProductoSerializer\n 19      filter_backends = [filters.SearchFilter, filters.OrderingFilter]\n 20      search_fields = ['nombre', 'descripcion', 'categoria__nombre']\n 21      ordering_fields = ['nombre', 'precio', 'stock']\n 22      ordering = ['nombre']\n 23  \n 24      def get_queryset(self):\n 25          queryset = Producto.objects.select_related('categoria')\n 26          disponible = self.request.query_params.get('disponible')\n 27          if disponible and disponible.lower() in {'true', '1', 'si', 'sí'}:\n 28              queryset = queryset.con_stock()\n 29          elif disponible and disponible.lower() in {'false', '0', 'no'}:\n 30              queryset = queryset.filter(stock=0)\n 31          return queryset\n 32  \n 33      @action(detail=False, methods=['get'], url_path='con-stock')\n 34      def con_stock(self, request):\n 35          productos = self.filter_queryset(self.get_queryset().con_stock())\n 36          page = self.paginate_queryset(productos)\n 37          if page is not None:\n 38              serializer = self.get_serializer(page, many=True)\n 39              return self.get_paginated_response(serializer.data)\n 40          return Response(self.get_serializer(productos, many=True).data)"
+  },
+  {
+    "key": "E08_C02_filtro_estado",
+    "title": "farmacia/api_views.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": " 43  class FarmaciaViewSet(viewsets.ModelViewSet):\n 44      serializer_class = FarmaciaSerializer\n 45      queryset = Farmacia.objects.select_related('zona').all()\n 46      filter_backends = [filters.SearchFilter, filters.OrderingFilter]\n 47      search_fields = ['nombre', 'tipo', 'estado', 'zona__nombre_zona']\n 48      ordering_fields = ['nombre', 'distancia_metros', 'estado']\n 49      ordering = ['nombre']\n 50  \n 51      def get_queryset(self):\n 52          queryset = super().get_queryset()\n 53          estado = self.request.query_params.get('estado')\n 54          if estado:\n 55              queryset = queryset.filter(estado__iexact=estado)\n 56          return queryset\n 57  \n 58  \n 59      @action(detail=False, methods=['get'])\n 60      def activas(self, request):\n 61          # Reutiliza el QuerySet y conserva búsqueda, ordenamiento y paginación.\n 62          queryset = self.filter_queryset(self.get_queryset().activas())\n 63          page = self.paginate_queryset(queryset)\n 64          if page is not None:\n 65              return self.get_paginated_response(self.get_serializer(page, many=True).data)\n 66          return Response(self.get_serializer(queryset, many=True).data)"
+  },
+  {
+    "key": "E08_C03_action",
+    "title": "farmacia/models.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": " 14  class ProductoQuerySet(models.QuerySet):\n 15      \"\"\"Disponibilidad de productos reutilizada por la API.\"\"\"\n 16  \n 17      def con_stock(self):\n 18          return self.filter(stock__gt=0)\n 21  class FarmaciaQuerySet(models.QuerySet):\n 22      \"\"\"Estados de farmacia sin distinguir mayúsculas.\"\"\"\n 23  \n 24      def activas(self):\n 25          return self.filter(estado__iexact='Activa')"
+  },
+  {
+    "key": "E08_C04_search",
+    "title": "E08_C04_search",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"GET\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/productos/?search=Analgesico\",\n  \"cuerpo_enviado\": null,\n  \"estado_http\": 200,\n  \"respuesta\": [\n    {\"id\": 1, \"nombre\": \"Analgesico A [LAB08]\", \"descripcion\": \"Producto ficticio de laboratorio.\", \"precio\": \"5.50\", \"stock\": 10, \"categoria\": 1, \"categoria_nombre\": \"Salud [LAB08]\"},\n    {\"id\": 2, \"nombre\": \"Analgesico B [LAB08]\", \"descripcion\": \"Producto ficticio de laboratorio.\", \"precio\": \"12.00\", \"stock\": 6, \"categoria\": 1, \"categoria_nombre\": \"Salud [LAB08]\"}\n  ]\n}"
+  },
+  {
+    "key": "E08_C05_ordering",
+    "title": "E08_C05_ordering",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"GET\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/productos/?ordering=precio\",\n  \"cuerpo_enviado\": null,\n  \"estado_http\": 200,\n  \"respuesta\": [\n    {\"id\": 1, \"nombre\": \"Analgesico A [LAB08]\", \"descripcion\": \"Producto ficticio de laboratorio.\", \"precio\": \"5.50\", \"stock\": 10, \"categoria\": 1, \"categoria_nombre\": \"Salud [LAB08]\"},\n    {\"id\": 3, \"nombre\": \"Vitamina C [LAB08]\", \"descripcion\": \"Producto ficticio de laboratorio.\", \"precio\": \"8.90\", \"stock\": 0, \"categoria\": 1, \"categoria_nombre\": \"Salud [LAB08]\"},\n    {\"id\": 2, \"nombre\": \"Analgesico B [LAB08]\", \"descripcion\": \"Producto ficticio de laboratorio.\", \"precio\": \"12.00\", \"stock\": 6, \"categoria\": 1, \"categoria_nombre\": \"Salud [LAB08]\"}\n  ]\n}"
+  },
+  {
+    "key": "E08_C06_combinacion",
+    "title": "E08_C06_combinacion",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"GET\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/productos/?search=Analgesico&ordering=precio&disponible=true\",\n  \"cuerpo_enviado\": null,\n  \"estado_http\": 200,\n  \"respuesta\": [\n    {\"id\": 1, \"nombre\": \"Analgesico A [LAB08]\", \"descripcion\": \"Producto ficticio de laboratorio.\", \"precio\": \"5.50\", \"stock\": 10, \"categoria\": 1, \"categoria_nombre\": \"Salud [LAB08]\"},\n    {\"id\": 2, \"nombre\": \"Analgesico B [LAB08]\", \"descripcion\": \"Producto ficticio de laboratorio.\", \"precio\": \"12.00\", \"stock\": 6, \"categoria\": 1, \"categoria_nombre\": \"Salud [LAB08]\"}\n  ]\n}"
+  },
+  {
+    "key": "E08_C07_action_resultado",
+    "title": "E08_C07_action_resultado",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"GET\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/productos/con-stock/\",\n  \"cuerpo_enviado\": null,\n  \"estado_http\": 200,\n  \"respuesta\": [\n    {\"id\": 1, \"nombre\": \"Analgesico A [LAB08]\", \"descripcion\": \"Producto ficticio de laboratorio.\", \"precio\": \"5.50\", \"stock\": 10, \"categoria\": 1, \"categoria_nombre\": \"Salud [LAB08]\"},\n    {\"id\": 2, \"nombre\": \"Analgesico B [LAB08]\", \"descripcion\": \"Producto ficticio de laboratorio.\", \"precio\": \"12.00\", \"stock\": 6, \"categoria\": 1, \"categoria_nombre\": \"Salud [LAB08]\"}\n  ]\n}"
+  },
+  {
+    "key": "E09_C01_modelos",
+    "title": "farmacia/models.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": " 28  class Zona(models.Model):\n 29      nombre_zona = models.CharField(max_length=100)\n 30      distrito = models.CharField(max_length=100)\n 31      densidad_poblacional = models.PositiveIntegerField()\n 32      flujo_personas = models.CharField(max_length=20)\n 33      accesibilidad = models.CharField(max_length=20)\n 34  \n 35      def __str__(self): return self.nombre_zona\n 38  class Farmacia(models.Model):\n 39      objects = FarmaciaQuerySet.as_manager()\n 40      nombre = models.CharField(max_length=100)\n 41      tipo = models.CharField(max_length=50)\n 42      zona = models.ForeignKey(Zona, on_delete=models.CASCADE, related_name='farmacias')\n 43      distancia_metros = models.PositiveIntegerField()\n 44      estado = models.CharField(max_length=20)\n 45  \n 46      def __str__(self): return self.nombre\n 52  class EvaluacionUbicacion(models.Model):\n 53      zona = models.ForeignKey(Zona, on_delete=models.CASCADE, related_name='evaluaciones')\n 54      inkafarmas_cercanos = models.PositiveIntegerField()\n 55      competidores_cercanos = models.PositiveIntegerField()\n 56      centros_salud_cercanos = models.PositiveIntegerField()\n 57      costo_alquiler = models.DecimalField(max_digits=10, decimal_places=2)\n 58      ventas_estimadas = models.DecimalField(max_digits=10, decimal_places=2)\n 59      nivel_viabilidad = models.CharField(max_length=10, choices=NIVEL_VIABILIDAD_CHOICES)\n 60      fecha_creacion = models.DateTimeField(auto_now_add=True)\n 61  \n 62      def __str__(self): return f'Evaluación #{self.pk} - Zona {self.zona.nombre_zona} ({self.nivel_viabilidad})'"
+  },
+  {
+    "key": "E09_C02_relaciones",
+    "title": "farmacia/models.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": " 38  class Farmacia(models.Model):\n 39      objects = FarmaciaQuerySet.as_manager()\n 40      nombre = models.CharField(max_length=100)\n 41      tipo = models.CharField(max_length=50)\n 42      zona = models.ForeignKey(Zona, on_delete=models.CASCADE, related_name='farmacias')\n 43      distancia_metros = models.PositiveIntegerField()\n 44      estado = models.CharField(max_length=20)\n 45  \n 46      def __str__(self): return self.nombre\n 52  class EvaluacionUbicacion(models.Model):\n 53      zona = models.ForeignKey(Zona, on_delete=models.CASCADE, related_name='evaluaciones')\n 54      inkafarmas_cercanos = models.PositiveIntegerField()\n 55      competidores_cercanos = models.PositiveIntegerField()\n 56      centros_salud_cercanos = models.PositiveIntegerField()\n 57      costo_alquiler = models.DecimalField(max_digits=10, decimal_places=2)\n 58      ventas_estimadas = models.DecimalField(max_digits=10, decimal_places=2)\n 59      nivel_viabilidad = models.CharField(max_length=10, choices=NIVEL_VIABILIDAD_CHOICES)\n 60      fecha_creacion = models.DateTimeField(auto_now_add=True)\n 61  \n 62      def __str__(self): return f'Evaluación #{self.pk} - Zona {self.zona.nombre_zona} ({self.nivel_viabilidad})'"
+  },
+  {
+    "key": "E09_C03_tabla_equivalencias",
+    "title": "E09_C03_tabla_equivalencias",
+    "kind": "Resultado real ejecutado · Python con Django inicializado",
+    "text": "{\n  \"simple\": \"Producto; precio > 0\",\n  \"relacionado\": \"Venta -> DetalleVenta -> Producto\",\n  \"investigacion\": [\n    \"Zona\",\n    \"Farmacia\",\n    \"EvaluacionUbicacion\"\n  ],\n  \"estado\": \"Farmacia.estado\",\n  \"relaciones\": [\n    \"Zona 1:N Farmacia\",\n    \"Zona 1:N EvaluacionUbicacion\"\n  ],\n  \"querysets\": [\n    \"ProductoQuerySet.con_stock()\",\n    \"FarmaciaQuerySet.activas()\"\n  ],\n  \"cantidades\": {\n    \"zonas\": 3,\n    \"farmacias\": 3,\n    \"evaluaciones\": 3\n  },\n  \"estados_demo\": [\n    \"Activa\",\n    \"Inactiva\",\n    \"ACTIVA\"\n  ],\n  \"nota\": \"Antes de sembrar, no había farmacias locales. Los estados son datos ficticios explícitos.\"\n}"
+  },
+  {
+    "key": "E10_C01_serializers",
+    "title": "farmacia/serializers.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": " 31  class FarmaciaSerializer(serializers.ModelSerializer):\n 32      zona_nombre = serializers.CharField(source='zona.nombre_zona', read_only=True)\n 33  \n 34      class Meta:\n 35          model = Farmacia\n 36          fields = ['id', 'nombre', 'tipo', 'zona', 'zona_nombre', 'distancia_metros', 'estado']\n 37  \n 38  \n 39      def validate_distancia_metros(self, value):\n 40          if value <= 0:\n 41              raise serializers.ValidationError('La distancia debe ser mayor que cero.')\n 42          return value\n 45  class ZonaSerializer(serializers.ModelSerializer):\n 46      class Meta:\n 47          model = Zona\n 48          fields = ['id', 'nombre_zona', 'distrito', 'densidad_poblacional', 'flujo_personas', 'accesibilidad']\n 51  class EvaluacionUbicacionSerializer(serializers.ModelSerializer):\n 52      # La zona se muestra anidada; este recurso se publica solo para lectura.\n 53      zona = ZonaSerializer(read_only=True)\n 54  \n 55      class Meta:\n 56          model = EvaluacionUbicacion\n 57          fields = ['id', 'zona', 'inkafarmas_cercanos', 'competidores_cercanos',\n 58                    'centros_salud_cercanos', 'costo_alquiler', 'ventas_estimadas',\n 59                    'nivel_viabilidad', 'fecha_creacion']"
+  },
+  {
+    "key": "E10_C02_validacion_valida",
+    "title": "E10_C02_validacion_valida",
+    "kind": "Resultado real ejecutado · Python con Django inicializado",
+    "text": "{\n  \"datos\": {\n    \"nombre\": \"Botica temporal [LAB08]\",\n    \"tipo\": \"Independiente\",\n    \"zona\": 1,\n    \"distancia_metros\": 100,\n    \"estado\": \"Activa\"\n  },\n  \"is_valid\": true,\n  \"validated_data\": {\n    \"nombre\": \"Botica temporal [LAB08]\",\n    \"tipo\": \"Independiente\",\n    \"zona\": \"Zona 1 [LAB08]\",\n    \"distancia_metros\": 100,\n    \"estado\": \"Activa\"\n  },\n  \"errors\": {\n\n  }\n}"
+  },
+  {
+    "key": "E10_C03_validacion_invalida",
+    "title": "E10_C03_validacion_invalida",
+    "kind": "Resultado real ejecutado · Python con Django inicializado",
+    "text": "{\n  \"datos\": {\n    \"nombre\": \"Botica temporal [LAB08]\",\n    \"tipo\": \"Independiente\",\n    \"zona\": 1,\n    \"distancia_metros\": 0,\n    \"estado\": \"Activa\"\n  },\n  \"is_valid\": false,\n  \"validated_data\": {\n\n  },\n  \"errors\": {\n    \"distancia_metros\": [\n      \"La distancia debe ser mayor que cero.\"\n    ]\n  }\n}"
+  },
+  {
+    "key": "E11_C01_viewsets",
+    "title": "farmacia/api_views.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": " 43  class FarmaciaViewSet(viewsets.ModelViewSet):\n 44      serializer_class = FarmaciaSerializer\n 45      queryset = Farmacia.objects.select_related('zona').all()\n 46      filter_backends = [filters.SearchFilter, filters.OrderingFilter]\n 47      search_fields = ['nombre', 'tipo', 'estado', 'zona__nombre_zona']\n 48      ordering_fields = ['nombre', 'distancia_metros', 'estado']\n 49      ordering = ['nombre']\n 50  \n 51      def get_queryset(self):\n 52          queryset = super().get_queryset()\n 53          estado = self.request.query_params.get('estado')\n 54          if estado:\n 55              queryset = queryset.filter(estado__iexact=estado)\n 56          return queryset\n 57  \n 58  \n 59      @action(detail=False, methods=['get'])\n 60      def activas(self, request):\n 61          # Reutiliza el QuerySet y conserva búsqueda, ordenamiento y paginación.\n 62          queryset = self.filter_queryset(self.get_queryset().activas())\n 63          page = self.paginate_queryset(queryset)\n 64          if page is not None:\n 65              return self.get_paginated_response(self.get_serializer(page, many=True).data)\n 66          return Response(self.get_serializer(queryset, many=True).data)\n 76  class ZonaViewSet(viewsets.ModelViewSet):\n 77      queryset = Zona.objects.order_by('nombre_zona', 'pk')\n 78      serializer_class = ZonaSerializer"
+  },
+  {
+    "key": "E11_C02_router",
+    "title": "farmacia/api_urls.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": "  1  from rest_framework.routers import DefaultRouter\n  2  \n  3  from .api_views import (CategoriaViewSet, FarmaciaViewSet, ProductoViewSet, VentaReadOnlyViewSet,\n  4                          ZonaViewSet, EvaluacionUbicacionReadOnlyViewSet)\n  5  \n  6  router = DefaultRouter()\n  7  router.register('categorias', CategoriaViewSet, basename='api-categoria')\n  8  router.register('productos', ProductoViewSet, basename='api-producto')\n  9  router.register('farmacias', FarmaciaViewSet, basename='api-farmacia')\n 10  router.register('ventas', VentaReadOnlyViewSet, basename='api-venta')\n 11  \n 12  router.register('zonas', ZonaViewSet, basename='api-zona')\n 13  router.register('evaluaciones', EvaluacionUbicacionReadOnlyViewSet, basename='api-evaluacion')\n 14  \n 15  urlpatterns = router.urls"
+  },
+  {
+    "key": "E11_C03_http_200",
+    "title": "E11_C03_http_200",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"GET\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/farmacias/\",\n  \"cuerpo_enviado\": null,\n  \"estado_http\": 200,\n  \"respuesta\": [\n    {\"id\": 1, \"nombre\": \"Botica 1 [LAB08]\", \"tipo\": \"Independiente\", \"zona\": 1, \"zona_nombre\": \"Zona 1 [LAB08]\", \"distancia_metros\": 150, \"estado\": \"Activa\"},\n    {\"id\": 2, \"nombre\": \"Botica 2 [LAB08]\", \"tipo\": \"Independiente\", \"zona\": 2, \"zona_nombre\": \"Zona 2 [LAB08]\", \"distancia_metros\": 300, \"estado\": \"Inactiva\"},\n    {\"id\": 3, \"nombre\": \"Botica 3 [LAB08]\", \"tipo\": \"Independiente\", \"zona\": 3, \"zona_nombre\": \"Zona 3 [LAB08]\", \"distancia_metros\": 450, \"estado\": \"ACTIVA\"}\n  ]\n}"
+  },
+  {
+    "key": "E11_C04_http_201",
+    "title": "E11_C04_http_201",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"POST\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/farmacias/\",\n  \"cuerpo_enviado\": {\n    \"nombre\": \"Botica temporal [LAB08]\",\n    \"tipo\": \"Independiente\",\n    \"zona\": 1,\n    \"distancia_metros\": 100,\n    \"estado\": \"Activa\"\n  },\n  \"estado_http\": 201,\n  \"respuesta\": {\n    \"id\": 4,\n    \"nombre\": \"Botica temporal [LAB08]\",\n    \"tipo\": \"Independiente\",\n    \"zona\": 1,\n    \"zona_nombre\": \"Zona 1 [LAB08]\",\n    \"distancia_metros\": 100,\n    \"estado\": \"Activa\"\n  }\n}"
+  },
+  {
+    "key": "E11_C05_http_400",
+    "title": "E11_C05_http_400",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"POST\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/farmacias/\",\n  \"cuerpo_enviado\": {\n    \"nombre\": \"Botica temporal [LAB08]\",\n    \"tipo\": \"Independiente\",\n    \"zona\": 1,\n    \"distancia_metros\": 0,\n    \"estado\": \"Activa\"\n  },\n  \"estado_http\": 400,\n  \"respuesta\": {\n    \"distancia_metros\": [\n      \"La distancia debe ser mayor que cero.\"\n    ]\n  }\n}"
+  },
+  {
+    "key": "E11_C06_http_404",
+    "title": "E11_C06_http_404",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"GET\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/farmacias/4/\",\n  \"cuerpo_enviado\": null,\n  \"estado_http\": 404,\n  \"respuesta\": {\n    \"detail\": \"No Farmacia matches the given query.\"\n  }\n}"
+  },
+  {
+    "key": "E11_C07_http_204",
+    "title": "E11_C07_http_204",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"DELETE\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/farmacias/4/\",\n  \"cuerpo_enviado\": null,\n  \"estado_http\": 204,\n  \"respuesta\": null\n}"
+  },
+  {
+    "key": "E12_C01_serializer",
+    "title": "farmacia/serializers.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": " 45  class ZonaSerializer(serializers.ModelSerializer):\n 46      class Meta:\n 47          model = Zona\n 48          fields = ['id', 'nombre_zona', 'distrito', 'densidad_poblacional', 'flujo_personas', 'accesibilidad']\n 51  class EvaluacionUbicacionSerializer(serializers.ModelSerializer):\n 52      # La zona se muestra anidada; este recurso se publica solo para lectura.\n 53      zona = ZonaSerializer(read_only=True)\n 54  \n 55      class Meta:\n 56          model = EvaluacionUbicacion\n 57          fields = ['id', 'zona', 'inkafarmas_cercanos', 'competidores_cercanos',\n 58                    'centros_salud_cercanos', 'costo_alquiler', 'ventas_estimadas',\n 59                    'nivel_viabilidad', 'fecha_creacion']"
+  },
+  {
+    "key": "E12_C02_queryset",
+    "title": "farmacia/api_views.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": " 81  class EvaluacionUbicacionReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):\n 82      serializer_class = EvaluacionUbicacionSerializer\n 83  \n 84      def get_queryset(self):\n 85          # Carga evaluación y zona juntas para evitar una consulta por fila.\n 86          return EvaluacionUbicacion.objects.select_related('zona').order_by('pk')"
+  },
+  {
+    "key": "E12_C03_antes",
+    "title": "E12_C03_antes",
+    "kind": "Resultado real ejecutado · Python con Django inicializado",
+    "text": "{\n  \"registros\": 3,\n  \"consultas\": 4,\n  \"serializacion_completa\": true,\n  \"respuestas_iguales\": true,\n  \"sql\": [\n    \"SELECT \\\"farmacia_evaluacionubicacion\\\".\\\"id\\\", \\\"farmacia_evaluacionubicacion\\\".\\\"zona_id\\\", \\\"farmacia_evaluacionubicacion\\\".\\\"inkafarmas_cercanos\\\", \\\"farmacia_evaluacionubicacion\\\".\\\"competidores_cercanos\\\", \\\"farmacia_evaluacionubicacion\\\".\\\"centros_salud_cercanos\\\", \\\"farmacia_evaluacionubicacion\\\".\\\"costo_alquiler\\\", \\\"farmacia_evaluacionubicacion\\\".\\\"ventas_estimadas\\\", \\\"farmacia_evaluacionubicacion\\\".\\\"nivel_viabilidad\\\", \\\"farmacia_evaluacionubicacion\\\".\\\"fecha_creacion\\\" FROM \\\"farmacia_evaluacionubicacion\\\" ORDER BY \\\"farmacia_evaluacionubicacion\\\".\\\"id\\\" ASC\"\n  ],\n  \"nota_sql\": \"Se muestra la primera consulta. Todas están en el JSON adjunto.\"\n}"
+  },
+  {
+    "key": "E12_C04_despues",
+    "title": "E12_C04_despues",
+    "kind": "Resultado real ejecutado · Python con Django inicializado",
+    "text": "{\n  \"registros\": 3,\n  \"consultas\": 1,\n  \"serializacion_completa\": true,\n  \"respuestas_iguales\": true,\n  \"sql\": [\n    \"SELECT \\\"farmacia_evaluacionubicacion\\\".\\\"id\\\", \\\"farmacia_evaluacionubicacion\\\".\\\"zona_id\\\", \\\"farmacia_evaluacionubicacion\\\".\\\"inkafarmas_cercanos\\\", \\\"farmacia_evaluacionubicacion\\\".\\\"competidores_cercanos\\\", \\\"farmacia_evaluacionubicacion\\\".\\\"centros_salud_cercanos\\\", \\\"farmacia_evaluacionubicacion\\\".\\\"costo_alquiler\\\", \\\"farmacia_evaluacionubicacion\\\".\\\"ventas_estimadas\\\", \\\"farmacia_evaluacionubicacion\\\".\\\"nivel_viabilidad\\\", \\\"farmacia_evaluacionubicacion\\\".\\\"fecha_creacion\\\", \\\"farmacia_zona\\\".\\\"id\\\", \\\"farmacia_zona\\\".\\\"nombre_zona\\\", \\\"farmacia_zona\\\".\\\"distrito\\\", \\\"farmacia_zona\\\".\\\"densidad_poblacional\\\", \\\"farmacia_zona\\\".\\\"flujo_personas\\\", \\\"farmacia_zona\\\".\\\"accesibilidad\\\" FROM \\\"farmacia_evaluacionubicacion\\\" INNER JOIN \\\"farmacia_zona\\\" ON (\\\"farmacia_evaluacionubicacion\\\".\\\"zona_id\\\" = \\\"farmacia_zona\\\".\\\"id\\\") ORDER BY \\\"farmacia_evaluacionubicacion\\\".\\\"id\\\" ASC\"\n  ],\n  \"nota_sql\": \"Se muestra la primera consulta. Todas están en el JSON adjunto.\"\n}"
+  },
+  {
+    "key": "E12_C05_respuesta",
+    "title": "E12_C05_respuesta",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"GET\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/evaluaciones/1/\",\n  \"cuerpo_enviado\": null,\n  \"estado_http\": 200,\n  \"respuesta\": {\n    \"id\": 1,\n    \"zona\": {\n      \"id\": 1,\n      \"nombre_zona\": \"Zona 1 [LAB08]\",\n      \"distrito\": \"Lima\",\n      \"densidad_poblacional\": 1000,\n      \"flujo_personas\": \"Alto\",\n      \"accesibilidad\": \"Buena\"\n    },\n    \"inkafarmas_cercanos\": 1,\n    \"competidores_cercanos\": 2,\n    \"centros_salud_cercanos\": 2,\n    \"costo_alquiler\": \"1500.00\",\n    \"ventas_estimadas\": \"6500.00\",\n    \"nivel_viabilidad\": \"Alta\",\n    \"fecha_creacion\": \"2026-10-17T20:00:35.748717-05:00\"\n  }\n}"
+  },
+  {
+    "key": "E13_C01_filtros",
+    "title": "farmacia/api_views.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": " 43  class FarmaciaViewSet(viewsets.ModelViewSet):\n 44      serializer_class = FarmaciaSerializer\n 45      queryset = Farmacia.objects.select_related('zona').all()\n 46      filter_backends = [filters.SearchFilter, filters.OrderingFilter]\n 47      search_fields = ['nombre', 'tipo', 'estado', 'zona__nombre_zona']\n 48      ordering_fields = ['nombre', 'distancia_metros', 'estado']\n 49      ordering = ['nombre']\n 50  \n 51      def get_queryset(self):\n 52          queryset = super().get_queryset()\n 53          estado = self.request.query_params.get('estado')\n 54          if estado:\n 55              queryset = queryset.filter(estado__iexact=estado)\n 56          return queryset\n 57  \n 58  \n 59      @action(detail=False, methods=['get'])\n 60      def activas(self, request):\n 61          # Reutiliza el QuerySet y conserva búsqueda, ordenamiento y paginación.\n 62          queryset = self.filter_queryset(self.get_queryset().activas())\n 63          page = self.paginate_queryset(queryset)\n 64          if page is not None:\n 65              return self.get_paginated_response(self.get_serializer(page, many=True).data)\n 66          return Response(self.get_serializer(queryset, many=True).data)"
+  },
+  {
+    "key": "E13_C02_queryset",
+    "title": "farmacia/models.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": " 21  class FarmaciaQuerySet(models.QuerySet):\n 22      \"\"\"Estados de farmacia sin distinguir mayúsculas.\"\"\"\n 23  \n 24      def activas(self):\n 25          return self.filter(estado__iexact='Activa')"
+  },
+  {
+    "key": "E13_C03_action",
+    "title": "farmacia/api_views.py",
+    "kind": "Código real del proyecto · líneas originales",
+    "text": " 43  class FarmaciaViewSet(viewsets.ModelViewSet):\n 44      serializer_class = FarmaciaSerializer\n 45      queryset = Farmacia.objects.select_related('zona').all()\n 46      filter_backends = [filters.SearchFilter, filters.OrderingFilter]\n 47      search_fields = ['nombre', 'tipo', 'estado', 'zona__nombre_zona']\n 48      ordering_fields = ['nombre', 'distancia_metros', 'estado']\n 49      ordering = ['nombre']\n 50  \n 51      def get_queryset(self):\n 52          queryset = super().get_queryset()\n 53          estado = self.request.query_params.get('estado')\n 54          if estado:\n 55              queryset = queryset.filter(estado__iexact=estado)\n 56          return queryset\n 57  \n 58  \n 59      @action(detail=False, methods=['get'])\n 60      def activas(self, request):\n 61          # Reutiliza el QuerySet y conserva búsqueda, ordenamiento y paginación.\n 62          queryset = self.filter_queryset(self.get_queryset().activas())\n 63          page = self.paginate_queryset(queryset)\n 64          if page is not None:\n 65              return self.get_paginated_response(self.get_serializer(page, many=True).data)\n 66          return Response(self.get_serializer(queryset, many=True).data)"
+  },
+  {
+    "key": "E13_C04_search",
+    "title": "E13_C04_search",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"GET\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/farmacias/?search=Botica\",\n  \"cuerpo_enviado\": null,\n  \"estado_http\": 200,\n  \"respuesta\": [\n    {\"id\": 1, \"nombre\": \"Botica 1 [LAB08]\", \"tipo\": \"Independiente\", \"zona\": 1, \"zona_nombre\": \"Zona 1 [LAB08]\", \"distancia_metros\": 150, \"estado\": \"Activa\"},\n    {\"id\": 2, \"nombre\": \"Botica 2 [LAB08]\", \"tipo\": \"Independiente\", \"zona\": 2, \"zona_nombre\": \"Zona 2 [LAB08]\", \"distancia_metros\": 300, \"estado\": \"Inactiva\"},\n    {\"id\": 3, \"nombre\": \"Botica 3 [LAB08]\", \"tipo\": \"Independiente\", \"zona\": 3, \"zona_nombre\": \"Zona 3 [LAB08]\", \"distancia_metros\": 450, \"estado\": \"ACTIVA\"}\n  ]\n}"
+  },
+  {
+    "key": "E13_C05_ordering",
+    "title": "E13_C05_ordering",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"GET\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/farmacias/?ordering=distancia_metros\",\n  \"cuerpo_enviado\": null,\n  \"estado_http\": 200,\n  \"respuesta\": [\n    {\"id\": 1, \"nombre\": \"Botica 1 [LAB08]\", \"tipo\": \"Independiente\", \"zona\": 1, \"zona_nombre\": \"Zona 1 [LAB08]\", \"distancia_metros\": 150, \"estado\": \"Activa\"},\n    {\"id\": 2, \"nombre\": \"Botica 2 [LAB08]\", \"tipo\": \"Independiente\", \"zona\": 2, \"zona_nombre\": \"Zona 2 [LAB08]\", \"distancia_metros\": 300, \"estado\": \"Inactiva\"},\n    {\"id\": 3, \"nombre\": \"Botica 3 [LAB08]\", \"tipo\": \"Independiente\", \"zona\": 3, \"zona_nombre\": \"Zona 3 [LAB08]\", \"distancia_metros\": 450, \"estado\": \"ACTIVA\"}\n  ]\n}"
+  },
+  {
+    "key": "E13_C06_filtro_parametro",
+    "title": "E13_C06_filtro_parametro",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"GET\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/farmacias/?estado=activa\",\n  \"cuerpo_enviado\": null,\n  \"estado_http\": 200,\n  \"respuesta\": [\n    {\"id\": 1, \"nombre\": \"Botica 1 [LAB08]\", \"tipo\": \"Independiente\", \"zona\": 1, \"zona_nombre\": \"Zona 1 [LAB08]\", \"distancia_metros\": 150, \"estado\": \"Activa\"},\n    {\"id\": 3, \"nombre\": \"Botica 3 [LAB08]\", \"tipo\": \"Independiente\", \"zona\": 3, \"zona_nombre\": \"Zona 3 [LAB08]\", \"distancia_metros\": 450, \"estado\": \"ACTIVA\"}\n  ]\n}"
+  },
+  {
+    "key": "E13_C07_action_resultado",
+    "title": "E13_C07_action_resultado",
+    "kind": "Resultado real ejecutado · HTTP local (urllib)",
+    "text": "{\n  \"metodo\": \"GET\",\n  \"url\": \"http://127.0.0.1:8008/api/v1/farmacias/activas/?search=Botica&ordering=distancia_metros\",\n  \"cuerpo_enviado\": null,\n  \"estado_http\": 200,\n  \"respuesta\": [\n    {\"id\": 1, \"nombre\": \"Botica 1 [LAB08]\", \"tipo\": \"Independiente\", \"zona\": 1, \"zona_nombre\": \"Zona 1 [LAB08]\", \"distancia_metros\": 150, \"estado\": \"Activa\"},\n    {\"id\": 3, \"nombre\": \"Botica 3 [LAB08]\", \"tipo\": \"Independiente\", \"zona\": 3, \"zona_nombre\": \"Zona 3 [LAB08]\", \"distancia_metros\": 450, \"estado\": \"ACTIVA\"}\n  ]\n}"
+  },
+  {
+    "key": "E14_C01_requirements",
+    "title": "Dependencias instaladas",
+    "kind": "Archivo real y versiones verificadas",
+    "text": "Django==5.2.17\ndjangorestframework==3.18.3\n\nPython del proyecto: venv/Scripts/python.exe\nDjango 5.2.17\nDjango REST Framework 3.18.3"
+  },
+  {
+    "key": "E14_C02_readme",
+    "title": "README actualizado",
+    "kind": "Extracto del archivo real",
+    "text": "## Laboratorio 08 — Django REST Framework\n\nActualización del 17 de octubre de 2026. Integrantes: Dario Maza, Sheila Aguirre y Jose Contreras.\n\nLa aplicación ejecutable está en `farmacia_project/src`. Conserva las páginas HTML y `/admin/` y añade la API versionada `/api/v1/`.\n\n| Recurso | Ruta | Operaciones |\n|---|---|---|\n| Categorías | `/api/v1/categorias/` | CRUD |\n| Productos | `/api/v1/productos/` | CRUD; precio mayor que cero |\n| Zonas | `/api/v1/zonas/` | CRUD |\n| Farmacias | `/api/v1/farmacias/` | CRUD; distancia mayor que cero |\n| Ventas | `/api/v1/ventas/` | Lectura; cliente, detalles y productos anidados |\n| Evaluaciones | `/api/v1/evaluaciones/` | Lectura; zona anidada |\n\nLos detalles usan `<id>/`. Las vistas genéricas del ejercicio 4 se conservan bajo `/api/v1/basico/productos/`, sin duplicar las rutas del router principal. Se mantiene `/api/v1/` del repositorio actual en lugar del `/api/` orientativo del PDF.\n\n### Filtros y acciones\n\n- Productos: `?search=Analgesico`, `?ordering=precio`, `?disponible=true` y acción `con-stock/`.\n- Farmacias: `?search=Botica`, `?ordering=distancia_metros`, `?estado=Activa` y acción `activas/`.\n- Los parámetros pueden combinarse con `&`. Las acciones reutilizan `ProductoQuerySet.con_stock()` y `FarmaciaQuerySet.activas()` y conservan filtros/paginación.\n- Ventas: `select_related('cliente')` y `prefetch_related('detalles__producto__categoria')`.\n- Evaluaciones: `select_related('zona')`.\n\n"
+  },
+  {
+    "key": "E14_C03_git_status",
+    "title": "Cambios revisados antes del commit",
+    "kind": "Salida real de git status --short",
+    "text": "$ git status --short\n M README.md\n M farmacia_project/LAB08_EJERCICIO01.md\n M farmacia_project/LAB08_EVIDENCIAS.md\n M farmacia_project/README.md\n M farmacia_project/src/config/settings.py\n M farmacia_project/src/config/urls.py\n M farmacia_project/src/farmacia/api_urls.py\n M farmacia_project/src/farmacia/api_views.py\n M farmacia_project/src/farmacia/models.py\n M farmacia_project/src/farmacia/serializers.py\n?? farmacia_project/src/farmacia/management/__init__.py\n?? farmacia_project/src/farmacia/management/commands/__init__.py\n?? farmacia_project/src/farmacia/management/commands/sembrar_lab08.py\n?? farmacia_project/src/farmacia/test_lab08_completo.py\n\n"
+  },
+  {
+    "key": "E14_C04_commit_push",
+    "title": "Publicación del código en GitHub",
+    "kind": "Salida real de commit y push autorizados",
+    "text": "$ git commit -m Completa Lab 08 con API de ubicaciones validacion y pruebas\n[main c5144bd] Completa Lab 08 con API de ubicaciones validacion y pruebas\n 13 files changed, 296 insertions(+), 293 deletions(-)\n create mode 100644 farmacia_project/src/farmacia/management/__init__.py\n create mode 100644 farmacia_project/src/farmacia/management/commands/__init__.py\n create mode 100644 farmacia_project/src/farmacia/management/commands/sembrar_lab08.py\n create mode 100644 farmacia_project/src/farmacia/test_lab08_completo.py\n\n$ git push origin main\nTo https://github.com/SAguirreT/django_project.git\n   8c901e4..c5144bd  main -> main\n"
+  },
+  {
+    "key": "E14_pruebas",
+    "title": "Pruebas de publicación y copia local",
+    "kind": "Salidas reales de pruebas independientes",
+    "text": "PUBLICACIÓN\nducto_crud_http_y_validacion (farmacia.tests_api.FarmaciaApiTests.test_producto_crud_http_y_validacion) ... ok\ntest_venta_anidada_solo_lectura_y_consultas_optimizadas (farmacia.tests_api.FarmaciaApiTests.test_venta_anidada_solo_lectura_y_consultas_optimizadas) ... ok\ntest_vistas_genericas_list_create_y_detalle (farmacia.tests_api.FarmaciaApiTests.test_vistas_genericas_list_create_y_detalle) ... ok\n\n----------------------------------------------------------------------\nRan 25 tests in 3.898s\n\nOK\nDestroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...\n\n\nCOPIA LOCAL\nducto_crud_http_y_validacion (farmacia.tests_api.FarmaciaApiTests.test_producto_crud_http_y_validacion) ... ok\ntest_venta_anidada_solo_lectura_y_consultas_optimizadas (farmacia.tests_api.FarmaciaApiTests.test_venta_anidada_solo_lectura_y_consultas_optimizadas) ... ok\ntest_vistas_genericas_list_create_y_detalle (farmacia.tests_api.FarmaciaApiTests.test_vistas_genericas_list_create_y_detalle) ... ok\n\n----------------------------------------------------------------------\nRan 32 tests in 4.025s\n\nOK\nDestroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...\n\n\nESQUEMA\nNo changes detected\n"
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "metodo": "GET",
+  "url": "http://127.0.0.1:8008/api/v1/evaluaciones/1/",
+  "cuerpo_enviado": null,
+  "estado_http": 200,
+  "respuesta": {
+    "id": 1,
+    "zona": {
+      "id": 1,
+      "nombre_zona": "Zona 1 [LAB08]",
+      "distrito": "Lima",
+      "densidad_poblacional": 1000,
+      "flujo_personas": "Alto",
+      "accesibilidad": "Buena"
+    },
+    "inkafarmas_cercanos": 1,
+    "competidores_cercanos": 2,
+    "centros_salud_cercanos": 2,
+    "costo_alquiler": "1500.00",
+    "ventas_estimadas": "6500.00",
+    "nivel_viabilidad": "Alta",
+    "fecha_creacion": "2026-10-17T20:00:35.748717-05:00"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "datos": {
+    "nombre": "Botica temporal [LAB08]",
+    "tipo": "Independiente",
+    "zona": 1,
+    "distancia_metros": 100,
+    "estado": "Activa"
+  },
+  "is_valid": true,
+  "validated_data": {
+    "nombre": "Botica temporal [LAB08]",
+    "tipo": "Independiente",
+    "zona": "Zona 1 [LAB08]",
+    "distancia_metros": 100,
+    "estado": "Activa"
+  },
+  "errors": {}
+}

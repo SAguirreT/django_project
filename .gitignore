@@ -4,3 +4,6 @@ __pycache__/
 *.pyc
 
 db.sqlite3
+
+# Bases locales de demostración y pruebas.
+*.sqlite3

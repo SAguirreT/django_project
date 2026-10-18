@@ -1,0 +1,63 @@
+Found 25 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: messages, rest_framework, staticfiles
+  Apply all migrations: admin, auth, contenttypes, farmacia, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying farmacia.0001_initial... OK
+  Applying farmacia.0002_detalleventa_venta_productos_perfilcliente_and_more... OK
+  Applying farmacia.0003_zona_farmacia_evaluacionubicacion... OK
+  Applying sessions.0001_initial... OK
+System check identified no issues (0 silenced).
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+
+test_admin_exige_autenticacion (farmacia.test_admin.FarmaciaAdminTests.test_admin_exige_autenticacion) ... ok
+test_busqueda_filtros_y_columnas (farmacia.test_admin.FarmaciaAdminTests.test_busqueda_filtros_y_columnas) ... ok
+test_detalle_crear_editar_eliminar_desde_venta (farmacia.test_admin.FarmaciaAdminTests.test_detalle_crear_editar_eliminar_desde_venta) ... ok
+test_perfil_crear_editar_eliminar_desde_cliente (farmacia.test_admin.FarmaciaAdminTests.test_perfil_crear_editar_eliminar_desde_cliente) ... ok
+test_producto_crear_editar_eliminar_con_categoria (farmacia.test_admin.FarmaciaAdminTests.test_producto_crear_editar_eliminar_con_categoria) ... ok
+test_accion_activa_combina_busqueda_estado_y_orden (farmacia.test_lab08_completo.InvestigacionApiTests.test_accion_activa_combina_busqueda_estado_y_orden) ... ok
+test_evaluacion_anidada_consultas_y_metodos_no_permitidos (farmacia.test_lab08_completo.InvestigacionApiTests.test_evaluacion_anidada_consultas_y_metodos_no_permitidos) ... ok
+test_farmacia_crud_y_validacion_distancia (farmacia.test_lab08_completo.InvestigacionApiTests.test_farmacia_crud_y_validacion_distancia) ... ok
+test_html_admin_y_api_coexisten (farmacia.test_lab08_completo.InvestigacionApiTests.test_html_admin_y_api_coexisten) ... ok
+test_serializer_farmacia_valida_y_no_persiste_invalido (farmacia.test_lab08_completo.InvestigacionApiTests.test_serializer_farmacia_valida_y_no_persiste_invalido) ... ok
+test_zona_crud_y_persistencia (farmacia.test_lab08_completo.InvestigacionApiTests.test_zona_crud_y_persistencia) ... ok
+test_categoria_list_displays_all_products (farmacia.test_templates.TemplateRefactorTests.test_categoria_list_displays_all_products) ... ok
+test_clientes_list_uses_base_and_default_profile_value (farmacia.test_templates.TemplateRefactorTests.test_clientes_list_uses_base_and_default_profile_value) ... ok
+test_delete_pages_use_confirm_partial (farmacia.test_templates.TemplateRefactorTests.test_delete_pages_use_confirm_partial) ... ok
+test_venta_detail_shows_product_data_with_two_decimals (farmacia.test_templates.TemplateRefactorTests.test_venta_detail_shows_product_data_with_two_decimals) ... ok
+test_xss_is_escaped_in_listings (farmacia.test_templates.TemplateRefactorTests.test_xss_is_escaped_in_listings) ... ok
+test_crud_y_relaciones (farmacia.tests.FarmaciaCrudTests.test_crud_y_relaciones) ... ok
+test_productos_view_y_confirmacion_delete (farmacia.tests.FarmaciaCrudTests.test_productos_view_y_confirmacion_delete) ... ok
+test_relaciones_nuevas_y_crud_detalle_venta (farmacia.tests.FarmaciaCrudTests.test_relaciones_nuevas_y_crud_detalle_venta) ... ok
+test_categoria_crud_viewset_y_filtros (farmacia.tests_api.FarmaciaApiTests.test_categoria_crud_viewset_y_filtros) ... ok
+test_filtro_estado_de_farmacia (farmacia.tests_api.FarmaciaApiTests.test_filtro_estado_de_farmacia) ... ok
+test_model_serializer_objeto_lista_validacion_y_save (farmacia.tests_api.FarmaciaApiTests.test_model_serializer_objeto_lista_validacion_y_save) ... ok
+test_producto_crud_http_y_validacion (farmacia.tests_api.FarmaciaApiTests.test_producto_crud_http_y_validacion) ... ok
+test_venta_anidada_solo_lectura_y_consultas_optimizadas (farmacia.tests_api.FarmaciaApiTests.test_venta_anidada_solo_lectura_y_consultas_optimizadas) ... ok
+test_vistas_genericas_list_create_y_detalle (farmacia.tests_api.FarmaciaApiTests.test_vistas_genericas_list_create_y_detalle) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 3.898s
+
+OK
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

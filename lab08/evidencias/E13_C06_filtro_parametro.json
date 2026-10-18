@@ -1,0 +1,26 @@
+{
+  "metodo": "GET",
+  "url": "http://127.0.0.1:8008/api/v1/farmacias/?estado=activa",
+  "cuerpo_enviado": null,
+  "estado_http": 200,
+  "respuesta": [
+    {
+      "id": 1,
+      "nombre": "Botica 1 [LAB08]",
+      "tipo": "Independiente",
+      "zona": 1,
+      "zona_nombre": "Zona 1 [LAB08]",
+      "distancia_metros": 150,
+      "estado": "Activa"
+    },
+    {
+      "id": 3,
+      "nombre": "Botica 3 [LAB08]",
+      "tipo": "Independiente",
+      "zona": 3,
+      "zona_nombre": "Zona 3 [LAB08]",
+      "distancia_metros": 450,
+      "estado": "ACTIVA"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "rutas": [
+    "/",
+    "/productos/",
+    "/ventas/1/",
+    "/detalles-venta/"
+  ],
+  "estado": 200
+}

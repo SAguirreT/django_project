@@ -1,0 +1,35 @@
+$ git status --short
+ M README.md
+ M farmacia_project/LAB08_EJERCICIO01.md
+ M farmacia_project/LAB08_EVIDENCIAS.md
+ M farmacia_project/README.md
+ M farmacia_project/src/config/settings.py
+ M farmacia_project/src/config/urls.py
+ M farmacia_project/src/farmacia/api_urls.py
+ M farmacia_project/src/farmacia/api_views.py
+ M farmacia_project/src/farmacia/models.py
+ M farmacia_project/src/farmacia/serializers.py
+?? farmacia_project/src/farmacia/management/__init__.py
+?? farmacia_project/src/farmacia/management/commands/__init__.py
+?? farmacia_project/src/farmacia/management/commands/sembrar_lab08.py
+?? farmacia_project/src/farmacia/test_lab08_completo.py
+
+$ git add README.md farmacia_project
+warning: in the working copy of 'farmacia_project/src/config/settings.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'farmacia_project/src/config/urls.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'farmacia_project/src/farmacia/management/commands/sembrar_lab08.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'farmacia_project/src/farmacia/test_lab08_completo.py', LF will be replaced by CRLF the next time Git touches it
+
+$ git diff --cached --check
+
+$ git commit -m Completa Lab 08 con API de ubicaciones validacion y pruebas
+[main c5144bd] Completa Lab 08 con API de ubicaciones validacion y pruebas
+ 13 files changed, 296 insertions(+), 293 deletions(-)
+ create mode 100644 farmacia_project/src/farmacia/management/__init__.py
+ create mode 100644 farmacia_project/src/farmacia/management/commands/__init__.py
+ create mode 100644 farmacia_project/src/farmacia/management/commands/sembrar_lab08.py
+ create mode 100644 farmacia_project/src/farmacia/test_lab08_completo.py
+
+$ git push origin main
+To https://github.com/SAguirreT/django_project.git
+   8c901e4..c5144bd  main -> main

@@ -1,0 +1,32 @@
+{
+  "expresion": "ProductoSerializer(Producto.objects.select_related(\"categoria\"), many=True).data",
+  "resultado": [
+    {
+      "id": 1,
+      "nombre": "Analgesico A [LAB08]",
+      "descripcion": "Producto ficticio de laboratorio.",
+      "precio": "5.50",
+      "stock": 10,
+      "categoria": 1,
+      "categoria_nombre": "Salud [LAB08]"
+    },
+    {
+      "id": 2,
+      "nombre": "Analgesico B [LAB08]",
+      "descripcion": "Producto ficticio de laboratorio.",
+      "precio": "12.00",
+      "stock": 6,
+      "categoria": 1,
+      "categoria_nombre": "Salud [LAB08]"
+    },
+    {
+      "id": 3,
+      "nombre": "Vitamina C [LAB08]",
+      "descripcion": "Producto ficticio de laboratorio.",
+      "precio": "8.90",
+      "stock": 0,
+      "categoria": 1,
+      "categoria_nombre": "Salud [LAB08]"
+    }
+  ]
+}

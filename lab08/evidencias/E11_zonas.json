@@ -1,0 +1,32 @@
+{
+  "metodo": "GET",
+  "url": "http://127.0.0.1:8008/api/v1/zonas/",
+  "cuerpo_enviado": null,
+  "estado_http": 200,
+  "respuesta": [
+    {
+      "id": 1,
+      "nombre_zona": "Zona 1 [LAB08]",
+      "distrito": "Lima",
+      "densidad_poblacional": 1000,
+      "flujo_personas": "Alto",
+      "accesibilidad": "Buena"
+    },
+    {
+      "id": 2,
+      "nombre_zona": "Zona 2 [LAB08]",
+      "distrito": "Lima",
+      "densidad_poblacional": 2000,
+      "flujo_personas": "Alto",
+      "accesibilidad": "Buena"
+    },
+    {
+      "id": 3,
+      "nombre_zona": "Zona 3 [LAB08]",
+      "distrito": "Lima",
+      "densidad_poblacional": 3000,
+      "flujo_personas": "Alto",
+      "accesibilidad": "Buena"
+    }
+  ]
+}

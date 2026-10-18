@@ -1,0 +1,250 @@
+{
+  "info": {
+    "name": "FarmaPoint Lab 08",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8008"
+    },
+    {
+      "key": "categoria_id",
+      "value": "1"
+    },
+    {
+      "key": "zona_id",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "productos · Listar",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/productos/"
+      }
+    },
+    {
+      "name": "productos · Crear",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/productos/",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"nombre\": \"Temporal Postman LAB08\", \"precio\": \"2.50\", \"stock\": 1, \"categoria\": \"{{categoria_id}}\"}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Creado\", () => pm.response.to.have.status(201));",
+              "if (pm.response.code === 201) pm.collectionVariables.set(\"id_productos\", pm.response.json().id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "productos · Consultar",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/productos/{{id_productos}}/"
+      }
+    },
+    {
+      "name": "productos · Editar",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/productos/{{id_productos}}/",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"nombre\": \"Temporal editado LAB08\"}"
+        }
+      }
+    },
+    {
+      "name": "productos · Inválido",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/productos/",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"nombre\": \"Temporal Postman LAB08\", \"precio\": 0, \"stock\": 1, \"categoria\": \"{{categoria_id}}\"}"
+        }
+      }
+    },
+    {
+      "name": "productos · Eliminar",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/productos/{{id_productos}}/"
+      }
+    },
+    {
+      "name": "productos · Confirmar 404",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/productos/{{id_productos}}/"
+      }
+    },
+    {
+      "name": "farmacias · Listar",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/farmacias/"
+      }
+    },
+    {
+      "name": "farmacias · Crear",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/farmacias/",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"nombre\": \"Temporal Postman LAB08\", \"tipo\": \"Local\", \"zona\": \"{{zona_id}}\", \"distancia_metros\": 100, \"estado\": \"Activa\"}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Creado\", () => pm.response.to.have.status(201));",
+              "if (pm.response.code === 201) pm.collectionVariables.set(\"id_farmacias\", pm.response.json().id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "farmacias · Consultar",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/farmacias/{{id_farmacias}}/"
+      }
+    },
+    {
+      "name": "farmacias · Editar",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/farmacias/{{id_farmacias}}/",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"nombre\": \"Temporal editado LAB08\"}"
+        }
+      }
+    },
+    {
+      "name": "farmacias · Inválido",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/farmacias/",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"nombre\": \"Temporal Postman LAB08\", \"tipo\": \"Local\", \"zona\": \"{{zona_id}}\", \"distancia_metros\": 0, \"estado\": \"Activa\"}"
+        }
+      }
+    },
+    {
+      "name": "farmacias · Eliminar",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/farmacias/{{id_farmacias}}/"
+      }
+    },
+    {
+      "name": "farmacias · Confirmar 404",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/farmacias/{{id_farmacias}}/"
+      }
+    }
+  ]
+}

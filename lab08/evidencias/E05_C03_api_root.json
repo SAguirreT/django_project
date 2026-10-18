@@ -1,0 +1,14 @@
+{
+  "metodo": "GET",
+  "url": "http://127.0.0.1:8008/api/v1/",
+  "cuerpo_enviado": null,
+  "estado_http": 200,
+  "respuesta": {
+    "categorias": "http://127.0.0.1:8008/api/v1/categorias/",
+    "productos": "http://127.0.0.1:8008/api/v1/productos/",
+    "farmacias": "http://127.0.0.1:8008/api/v1/farmacias/",
+    "ventas": "http://127.0.0.1:8008/api/v1/ventas/",
+    "zonas": "http://127.0.0.1:8008/api/v1/zonas/",
+    "evaluaciones": "http://127.0.0.1:8008/api/v1/evaluaciones/"
+  }
+}
