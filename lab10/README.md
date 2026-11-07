@@ -12,4 +12,4 @@ Para repetir las pruebas de interfaz: instalar Playwright y Chromium, iniciar Vi
 
 Commit de implementación: `ff90f4b`.
 
-El intento real de `git push origin main` falló por falta de autenticación válida de GitHub. El repositorio remoto no se declara actualizado. Se conserva el commit local y se entrega un bundle para completar la publicación con una cuenta autenticada. No se versionaron node_modules ni dist.
+La publicación se completó con la cuenta SAguirreT mediante `git push origin main`. El repositorio remoto incluye el código, las evidencias y el Word con los tres integrantes.
