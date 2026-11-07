@@ -1,0 +1,16 @@
+{
+  "resultado": "OK",
+  "partes_verificadas": 2,
+  "consola": [],
+  "mutacion_props_aislada": "TypeError: Cannot assign to read only property 'nombre' of object '#<Object>'",
+  "pruebas": [
+    "contadores independientes",
+    "stock agotado",
+    "dos búsquedas",
+    "envío inválido",
+    "envío válido",
+    "limpieza de campos",
+    "total calculado",
+    "móvil sin desbordamiento"
+  ]
+}

@@ -1,0 +1,19 @@
+
+> frontend@0.0.0 build
+> vite build --configLoader native
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 24 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.69 kB │ gzip:  0.44 kB
+dist/assets/index-LNaqz7Wq.css    4.80 kB │ gzip:  1.63 kB
+dist/assets/index-BnQ8_ekX.js   227.79 kB │ gzip: 71.17 kB
+
+✓ built in 119ms
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

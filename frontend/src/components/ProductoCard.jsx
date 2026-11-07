@@ -1,0 +1,5 @@
+import { useState } from 'react' // Importa el hook que conserva el contador local.
+export default function ProductoCard({ nombre, precio, stock = 0, descripcion = '', categoria_nombre = 'Sin categoría' }) { // Desestructura props y establece valores predeterminados.
+  const [reservas, setReservas] = useState(0) // Cada tarjeta mantiene su propio número de reservas.
+  return <article className="product" data-testid="producto"><div><small>{categoria_nombre}</small><h3>{nombre}</h3><p>{descripcion}</p></div><div className="price"><strong>S/ {Number(precio).toFixed(2)}</strong><span className={stock > 0 ? 'badge available' : 'badge sold'}>{stock > 0 ? `Disponible · ${stock}` : 'Agotado'}</span>{stock > 0 && stock <= 3 && <small className="warning">¡Últimas unidades!</small>}<button type="button" disabled={reservas >= stock} onClick={() => setReservas(actual => actual + 1)}>Reservar {nombre}</button>{reservas > 0 && <span role="status">Reservas: {reservas}</span>}</div></article> // Muestra el registro, cambia el estado con onClick y limita las reservas al stock.
+} // Finaliza la tarjeta sin modificar sus props.

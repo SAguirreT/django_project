@@ -234,3 +234,34 @@ npm run build
 ```
 
 Consulta [las instrucciones del frontend](frontend/README.md) y [el informe del Lab 09](lab09/Informe_Lab09_FarmaPoint.pdf). `node_modules/` y `dist/` están excluidos de Git.
+
+## Laboratorio 10 — Componentes, estado y eventos
+
+Se reorganizó la interfaz original de Semana 9 conservando los datos y las reglas de la API de Semana 8. Las dos partes usan FarmaPoint, conforme a la investigación identificada en `frontend/README.md` desde el laboratorio anterior. Cada parte mantiene su propio catálogo y formulario; los datos son locales y se reinician al recargar. No se consume la API ni se pasan callbacks entre componentes.
+
+### Ejecutar
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Node.js 22.12 o superior (se verificó con Node 24). Validación: `npm run lint` y `npm run build`.
+
+### Componentes en frontend/src/components
+
+| Componente | Responsabilidad |
+| --- | --- |
+| ProductoCard | Props desestructuradas, stock predeterminado, contador local y botón de reserva limitado al stock. |
+| ListaProductos | Catálogo en estado, búsqueda sin distinguir mayúsculas, filtro por categoría y formulario controlado; valida precio positivo, precisión, nombre y stock. |
+| Tarjeta | Contenedor con título y children. |
+| VentaCard | Relación Venta 1:N DetalleVenta y total calculado en céntimos. |
+| DetalleItem | Producto anidado, cantidad y subtotal; adapta precio_unitario a precioUnitario. |
+| Investigacion | Segunda instancia de la lista y relación M:N mediante DetalleVenta. |
+
+Los datos originales se encuentran en `frontend/src/datos.js`. Cada línea de código añadido lleva un comentario explicativo. Las evidencias de ambas partes y las salidas reales de lint y build están en `lab10/evidencias`. La prueba reproducible es `python lab10/verificar.py` (requiere Playwright y Chromium instalados, y Vite en el puerto 5173).
+
+Las siete entidades de la investigación existente son Categoria, Producto, Proveedor, Cliente, Venta, PerfilCliente (OneToOneField) y DetalleVenta (intermedio ManyToManyField). El formulario aplica `ProductoSerializer.validate_precio` de `farmacia_project/src/farmacia/serializers.py`. Guardar en Django requerirá integración HTTP, validación del servidor y persistencia en la API en una etapa posterior.
+
+`node_modules/` y `dist/` permanecen ignorados por Git.

@@ -380,3 +380,12 @@ h2 {
 
 }
 
+
+/* Separa las secciones de la investigación. */
+#investigacion { margin-top: 36px; } /* Agrega espacio sobre la segunda parte. */
+form { border-top: 1px solid #dce5dd; padding-top: 20px; margin-top: 24px; } /* Distingue el formulario del catálogo. */
+.form-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; } /* Alinea los tres campos controlados. */
+select { display: block; width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccd9cf; border-radius: 8px; } /* Presenta el filtro de categorías. */
+button:disabled { opacity: .5; cursor: not-allowed; } /* Comunica que no quedan unidades para reservar. */
+[role="alert"] { color: #a34027; font-weight: 600; } /* Resalta los errores de validación. */
+@media (max-width: 700px) { .form-grid { grid-template-columns: 1fr; } } /* Apila los campos en pantallas pequeñas. */
