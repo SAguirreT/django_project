@@ -1,0 +1,1 @@
+﻿Captura las dos terminales activas, npm run lint, npm run build y git status. La lámina PNG es solo una guía de lo esperado, no un resultado ejecutado.

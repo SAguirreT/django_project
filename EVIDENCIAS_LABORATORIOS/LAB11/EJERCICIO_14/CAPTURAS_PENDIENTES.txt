@@ -1,0 +1,1 @@
+﻿Captura desde frontend: npm run lint, npm run build y git status. No hay imagen ficticia de terminal.

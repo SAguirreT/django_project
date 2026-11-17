@@ -265,3 +265,13 @@ Los datos originales se encuentran en `frontend/src/datos.js`. Cada línea de c�
 Las siete entidades de la investigación existente son Categoria, Producto, Proveedor, Cliente, Venta, PerfilCliente (OneToOneField) y DetalleVenta (intermedio ManyToManyField). El formulario aplica `ProductoSerializer.validate_precio` de `farmacia_project/src/farmacia/serializers.py`. Guardar en Django requerirá integración HTTP, validación del servidor y persistencia en la API en una etapa posterior.
 
 `node_modules/` y `dist/` permanecen ignorados por Git.
+
+## Laboratorios 11 y 12 — Comunicación entre componentes y AJAX
+
+El frontend conserva las pantallas de los laboratorios anteriores y añade tres vistas: **Productos · API** (gestión conectada a DRF), **Catálogo · Lab 11** (práctica local de carrito) e **Inventario · Lab 10** (interfaz previa). La instancia Axios centraliza `http://127.0.0.1:8000/api/v1` en `frontend/src/api.js`.
+
+Para ejecutar Django, desde `farmacia_project/src`, instala los requisitos y ejecuta `python manage.py runserver`. En otra terminal, desde `frontend`, ejecuta `npm install` y `npm run dev`. CORS autoriza `http://localhost:5173` con `django-cors-headers`.
+
+La gestión usa `GET/POST /productos/`, `GET/PATCH/DELETE /productos/<id>/` y `GET /categorias/`; los filtros envían `search` y `disponible`. La guía de componentes está en [`LAB11_EVIDENCIAS.md`](LAB11_EVIDENCIAS.md) y el informe de AJAX/API está en [`LAB12_EVIDENCIAS.md`](LAB12_EVIDENCIAS.md). Las imágenes organizadas por ejercicio están en [`EVIDENCIAS_LABORATORIOS`](EVIDENCIAS_LABORATORIOS/README.md).
+
+La API conserva `AllowAny` para el laboratorio. CORS controla acceso de lectura desde un origen web; no sustituye autenticación ni permisos para las escrituras.
