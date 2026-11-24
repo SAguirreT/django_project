@@ -14,6 +14,8 @@ export default function App() {
           <button className={vista === 'productos' ? 'nav-tab active' : 'nav-tab'} onClick={() => setVista('productos')}>Productos · API</button>
           <button className={vista === 'practica' ? 'nav-tab active' : 'nav-tab'} onClick={() => setVista('practica')}>Catálogo · Lab 11</button>
           <button className={vista === 'lab10' ? 'nav-tab active' : 'nav-tab'} onClick={() => setVista('lab10')}>Inventario · Lab 10</button>
+          <a className="nav-tab" href="/ventas">Ventas · Lab 14</a>
+          <a className="nav-tab" href="/cafeteria/productos">Cafetería · Lab 14</a>
         </nav>
         <span className="local-badge"><i /> FarmaPoint</span>
       </header>

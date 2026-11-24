@@ -64,7 +64,7 @@ class Producto(models.Model):
     descripcion = models.TextField(blank=True)
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField()
-    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name='productos')
+    categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT, related_name='productos')
     objects = ProductoQuerySet.as_manager()
     class Meta: ordering = ['nombre']
     def __str__(self): return self.nombre
@@ -97,17 +97,18 @@ class PerfilCliente(models.Model):
 
 
 class Venta(models.Model):
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name='ventas')
+    cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, related_name='ventas')
     productos = models.ManyToManyField(Producto, through='DetalleVenta', related_name='ventas')
     fecha = models.DateTimeField()
     total = models.DecimalField(max_digits=10, decimal_places=2)
+    stock_descontado = models.BooleanField(default=False)
     class Meta: ordering = ['-fecha']
     def __str__(self): return f'Venta #{self.pk} - {self.cliente}'
 
 
 class DetalleVenta(models.Model):
     venta = models.ForeignKey(Venta, on_delete=models.CASCADE, related_name='detalles')
-    producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name='detalles_venta')
+    producto = models.ForeignKey(Producto, on_delete=models.PROTECT, related_name='detalles_venta')
     cantidad = models.PositiveIntegerField()
     precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)
     class Meta:

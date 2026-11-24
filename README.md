@@ -373,3 +373,43 @@ lab13/cafeteria/backend/
 - En `lab13/cafeteria/backend`, ejecutar `python manage.py check` y `python manage.py runserver 127.0.0.1:8001`.
 - En `farmacia_project/src`, instalar las dependencias de `requirements.txt`, ejecutar `python manage.py check` y usar el puerto 8000 para la API del panel.
 - En `frontend`, ejecutar `npm ci`, `npm run lint` y `npm run build`.
+
+## Laboratorio 14
+
+Django REST Framework publica las API de catálogo de la cafetería y de ventas de FarmaPoint. El frontend Vite contiene las pantallas de catálogo, listado y detalle. SQLite se crea con las migraciones de cada backend.
+
+| Componente | Archivos o rutas |
+|---|---|
+| Modelos de cafetería | `lab13/cafeteria/backend/catalogo/models.py`, `pedidos/models.py` |
+| API de cafetería | `GET /api/`, CRUD en `/api/productos/`, `POST /api/pedidos/` |
+| React de cafetería | `/cafeteria/productos` |
+| Modelos de FarmaPoint | `farmacia_project/src/farmacia/models.py`, migración 0004 |
+| API de FarmaPoint | `/api/v1/ventas/`, `/api/v1/ventas/<id>/` |
+| React de FarmaPoint | `/ventas`, `/ventas/<id>` |
+
+### Ejecutar localmente
+
+1. Instalar dependencias con `python -m pip install -r farmacia_project/src/requirements.txt` desde la raíz.
+2. En `farmacia_project/src`, ejecutar `python manage.py migrate`, `python manage.py check` y `python manage.py runserver 127.0.0.1:8000`.
+3. En `lab13/cafeteria/backend`, ejecutar `python manage.py migrate`, `python manage.py check` y `python manage.py runserver 127.0.0.1:8001`.
+4. En `frontend`, ejecutar `npm ci`, `npm run lint`, `npm run build` y `npm run dev -- --host 127.0.0.1`. Abrir `http://127.0.0.1:5173`.
+
+### Registro de pedidos y ventas
+
+Un POST de pedido o venta recibe un cliente y líneas con producto y cantidad. Ejemplo de estructura JSON, con IDs que deben existir en la base local:
+
+```json
+{"cliente": 1, "detalles": [{"producto": 1, "cantidad": 2}]}
+```
+
+Django obtiene el precio oficial, calcula el total y usa una actualización condicional con F() para descontar stock dentro de una transacción. Las ventas permiten búsqueda con `?search=`, lectura y edición de cliente y fecha. Los detalles confirmados conservan su precio y cantidad. Eliminar una venta creada por esta API devuelve el stock que descontó. Las ventas históricas se reconocen con `stock_descontado=False`.
+
+### Pago electrónico previsto
+
+La cafetería crea un pago simulado y cambia el pedido a PAGADO dentro de la misma transacción. El módulo real se integrará en la Semana 16. Después de validar el carrito y fijar el importe, Django deberá crear la sesión de pago con el identificador de pedido, importe, moneda y referencias de retorno. El cliente ingresará sus datos en la interfaz de la pasarela.
+
+Django verificará la firma, el importe, la moneda y la referencia de cada notificación antes de actualizar el pedido de forma idempotente. Se conservarán el importe, la moneda, el estado, el identificador de la transacción y su fecha. El número completo, el CVV y el PIN quedan en la pasarela. El pedido comienza PENDIENTE, pasa a PAGADO después de confirmar el cobro y a ENTREGADO al completarse la entrega. Una operación anulada sigue el estado CANCELADO.
+
+En FarmaPoint este paso se ubicaría después de validar la venta y antes de confirmarla como pagada. El API de desarrollo actual registra ventas e inventario y se ejecuta en la interfaz local.
+
+Si el puerto 8000 está ocupado, iniciar FarmaPoint en otro puerto y definir `VITE_FARMAPOINT_API_URL` en `frontend/.env.local`, con el prefijo completo, por ejemplo `http://127.0.0.1:8014/api/v1`.

@@ -1,20 +1,30 @@
-from rest_framework import filters, viewsets
+from django.db.models.deletion import ProtectedError
+from rest_framework import filters, serializers, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from .models import Categoria, EvaluacionUbicacion, Farmacia, Producto, Venta, Zona
+from .ventas import eliminar_venta
 from .serializers import (
     CategoriaSerializer, FarmaciaSerializer, ProductoSerializer, VentaReadSerializer,
-    EvaluacionUbicacionSerializer, ZonaSerializer,
+    EvaluacionUbicacionSerializer, VentaWriteSerializer, ZonaSerializer,
 )
 
 
-class CategoriaViewSet(viewsets.ModelViewSet):
+class CatalogoViewSet(viewsets.ModelViewSet):
+    def perform_destroy(self, instance):
+        try:
+            instance.delete()
+        except ProtectedError as error:
+            raise serializers.ValidationError('El registro tiene relaciones protegidas.') from error
+
+
+class CategoriaViewSet(CatalogoViewSet):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
 
 
-class ProductoViewSet(viewsets.ModelViewSet):
+class ProductoViewSet(CatalogoViewSet):
     serializer_class = ProductoSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['nombre', 'descripcion', 'categoria__nombre']
@@ -66,11 +76,21 @@ class FarmaciaViewSet(viewsets.ModelViewSet):
         return Response(self.get_serializer(queryset, many=True).data)
 
 
-class VentaReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
+class VentaViewSet(viewsets.ModelViewSet):
     serializer_class = VentaReadSerializer
     queryset = Venta.objects.select_related('cliente').prefetch_related(
         'detalles__producto__categoria'
     )
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['cliente__nombre', 'cliente__documento', 'detalles__producto__nombre']
+
+    def get_serializer_class(self):
+        if self.action in ['create', 'update', 'partial_update']:
+            return VentaWriteSerializer
+        return super().get_serializer_class()
+
+    def perform_destroy(self, instance):
+        eliminar_venta(instance.pk)
 
 
 class ZonaViewSet(viewsets.ModelViewSet):

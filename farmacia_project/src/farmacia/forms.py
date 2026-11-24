@@ -64,6 +64,10 @@ class PerfilClienteForm(BaseModelForm):
 
 
 class VentaForm(BaseModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['total'].disabled = self.instance.stock_descontado
+
     class Meta:
         model = Venta
         fields = ['cliente', 'fecha', 'total']
@@ -71,6 +75,12 @@ class VentaForm(BaseModelForm):
 
 
 class DetalleVentaForm(BaseModelForm):
+    def clean_venta(self):
+        venta = self.cleaned_data['venta']
+        if venta.stock_descontado or (self.instance.pk and self.instance.venta.stock_descontado):
+            raise forms.ValidationError('Las líneas confirmadas son inmutables.')
+        return venta
+
     class Meta:
         model = DetalleVenta
         fields = ['venta', 'producto', 'cantidad', 'precio_unitario']

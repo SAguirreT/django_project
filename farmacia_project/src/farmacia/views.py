@@ -1,4 +1,5 @@
-from django.http import Http404
+from django.db.models.deletion import ProtectedError
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
@@ -11,6 +12,8 @@ from .models import (
     PerfilCliente, Producto, Proveedor, Venta, Zona,
 )
 
+from .ventas import eliminar_venta
+
 ENTIDADES = {
     'categoria': (Categoria, CategoriaForm, 'Categoría', 'Categorías'),
     'producto': (Producto, ProductoForm, 'Producto', 'Productos'),
@@ -19,6 +22,13 @@ ENTIDADES = {
     'perfil': (PerfilCliente, PerfilClienteForm, 'Perfil de cliente', 'Perfiles de clientes'),
     'venta': (Venta, VentaForm, 'Venta', 'Ventas'),
 }
+
+
+def obtener_entidad(entidad):
+    try:
+        return ENTIDADES[entidad]
+    except KeyError as error:
+        raise Http404('Tipo de registro desconocido.') from error
 
 
 def inicio(request):
@@ -83,7 +93,7 @@ def comparacion(request):
 
 
 def entidad_list(request, entidad):
-    model, _, singular, plural = ENTIDADES[entidad]
+    model, _, singular, plural = obtener_entidad(entidad)
     objetos = model.objects.all()
     if entidad == 'producto': objetos = objetos.select_related('categoria')
     elif entidad == 'venta': objetos = objetos.select_related('cliente')
@@ -94,7 +104,7 @@ def entidad_list(request, entidad):
 
 
 def entidad_create(request, entidad):
-    _, form_class, singular, _ = ENTIDADES[entidad]
+    _, form_class, singular, _ = obtener_entidad(entidad)
     initial = {'fecha': timezone.localtime().strftime('%Y-%m-%dT%H:%M')} if entidad == 'venta' and request.method == 'GET' else None
     form = form_class(request.POST or None, initial=initial)
     if request.method == 'POST' and form.is_valid():
@@ -104,7 +114,7 @@ def entidad_create(request, entidad):
 
 
 def entidad_update(request, entidad, pk):
-    model, form_class, singular, _ = ENTIDADES[entidad]
+    model, form_class, singular, _ = obtener_entidad(entidad)
     objeto = get_object_or_404(model, pk=pk)
     form = form_class(request.POST or None, instance=objeto)
     if request.method == 'POST' and form.is_valid():
@@ -114,10 +124,16 @@ def entidad_update(request, entidad, pk):
 
 
 def entidad_delete(request, entidad, pk):
-    model, _, singular, _ = ENTIDADES[entidad]
+    model, _, singular, _ = obtener_entidad(entidad)
     objeto = get_object_or_404(model, pk=pk)
     if request.method == 'POST':
-        objeto.delete()
+        try:
+            if entidad == 'venta':
+                eliminar_venta(objeto.pk)
+            else:
+                objeto.delete()
+        except ProtectedError:
+            return HttpResponse('El registro tiene relaciones protegidas.', status=409)
         return redirect('entidad_list', entidad=entidad)
     return render(request, 'farmacia/entidad_confirm_delete.html', {'objeto': objeto, 'entidad': entidad, 'singular': singular})
 
