@@ -275,3 +275,101 @@ Para ejecutar Django, desde `farmacia_project/src`, instala los requisitos y eje
 La gestión usa `GET/POST /productos/`, `GET/PATCH/DELETE /productos/<id>/` y `GET /categorias/`; los filtros envían `search` y `disponible`. La guía de componentes está en [`LAB11_EVIDENCIAS.md`](LAB11_EVIDENCIAS.md) y el informe de AJAX/API está en [`LAB12_EVIDENCIAS.md`](LAB12_EVIDENCIAS.md). Las imágenes organizadas por ejercicio están en [`EVIDENCIAS_LABORATORIOS`](EVIDENCIAS_LABORATORIOS/README.md).
 
 La API conserva `AllowAny` para el laboratorio. CORS controla acceso de lectura desde un origen web; no sustituye autenticación ni permisos para las escrituras.
+
+## Laboratorio 13 — FarmaPoint
+
+FarmaPoint es un panel de gestión de farmacia. El negocio es B2C porque la farmacia vende al consumidor final. El canal cubierto por el panel es la web. Una app móvil o una tienda web pública podrían compartir la API con permisos adecuados.
+
+### Módulos y roles
+
+| Módulo | Estado |
+|---|---|
+| Catálogo y categorías | API y panel de productos existentes |
+| Inventario | Stock de productos existente. Descuento transaccional previsto |
+| Clientes y proveedores | Modelos y vistas Django existentes. Pantalla React de clientes prevista |
+| Ventas | Modelo Venta y DetalleVenta existentes. API de consulta. Registro mediante el panel React previsto |
+| Usuarios, permisos y auditoría | Roles y controles del panel previstos |
+| Pagos | Registro del medio y referencia previstos. Integración con pasarela fuera del alcance de esta semana |
+
+| Rol | Permisos previstos | Pantalla |
+|---|---|---|
+| Visitante | Acceder al ingreso | /login |
+| Vendedor | Consultar catálogo, seleccionar cliente y registrar venta | /productos, /clientes, /ventas/nueva |
+| Administrador | Administrar catálogo, revisar ventas y controlar accesos | /productos, /ventas |
+
+### Requisitos
+
+| ID | Descripción | Prioridad | Criterio de aceptación |
+|---|---|---|---|
+| RF01 | Buscar productos por nombre | Alta | Al ingresar un nombre parcial, se muestran solo coincidencias |
+| RF02 | Seleccionar el cliente de la venta | Alta | La venta confirmada referencia el cliente seleccionado |
+| RF03 | Agregar productos y cantidades | Alta | La pantalla muestra cada línea y su subtotal |
+| RF04 | Confirmar una venta | Alta | Con stock suficiente se crea una venta con sus líneas y se descuentan las unidades |
+| RF05 | Consultar ventas y su detalle | Media | El operador ve fecha, total y las líneas guardadas |
+| RNF01 | Restringir las escrituras por rol | Alta | Una solicitud sin credenciales válidas o sin permiso recibe 401 o 403 y deja intactos los datos |
+| RNF02 | Responder con rapidez al consultar productos | Media | Con 500 productos y 10 usuarios simultáneos, el p95 de 100 consultas paginadas es inferior a 500 ms en el entorno de prueba |
+| RNF03 | Mantener la consistencia ante fallos | Alta | Si falla una línea en una venta de dos productos, no quedan líneas, venta confirmada ni descuentos parciales |
+
+### Reglas de negocio
+
+| Regla | Capa | Error que evita |
+|---|---|---|
+| Leer el precio vigente del producto en la base de datos y guardar una copia en el detalle | Django | Precio manipulado o alteración del historial |
+| Exigir por lo menos una línea y cantidades enteras positivas | React y Django | Ventas vacías y cantidades incorrectas |
+| Validar el stock durante la confirmación y actualizarlo dentro de la misma transacción | Django | Sobreventa y actualizaciones parciales |
+| Calcular importes con Decimal y una regla de redondeo a dos decimales | Django | Errores de aritmética monetaria |
+| Restringir la confirmación a vendedores y administradores autorizados | Django | Registro de ventas por usuarios sin permiso |
+
+### Arquitectura y flujo
+
+React (pantallas y componentes) → Axios → HTTP/JSON → Django REST Framework (URL, router, vistas y serializadores) → ORM → SQLite. Django devuelve JSON y el código HTTP.
+
+1. React consulta catálogo y muestra stock. Django responde con los datos vigentes. La venta sigue en borrador en la interfaz.
+2. El vendedor selecciona el cliente y agrega productos. React presenta los subtotales estimados.
+3. React solicita la confirmación. Django comprueba el rol, el cliente, las cantidades y el stock, y calcula los importes con los precios de la base.
+4. Django guarda Venta y DetalleVenta y descuenta el stock en una transacción. React muestra la venta registrada o el motivo del rechazo. El endpoint de confirmación es previsto.
+
+Entidades: Venta (principal), DetalleVenta (detalle), Producto, Categoria y Cliente. Los modelos de FarmaPoint ya existen en la app farmacia. Las apps nuevas preparan la organización futura.
+
+### Estructura
+
+~~~text
+farmacia_project/src/
+  config/settings.py
+  core/
+  farmacia/
+  catalogo/
+  clientes/
+  ventas/
+frontend/src/
+  api.js
+  components/
+  pages/
+    ProductosPage.jsx
+    ClientesPage.jsx
+    VentasPage.jsx
+  practica/cafeteria/
+    api.js
+    components/ProductoCard.jsx
+    pages/ProductosPage.jsx
+lab13/cafeteria/backend/
+  cafeteria/settings.py
+  catalogo/
+  pedidos/
+~~~
+
+### Mapa de rutas
+
+| Recurso | API | Ruta React | Estado |
+|---|---|---|---|
+| Categorías | /api/v1/categorias/ | /categorias | API existente, pantalla prevista |
+| Productos | /api/v1/productos/ | /productos | API existente, panel en / y ruta prevista |
+| Clientes | /api/v1/clientes/ | /clientes | Previstos |
+| Ventas | /api/v1/ventas/ | /ventas | API de lectura existente, pantalla prevista |
+| Confirmación | /api/v1/ventas/ | /ventas/nueva | Escritura y pantalla previstas |
+
+### Verificación local
+
+- En `lab13/cafeteria/backend`, ejecutar `python manage.py check` y `python manage.py runserver 127.0.0.1:8001`.
+- En `farmacia_project/src`, instalar las dependencias de `requirements.txt`, ejecutar `python manage.py check` y usar el puerto 8000 para la API del panel.
+- En `frontend`, ejecutar `npm ci`, `npm run lint` y `npm run build`.
