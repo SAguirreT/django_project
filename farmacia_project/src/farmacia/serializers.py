@@ -8,6 +8,10 @@ class CategoriaSerializer(serializers.ModelSerializer):
         model = Categoria
         fields = ['id', 'nombre', 'descripcion']
 
+## Los serializers convierten datos de Django a JSON para enviarlos por la API.
+# También validan los datos que la API recibe antes de guardarlos.
+#  ProductoSerializer comprueba que el precio sea mayor que cero.
+
 
 class ProductoSerializer(serializers.ModelSerializer):
     categoria_nombre = serializers.CharField(source='categoria.nombre', read_only=True)

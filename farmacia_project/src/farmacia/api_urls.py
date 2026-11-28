@@ -4,6 +4,7 @@ from .api_views import (CategoriaViewSet, FarmaciaViewSet, ProductoViewSet, Vent
                         ZonaViewSet, EvaluacionUbicacionReadOnlyViewSet)
 
 router = DefaultRouter()
+##api_urls.py: registra las rutas de cada recurso, como productos y ventas.
 router.register('categorias', CategoriaViewSet, basename='api-categoria')
 router.register('productos', ProductoViewSet, basename='api-producto')
 router.register('farmacias', FarmaciaViewSet, basename='api-farmacia')

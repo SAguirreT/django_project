@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import Lab10App from './Lab10App.jsx';
 import Practica from './practica/Practica.jsx';
+//App.jsx conecta los componentes importándolos y colocándolos en su interfaz.
+//  Por ejemplo, PanelProductos obtiene y modifica 
+// productos mediante la API de Django, y React actualiza la pantalla con esos datos
 import PanelProductos from './components/PanelProductos.jsx';
 
 export default function App() {
@@ -17,8 +20,11 @@ export default function App() {
         </nav>
         <span className="local-badge"><i /> FarmaPoint</span>
       </header>
+      // Dependiendo de la vista seleccionada, se renderiza un componente diferente.
       {vista === 'productos' ? <PanelProductos /> : vista === 'practica' ? <Practica /> : <Lab10App />}
       {vista !== 'lab10' && <footer className="footer">FarmaPoint <span>·</span> Comunicación entre componentes y API</footer>}
     </div>
   );
 }
+//Dentro de PanelProductos.jsx se importan y muestran otros componentes: ESTA EN COMPONENTS
+//Por eso App.jsx no necesita importar cada pieza pequeña: las conecta su componente padre.

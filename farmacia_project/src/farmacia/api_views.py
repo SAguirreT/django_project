@@ -1,3 +1,4 @@
+from django.db.models import Count
 from rest_framework import filters, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -7,7 +8,8 @@ from .serializers import (
     CategoriaSerializer, FarmaciaSerializer, ProductoSerializer, VentaReadSerializer,
     EvaluacionUbicacionSerializer, ZonaSerializer,
 )
-
+##api_views.py: define qué hace 
+# cada ruta y qué datos devuelve. osea la LOGICA DE CADA FUNCION 
 
 class CategoriaViewSet(viewsets.ModelViewSet):
     queryset = Categoria.objects.all()
@@ -39,6 +41,28 @@ class ProductoViewSet(viewsets.ModelViewSet):
             return self.get_paginated_response(serializer.data)
         return Response(self.get_serializer(productos, many=True).data)
 
+## annotate() cuenta cuántas ventas tiene cada producto.
+# aggregate() calcula el total de ventas general.
+# La función devuelve ambos resultados en JSON
+
+    @action(detail=False, methods=['get'], url_path='resumen-ventas')
+    def resumen_ventas(self, request):
+        productos = Producto.objects.annotate(
+            cantidad_ventas=Count('ventas', distinct=True)
+        ).order_by('pk')
+        total_ventas = Venta.objects.aggregate(total=Count('pk'))['total']
+        return Response({
+            'total_ventas': total_ventas,
+            'productos': [
+                {
+                    'id': producto.pk,
+                    'nombre': producto.nombre,
+                    'cantidad_ventas': producto.cantidad_ventas,
+                }
+                for producto in productos
+            ],
+        })
+
 
 class FarmaciaViewSet(viewsets.ModelViewSet):
     serializer_class = FarmaciaSerializer
@@ -47,6 +71,11 @@ class FarmaciaViewSet(viewsets.ModelViewSet):
     search_fields = ['nombre', 'tipo', 'estado', 'zona__nombre_zona']
     ordering_fields = ['nombre', 'distancia_metros', 'estado']
     ordering = ['nombre']
+
+
+
+
+## CONEXION DE MODELOS CON AGREGATE 
 
     def get_queryset(self):
         queryset = super().get_queryset()

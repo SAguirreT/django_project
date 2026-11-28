@@ -117,6 +117,19 @@ export default function PanelProductos() {
       <div className="management-layout">
         <section className="inventory-panel">
           <div className="section-bar inventory-title"><div><p className="eyebrow">CATÁLOGO FARMACÉUTICO</p><h2>Inventario <span className="count-pill">{productos.length}</span></h2></div>
+// ESTE EES EL CALLBACK 
+
+// En PanelProductos.jsx, línea 120, se pasa setBusqueda como onCambiar
+// a BuscadorProductos. Cuando el usuario escribe,
+// BuscadorProductos.jsx, línea 2 llama esa función para actualizar la búsqueda.
+
+//Hijo → padre (callback). Cuando escribes, BuscadorProductos llama a onCambiar
+ con el texto nuevo.Esa función es setBusqueda, que actualiza la búsqueda en el padre.
+
+ //RELACION DE HIJO Y HIJO ES MEDINATE EL PADRE «El buscador y la lista son hijos del mismo padre.
+  El buscador le manda el texto al padre y el padre le pasa los resultados a la lista».
+
+//Prop de dato: valor={busqueda}. El panel le pasa al buscador el texto que debe mostrar.
             <div className="filters"><BuscadorProductos valor={busqueda} onCambiar={setBusqueda} /><select aria-label="Filtrar disponibilidad" value={disponible} onChange={(evento) => setDisponible(evento.target.value)}><option value="">Todas las existencias</option><option value="true">Con stock</option><option value="false">Agotados</option></select></div>
           </div>
           {error && <div className="api-message error-message" role="alert">{error}</div>}

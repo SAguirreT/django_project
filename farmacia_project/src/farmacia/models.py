@@ -1,13 +1,14 @@
 from django.db import models
 
-
+##consulta a baase de datos que permite filtrar productos con stock disponible 
+# o q el stock sea mayor a 0 
 class ProductoQuerySet(models.QuerySet):
     """Consultas reutilizables para disponibilidad de productos."""
 
     def con_stock(self):
         return self.filter(stock__gt=0)
 
-
+##consulta que permite filtrar farmacias activas
 class FarmaciaQuerySet(models.QuerySet):
     """Consulta reutilizable de farmacias activas."""
 
@@ -26,6 +27,10 @@ class Zona(models.Model):
 
 
 class Farmacia(models.Model):
+    ##Se conectan a sus modelos con as_manager() en las líneas 29 y 70,
+    #  y se usan desde api_views.py, líneas 28–35 y línea 62. 
+    # y se conectan para ser utilizados en las views
+
     objects = FarmaciaQuerySet.as_manager()
     nombre = models.CharField(max_length=100)
     tipo = models.CharField(max_length=50)
@@ -64,7 +69,11 @@ class Producto(models.Model):
     descripcion = models.TextField(blank=True)
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField()
+
+    ##Relacion uno a muchos con Categoria
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name='productos')
+   ## conecta el productoqueryset con el modelo producto para
+   #  poder usar sus consultas en la vista view
     objects = ProductoQuerySet.as_manager()
     class Meta: ordering = ['nombre']
     def __str__(self): return self.nombre
@@ -89,6 +98,9 @@ class Cliente(models.Model):
 
 
 class PerfilCliente(models.Model):
+
+    ##Relacion uno a uno con Cliente con 
+
     cliente = models.OneToOneField(Cliente, on_delete=models.CASCADE, related_name='perfil')
     direccion = models.CharField(max_length=200)
     fecha_registro = models.DateField(auto_now_add=True)
@@ -97,7 +109,13 @@ class PerfilCliente(models.Model):
 
 
 class Venta(models.Model):
+
+    ##Relacion muchos a uno con Cliente
+
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name='ventas')
+
+    
+    ##Relacion muchos a muchos con Producto a través de DetalleVenta
     productos = models.ManyToManyField(Producto, through='DetalleVenta', related_name='ventas')
     fecha = models.DateTimeField()
     total = models.DecimalField(max_digits=10, decimal_places=2)
@@ -107,7 +125,11 @@ class Venta(models.Model):
 
 class DetalleVenta(models.Model):
     venta = models.ForeignKey(Venta, on_delete=models.CASCADE, related_name='detalles')
+
+    ##Relacion muchos a uno con Producto
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name='detalles_venta')
+
+
     cantidad = models.PositiveIntegerField()
     precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)
     class Meta:

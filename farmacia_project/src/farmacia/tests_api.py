@@ -51,6 +51,31 @@ class FarmaciaApiTests(TestCase):
         self.assertEqual(self.client.get('/api/v1/productos/?disponible=true').status_code, 200)
         self.assertEqual(self.client.get('/api/v1/productos/con-stock/').status_code, 200)
 
+    def test_resumen_ventas_agrega_y_anota_ventas_por_producto(self):
+        cliente = Cliente.objects.create(nombre='Cliente resumen', documento='RES-001')
+        for total in ('9.00', '4.50'):
+            venta = Venta.objects.create(
+                cliente=cliente, fecha=timezone.now(), total=total
+            )
+            DetalleVenta.objects.create(
+                venta=venta, producto=self.producto, cantidad=1, precio_unitario=total
+            )
+        sin_ventas = Producto.objects.create(
+            nombre='Sin ventas', descripcion='', precio=Decimal('2.00'),
+            stock=0, categoria=self.categoria,
+        )
+
+        respuesta = self.client.get('/api/v1/productos/resumen-ventas/')
+
+        self.assertEqual(respuesta.status_code, 200)
+        self.assertEqual(respuesta.data['total_ventas'], 2)
+        ventas_por_producto = {
+            producto['id']: producto['cantidad_ventas']
+            for producto in respuesta.data['productos']
+        }
+        self.assertEqual(ventas_por_producto[self.producto.pk], 2)
+        self.assertEqual(ventas_por_producto[sin_ventas.pk], 0)
+
     def test_model_serializer_objeto_lista_validacion_y_save(self):
         uno = ProductoSerializer(self.producto)
         varios = ProductoSerializer(Producto.objects.all(), many=True)

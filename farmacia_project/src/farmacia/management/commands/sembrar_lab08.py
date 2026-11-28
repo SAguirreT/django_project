@@ -10,7 +10,9 @@ from farmacia.models import (Categoria, Cliente, DetalleVenta, EvaluacionUbicaci
 
 class Command(BaseCommand):
     help = 'Crea datos ficticios identificados con LAB08 sin modificar registros existentes.'
-
+    ##agrupa todas las operaciones de base de datos dentro de handle() para que todo 
+    # sea una sola transaccion, de manera que si django guarda los datos si 
+    # se confirma como correcto,sino se revierte para evitar dejar datos creados a media
     @transaction.atomic
     def handle(self, *args, **options):
         categoria, _ = Categoria.objects.get_or_create(nombre='Salud [LAB08]',
